@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FlapCat</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="RealCSS/fonts/material-design-icons/material-design-icons-round.css">
+
+    <link rel="stylesheet" href="RealCSS/fonts/montserrat/montserrat.css">
+
+    <link rel="stylesheet" href="RealCSS/all.css">
+</head>
+
+<body onload='$("body").fadeIn(1000);'>
+
+    <div class="navbar">
+
+        <div class="nav-title">
+            <button>
+                <i class="material-icons-round">menu</i>
+            </button>
+            <h1>FlapCat</h1>
+        </div>
+
+    </div>
+
+    <div class="main-container">
+
+        <div class="menu">
+
+            <div class="menu-button" id="home-button">
+                <i class="material-icons-round">home</i>
+                <p>Accueil</p>
+            </div>
+
+            <div class="menu-button" id="cats-button">
+                <i class="material-icons-round">pets</i>
+                <p>Chats</p>
+            </div>
+
+            <div class="menu-button" id="analytics-button">
+                <i class="material-icons-round">trending_up</i>
+                <p>Statistiques</p>
+            </div>
+
+            <hr class="divider">
+
+            <div class="menu-button">
+                <i class="material-icons-round">dark_mode</i>
+                <p>Dark theme</p>
+                <label class="toggle-switch" id="dark-theme-toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+        </div>
+
+        <div class="app">
+
+            <div id="home">
+                <div class="control">
+                    <h1>Accueil</h1>
+                </div>
+                <p>Statut:</p>
+            </div>
+
+            <div id="cats">
+                <div class="control">
+                    <h1>Chats</h1>
+                    <button class="btn btn-primary btn-primary-sm" id="new-cat">
+                        Enregistrer un chat<span class="material-icons-round">add</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="analytics">
+                <div class="control">
+                    <h1>Statistiques</h1>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="context-menu">
+    </div>
+
+    <div class="alert-shadow">
+        <div class="alert">
+            <h2 class="alert-title">Error</h2>
+            <p></p>
+            <button class="btn btn-primary button-align-right cancel">Cancel</button>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+
+    <div class="loader-shadow">
+        <div class="loader-container">
+            <div class="loader">
+                <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="6" stroke-miterlimit="20" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="RealCSS/all.min.js"></script>
+
+    <script src="js/menu.js"></script>
+
+</body>
+
+</html>
