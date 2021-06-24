@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="RealCSS/fonts/montserrat/montserrat.css">
 
     <link rel="stylesheet" href="RealCSS/all.css">
+
+    <link rel="stylesheet" href="css/app.css">
 </head>
 
 <body onload='$("body").fadeIn(1000);'>
@@ -28,32 +30,41 @@
 
     <div class="main-container">
 
-        <div class="menu">
+        <div>
 
-            <div class="menu-button" id="home-button">
-                <i class="material-icons-round">home</i>
-                <p>Accueil</p>
-            </div>
+            <div class="menu">
 
-            <div class="menu-button" id="cats-button">
-                <i class="material-icons-round">pets</i>
-                <p>Chats</p>
-            </div>
+                <div class="menu-button menu-button-active" id="home-button">
+                    <i class="material-icons-round">home</i>
+                    <p>Accueil</p>
+                </div>
 
-            <div class="menu-button" id="analytics-button">
-                <i class="material-icons-round">trending_up</i>
-                <p>Statistiques</p>
-            </div>
+                <div class="menu-button" id="cats-button">
+                    <i class="material-icons-round">pets</i>
+                    <p>Chats</p>
+                </div>
 
-            <hr class="divider">
+                <div class="menu-button" id="add-button">
+                    <i class="material-icons-round">add</i>
+                    <p>Enregistrer</p>
+                </div>
 
-            <div class="menu-button">
-                <i class="material-icons-round">dark_mode</i>
-                <p>Dark theme</p>
-                <label class="toggle-switch" id="dark-theme-toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                </label>
+                <div class="menu-button" id="analytics-button">
+                    <i class="material-icons-round">trending_up</i>
+                    <p>Statistiques</p>
+                </div>
+
+                <hr class="divider">
+
+                <div class="menu-button">
+                    <i class="material-icons-round">dark_mode</i>
+                    <p>Dark theme</p>
+                    <label class="toggle-switch" id="dark-theme-toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
             </div>
 
         </div>
@@ -64,54 +75,74 @@
                 <div class="control">
                     <h1>Accueil</h1>
                 </div>
-                <p>Statut:</p>
+                <p>Cette section n'est pas encore disponible...</p>
             </div>
 
             <div id="cats">
                 <div class="control">
                     <h1>Chats</h1>
-                    <button class="btn btn-primary btn-primary-sm" id="new-cat">
-                        Enregistrer un chat<span class="material-icons-round">add</span>
+                </div>
+                <p>Cette section n'est pas encore disponible...</p>
+            </div>
+
+            <div id="add">
+
+                <div class="control">
+                    <h1>Enregistrer un chat</h1>
+                    <button class="btn btn-primary btn-primary-sm" id="reset-cat">
+                        Recommencer<span class="material-icons-round">refresh</span>
                     </button>
                 </div>
+
+                <div id="registering-step-1">
+                    <div class="modern-input">
+                        <input type="text" id="cat-name" placeholder=" " autocomplete="off">
+                        <p>Entrez le nom de votre chat</p>
+                    </div>
+                    <button class="btn btn-primary" id="next-step">
+                        Suivant<span class="material-icons-round">arrow_forward</span>
+                    </button>
+                </div>
+
+                <div id="registering-step-2">
+                    <p>Placez votre chat devant la chatière, face à la caméra.</p>
+                    <p>Avancement: 0%</p>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+
+                <div id="registering-step-2">
+                    <p>C'est fini !</p>
+                </div>
+
             </div>
 
             <div id="analytics">
                 <div class="control">
                     <h1>Statistiques</h1>
                 </div>
+                <p>Cette section n'est pas encore disponible...</p>
             </div>
 
         </div>
 
-    </div>
-
-    <div id="context-menu">
-    </div>
-
-    <div class="alert-shadow">
-        <div class="alert">
-            <h2 class="alert-title">Error</h2>
-            <p></p>
-            <button class="btn btn-primary button-align-right cancel">Cancel</button>
-            <div style="clear: both;"></div>
-        </div>
-    </div>
-
-    <div class="loader-shadow">
-        <div class="loader-container">
-            <div class="loader">
-                <svg class="circular" viewBox="25 25 50 50">
-                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="6" stroke-miterlimit="20" />
-                </svg>
-            </div>
-        </div>
     </div>
 
     <script src="js/lib/jquery.min.js"></script>
-    <script src="RealCSS/all.min.js"></script>
+    <!--<script src="RealCSS/all.min.js"></script>-->
+
+    <script src="RealCSS/js/alert.js"></script>
+    <script src="RealCSS/js/context-menu.js"></script>
+    <script src="RealCSS/js/dark-theme.js"></script>
+    <script src="RealCSS/js/dropdown.js"></script>
+    <script src="RealCSS/js/horizontal-menu.js"></script>
+    <script src="RealCSS/js/loader.js"></script>
+    <script src="RealCSS/js/menu.js"></script>
+    <script src="RealCSS/js/search-bar.js"></script>
 
     <script src="js/menu.js"></script>
+    <script src="js/registering.js"></script>
 
 </body>
 

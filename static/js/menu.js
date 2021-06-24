@@ -1,5 +1,3 @@
-$("#home-button").addClass("menu-button-active");
-$(".app > div").hide();
 $("#home").show();
 
 $(".menu .menu-button").click(function() {

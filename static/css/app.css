@@ -1,0 +1,11 @@
+.app > div {
+    display: none;
+}
+
+#next-step {
+    float: right;
+}
+
+#registering-step-2 {
+    display: none;
+}
