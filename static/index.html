@@ -82,21 +82,33 @@
                 <div class="control">
                     <h1>Chats</h1>
                 </div>
-                <p>Cette section n'est pas encore disponible...</p>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Autorisations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div id="add">
 
                 <div class="control">
-                    <h1>Enregistrer un chat</h1>
+                    <h1>Enregistrer</h1>
                     <button class="btn btn-primary btn-primary-sm" id="reset-cat">
                         Recommencer<span class="material-icons-round">refresh</span>
                     </button>
                 </div>
 
                 <div id="registering-step-1">
+                    <p>Entrez le nom de votre chat. Les espaces, les accents et les caractères spéciaux seront retirés.</p>
                     <div class="modern-input">
-                        <input type="text" id="cat-name" placeholder=" " autocomplete="off">
+                        <input type="text" id="cat-name" maxlength="10" placeholder=" " autocomplete="off">
                         <p>Entrez le nom de votre chat</p>
                     </div>
                     <button class="btn btn-primary" id="next-step">
@@ -106,14 +118,14 @@
 
                 <div id="registering-step-2">
                     <p>Placez votre chat devant la chatière, face à la caméra.</p>
-                    <p>Avancement: 0%</p>
+                    <p id="registeringState">Avancement: 0%</p>
                     <div class="progress-bar">
                         <div class="progress"></div>
                     </div>
                 </div>
 
-                <div id="registering-step-2">
-                    <p>C'est fini !</p>
+                <div id="registering-step-3">
+                    <p><i class="material-icons-round">done</i>Vous avez fini ! Allez dans l'onglet "chats" pour vois les chats enregistrés.</p>
                 </div>
 
             </div>
@@ -142,7 +154,9 @@
     <script src="RealCSS/js/search-bar.js"></script>
 
     <script src="js/menu.js"></script>
+    <script src="js/cats.js"></script>
     <script src="js/registering.js"></script>
+    <script src="js/network-error.js"></script>
 
 </body>
 

@@ -1,11 +1,28 @@
-.app > div {
+.menu {
+    width: 215px;
+}
+
+.app>div {
     display: none;
+}
+
+.editable-value {
+    width: 145px;
 }
 
 #next-step {
     float: right;
 }
 
-#registering-step-2 {
+#registering-step-1 .modern-input {
+    margin-top: 26px;
+}
+
+#registering-step-2,
+#registering-step-3 {
     display: none;
+}
+
+body {
+    user-select: none;
 }
