@@ -1,7 +1,7 @@
 import os
 import shutil
 
-import recognition.registering as registering
+import recognition.training as training
 
 # We create a function to list the registered cats
 def listCats():
@@ -25,6 +25,15 @@ def listCats():
 
     return list
 
+# We create a function to rename a cat
+def renameCat(catName, newName):
+    if os.path.isdir("recognition/dataset/" + catName):
+        os.rename("recognition/dataset/" + catName, "recognition/dataset/" + newName)
+        training.needToReload()
+        return "cat-renamed"
+    else:
+        return "not-found"
+
 # We create a function to edit the permissions
 def authorizeCat(catName, authorized):
     if os.path.isdir("recognition/dataset/" + catName):
@@ -39,7 +48,7 @@ def authorizeCat(catName, authorized):
 def deleteCat(catName):
     if os.path.isdir("recognition/dataset/" + catName):
         shutil.rmtree("recognition/dataset/" + catName)
-        registering.trainModel()
+        training.needToReload()
         return "cat-deleted"
     else:
         return "not-found"

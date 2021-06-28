@@ -14,12 +14,15 @@
     float: right;
 }
 
+#reset-cat {
+    float: right;
+}
+
 #registering-step-1 .modern-input {
     margin-top: 26px;
 }
 
-#registering-step-2,
-#registering-step-3 {
+#registering-step-2 {
     display: none;
 }
 

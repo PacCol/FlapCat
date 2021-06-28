@@ -3,6 +3,8 @@ from flask import Flask, redirect, send_from_directory, jsonify, request
 import recognition.registering as registering
 import recognition.cat as cat
 
+import beforeStart
+beforeStart.fix()
 
 # We create a flask server
 app = Flask(__name__)
@@ -24,6 +26,7 @@ def webApp(path):
 
 @app.route("/api/register/start", methods=["POST"])
 def register():
+
     catName = request.form["name"]
 
     if len(catName) > 10:
@@ -31,7 +34,14 @@ def register():
 
     catName = "".join(char for char in catName if char.isalnum())
 
-    success = registering.startRegistering(catName, 50)
+    success = registering.startRegistering(catName, 100)
+    return success
+
+
+@app.route("/api/register/stop", methods=["POST"])
+def interruptRegistering():
+
+    success = registering.stopRegistering()
 
     if success == "already-registering":
         return success

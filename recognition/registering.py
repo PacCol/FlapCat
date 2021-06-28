@@ -1,17 +1,15 @@
-import os
-import shutil, time
+import os, shutil, time
 
 from threading import Thread
 
+import recognition.training as training
+
 import cv2
-import face_recognition
-from imutils import paths
-import pickle
 
 
 # We create some global vars to communicate between threads
 state = "not-registering"
-# The value can be: "not-registering", "before-registering", "-%" or "processing"
+# The value can be: "not-registering" or "-%"
 stopRequested = False
 
 
@@ -19,16 +17,12 @@ stopRequested = False
 def startRegistering(catName, imgNbr):
     global state
     if state == "not-registering":
-        state = "before-registering"
-        registerThread = Thread(target=register, args=(catName, imgNbr))
+        state = "0%"
+        registerThread = Thread(target=record, args=(catName, imgNbr))
         registerThread.start()
+        return "started"
     else:
-        return("already-registering")
-
-# We create a function to register a new cat
-def register(catName, imgNbr):
-    record(catName, imgNbr)
-    trainModel()
+        return "already-registering"
 
 # We create a function to interrupt the registering process
 def stopRegistering():
@@ -38,7 +32,7 @@ def stopRegistering():
     while True:
         time.sleep(0.2)
         if state == "not-registering":
-            break
+            return "stoped"
 
 # We create a function to get the current state
 def getState():
@@ -52,7 +46,6 @@ def record(catName, imgNbr):
     # We init the image counter
     imgCounter = 0
     global state
-    state = "0%"
 
     global stopRequested
     stopRequested = False
@@ -107,41 +100,6 @@ def record(catName, imgNbr):
     # We stop the cam
     cam.release()
 
-
-# We create a function to train our model
-def trainModel():
-
-    global state
-    state = "processing"
-
-    time.sleep(5)
-
-    imagePaths = list(paths.list_images("recognition/dataset"))
-
-    knownEncodings = []
-    knownNames = []
-
-    # For each image, we analyze the face on it
-    for (i, imagePath) in enumerate(imagePaths):
-
-        name = imagePath.split(os.path.sep)[-2]
-
-        image = cv2.imread(imagePath)
-        rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-        boxes = face_recognition.face_locations(rgb, model="hog")
-
-        encodings = face_recognition.face_encodings(rgb, boxes)
-
-        for encoding in encodings:
-            knownEncodings.append(encoding)
-            knownNames.append(name)
-
-    data = {"encodings": knownEncodings, "names": knownNames}
-
-    # We save the data in a file
-    f = open("recognition/encodings.pickle", "wb")
-    f.write(pickle.dumps(data))
-    f.close()
-
     state = "not-registering"
+
+    training.needToReload()

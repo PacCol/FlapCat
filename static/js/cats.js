@@ -20,13 +20,19 @@ function loadCats() {
             for (let i = 0; i < response.length; i++) {
 
                 if (response[i].authorized) {
-                    var contextMenu = `<div class="item"><i class="material-icons-round success">drive_file_rename_outline</i>Renommer</div>
-                    <div class="item" onclick="authorizeCat('${response[i].name}', false);"><i class="material-icons-round warning">login</i>Interdire</div>
-                    <div class="item" onclick="deleteCat('${response[i].name}');"><i class="material-icons-round danger">delete</i>Supprimer</div>`
+                    var contextMenu = `<div class="item" onclick="renameCat('${response[i].name}');">
+                    <i class="material-icons-round success">drive_file_rename_outline</i>Renommer</div>
+                    <div class="item" onclick="authorizeCat('${response[i].name}', false);">
+                    <i class="material-icons-round warning">login</i>Interdire</div>
+                    <div class="item" onclick="deleteCat('${response[i].name}');">
+                    <i class="material-icons-round danger">delete</i>Supprimer</div>`
                 } else {
-                    var contextMenu = `<div class="item"><i class="material-icons-round success" onclick="">drive_file_rename_outline</i>Renommer</div>
-                    <div class="item" onclick="authorizeCat('${response[i].name}', true);"><i class="material-icons-round warning">login</i>Autoriser</div>
-                    <div class="item" onclick="deleteCat('${response[i].name}');"><i class="material-icons-round danger">delete</i>Supprimer</div>`
+                    var contextMenu = `<div class="item" onclick="renameCat('${response[i].name}');">
+                    <i class="material-icons-round success" onclick="">drive_file_rename_outline</i>Renommer</div>
+                    <div class="item" onclick="authorizeCat('${response[i].name}', true);">
+                    <i class="material-icons-round warning">login</i>Autoriser</div>
+                    <div class="item" onclick="deleteCat('${response[i].name}');">
+                    <i class="material-icons-round danger">delete</i>Supprimer</div>`
                 }
 
                 if (response[i].authorized) {
@@ -36,7 +42,7 @@ function loadCats() {
                 }
 
                 var line = `
-                    <tr>
+                    <tr data-name="${response[i].name}">
                         <td>
                             <input type="text" maxlength="10" class="editable-value" value="${response[i].name}"></input>
                         </td>
@@ -44,7 +50,7 @@ function loadCats() {
                     </tr>`
                 $("#cats tbody").append(line);
 
-                addContextMenu(contextMenu, "tr:nth-child(" + (i + 1).toString() + ")");
+                addContextMenu(contextMenu, "tbody tr:nth-child(" + (i + 1).toString() + ")");
             }
         },
 
@@ -77,6 +83,14 @@ function authorizeCat(catName, permitted) {
 }
 
 function deleteCat(catName) {
+    alertBox("Avertissement", "Êtes-vous certain de vouloir supprimer ce chat ? Cette opération est irréversible.", `
+                    <button class="btn btn-secondary btn-align-right cancel">Fermer</button>
+                    <button class="btn btn-primary cancel"
+                    onclick="deleteCatConfirmed('${catName}')">Supprimer</button>
+                    <div style="clear: both></div>`);
+}
+
+function deleteCatConfirmed(catName) {
 
     loader();
 

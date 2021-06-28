@@ -6,6 +6,7 @@ $("#next-step").click(function() {
             <button class="btn btn-primary btn-align-right cancel">Fermer</button>
             <div style="clear: both></div>`);
         return;
+
     } else {
         $("#registering-step-2 .progress").css("width", "0%");
 
@@ -36,25 +37,12 @@ $("#next-step").click(function() {
 
                             if (response == "not-registering") {
                                 $(".progress").css("width", "100%");
-                                $("#registeringState").text("Le chat a bien été enregistré.");
-                                setTimeout(function() {
-                                    $("#registering-step-2").fadeOut(300).promise().done(function() {
-                                        $("#registering-step-3").fadeIn(300);
-                                    });
-                                }, 3000);
-
-                            } else if (response == "processing") {
-                                $(".progress").css("width", "100%");
-                                $("#registeringState").text("Traitement (Cela peut prendre un certain temps)...");
-                                setTimeout(function() {
-                                    displayState();
-                                }, 2000);
-
-                            } else if (response == "before-registering") {
-                                $("#registeringState").text("Préparation...");
-                                setTimeout(function() {
-                                    displayState();
-                                }, 500);
+                                $("#registering-step-2").fadeOut(300).promise().done(function() {
+                                    $("#registering-step-1").fadeIn(300);
+                                    alertBox("Opération terminée", "Votre chat a été enregistré avec succès, ou vous avez annulé l'opération", `
+                                        <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                                        <div style="clear: both></div>`);
+                                });
 
                             } else {
                                 $(".progress").css("width", response);
@@ -80,15 +68,23 @@ $("#next-step").click(function() {
     }
 });
 
+
 $("#reset-cat").click(function() {
-    /*$("#cat-name").val("");
-    if ($("#registering-step-2").is(":visible")) {
-        $("#registering-step-2").fadeOut(300).promise().done(function() {
-            $("#registering-step-1").fadeIn(300);
-        });
-    } else if ($("#registering-step-3").is(":visible")) {
-        $("#registering-step-3").fadeOut(300).promise().done(function() {
-            $("#registering-step-1").fadeIn(300);
-        });
-    }*/
+    loader();
+
+    $.ajax({
+        type: "POST",
+        url: "/api/register/stop",
+
+        success: function(response) {
+            loader();
+            $("#registering-step-2").fadeOut(300).promise().done(function() {
+                $("#registering-step-1").fadeIn(300);
+            });
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            loader();
+            networkError();
+        }
+    });
 });
