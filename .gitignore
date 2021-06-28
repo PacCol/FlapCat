@@ -1,0 +1,5 @@
+.vscode/
+recognition/__pycache__/
+recognition/dataset/*
+recognition/encoding.pickle
+static/RealCSS
