@@ -15,14 +15,23 @@ stopRequested = False
 
 # We create a function to register a new cat
 def startRegistering(catName, imgNbr):
+
+    catName = "".join(char for char in catName if char.isalnum())
+    
+    if catName == "" or len(catName) > 10:
+        return "name-error"
+
     global state
+
     if state == "not-registering":
         state = "0%"
         registerThread = Thread(target=record, args=(catName, imgNbr))
         registerThread.start()
         return "started"
     else:
-        return "already-registering"
+        stopRegistering()
+        success = startRegistering(catName, imgNbr)
+        return success
 
 # We create a function to interrupt the registering process
 def stopRegistering():
@@ -30,9 +39,9 @@ def stopRegistering():
     global stopRequested
     stopRequested = True
     while True:
-        time.sleep(0.2)
         if state == "not-registering":
             return "stoped"
+        time.sleep(0.2)
 
 # We create a function to get the current state
 def getState():

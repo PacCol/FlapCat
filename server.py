@@ -26,27 +26,15 @@ def webApp(path):
 
 @app.route("/api/register/start", methods=["POST"])
 def register():
-
     catName = request.form["name"]
-
-    if len(catName) > 10:
-        return "name-error"
-
-    catName = "".join(char for char in catName if char.isalnum())
-
     success = registering.startRegistering(catName, 100)
     return success
 
 
 @app.route("/api/register/stop", methods=["POST"])
 def interruptRegistering():
-
     success = registering.stopRegistering()
-
-    if success == "already-registering":
-        return success
-    else:
-        return "started"
+    return success
 
 
 @app.route("/api/register/state", methods=["GET"])
@@ -59,6 +47,22 @@ def getState():
 def list():
     list = cat.listCats()
     return jsonify(list)
+
+@app.route("/api/cat/exist", methods=["GET"])
+def exist():
+    catName = request.headers.get("name")
+    exist = cat.isRegistered(catName)
+    if exist:
+        return "true"
+    else:
+        return "false"
+
+@app.route("/api/cat/rename", methods=["POST"])
+def rename():
+    catName = request.form["name"]
+    newName = request.form["newName"]
+    success = cat.renameCat(catName, newName)
+    return success
 
 @app.route("/api/cat/permissions", methods=["POST"])
 def authorize():

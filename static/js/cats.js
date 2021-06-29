@@ -43,14 +43,80 @@ function loadCats() {
 
                 var line = `
                     <tr data-name="${response[i].name}">
-                        <td>
-                            <input type="text" maxlength="10" class="editable-value" value="${response[i].name}"></input>
-                        </td>
+                        <td>${response[i].name}</td>
                         <td>${response[i].authorized}</td>
                     </tr>`
                 $("#cats tbody").append(line);
 
                 addContextMenu(contextMenu, "tbody tr:nth-child(" + (i + 1).toString() + ")");
+            }
+        },
+
+        error: function(xhr, ajaxOptions, thrownError) {
+            loader();
+            networkError();
+        }
+    });
+}
+
+function renameCat(catName) {
+    alertBox("Renommer", "Entrez un nouveau nom pour votre chat.", `
+        <div class="modern-input">
+            <input type="text" id="new-name" maxlength="10" placeholder=" " autocomplete="off">
+            <p>Entrez le nom de votre chat</p>
+        </div>
+        <button class="btn btn-primary cancel" onclick="renameCatConfirmed('${catName}')">Renommer</button>
+        <button class="btn btn-secondary btn-align-right cancel">Fermer</button>`);
+}
+
+$("body").on("input", "#new-name", function() {
+    var newName = $("#new-name").val();
+    newName = newName.replace(/[^a-zA-Z0-9]/g, "");
+    $("#new-name").val(newName);
+});
+
+function renameCatConfirmed(catName) {
+
+    var newName = $("#new-name").val();
+
+    if (newName == "") {
+        alertBox("Erreur", "Recommencez et rentrez un nom pour votre chat.", `
+            <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+            <div style="clear: both></div>`);
+    }
+
+    loader();
+
+    $.ajax({
+        type: "GET",
+        url: "/api/cat/exist",
+        beforeSend: function(xhr) { xhr.setRequestHeader("name", newName); },
+
+        success: function(response) {
+
+            if (response == "true") {
+                loader();
+                alert("Here is a BUG !!! (Browser don't show alert box, but the name is already used.)");
+                alertBox("Erreur", "Ce nom ne convient pas. Peut-être l'avez-vous déjà utilisé pour un autre chat...", `
+                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                    <div style="clear: both></div>`);
+
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/cat/rename",
+                    data: { name: catName, newName: newName },
+
+                    success: function(response) {
+                        loader();
+                        loadCats();
+                    },
+
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        loader();
+                        networkError();
+                    }
+                });
             }
         },
 
@@ -86,8 +152,7 @@ function deleteCat(catName) {
     alertBox("Avertissement", "Êtes-vous certain de vouloir supprimer ce chat ? Cette opération est irréversible.", `
                     <button class="btn btn-secondary btn-align-right cancel">Fermer</button>
                     <button class="btn btn-primary cancel"
-                    onclick="deleteCatConfirmed('${catName}')">Supprimer</button>
-                    <div style="clear: both></div>`);
+                    onclick="deleteCatConfirmed('${catName}')">Supprimer</button>`);
 }
 
 function deleteCatConfirmed(catName) {

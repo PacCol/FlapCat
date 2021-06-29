@@ -25,8 +25,18 @@ def listCats():
 
     return list
 
+# We create a function to detect if a cat already exists
+def isRegistered(catName):
+    return os.path.isdir("recognition/dataset/" + catName)
+
 # We create a function to rename a cat
 def renameCat(catName, newName):
+
+    catName = "".join(char for char in catName if char.isalnum())
+    
+    if catName == "" or len(catName) > 10 or isRegistered(newName):
+        return "name-error"
+
     if os.path.isdir("recognition/dataset/" + catName):
         os.rename("recognition/dataset/" + catName, "recognition/dataset/" + newName)
         training.needToReload()
@@ -36,6 +46,7 @@ def renameCat(catName, newName):
 
 # We create a function to edit the permissions
 def authorizeCat(catName, authorized):
+
     if os.path.isdir("recognition/dataset/" + catName):
         f = open("recognition/dataset/" + catName + "/authorized.txt", "w")
         f.write(authorized)
@@ -46,6 +57,7 @@ def authorizeCat(catName, authorized):
 
 # We create a function to delete a cat
 def deleteCat(catName):
+    
     if os.path.isdir("recognition/dataset/" + catName):
         shutil.rmtree("recognition/dataset/" + catName)
         training.needToReload()

@@ -1,3 +1,9 @@
+$("#cat-name").on("input", function() {
+    var catName = $("#cat-name").val();
+    catName = catName.replace(/[^a-zA-Z0-9]/g, "");
+    $("#cat-name").val(catName);
+});
+
 $("#next-step").click(function() {
     var catName = $("#cat-name").val();
 
@@ -38,6 +44,7 @@ $("#next-step").click(function() {
                             if (response == "not-registering") {
                                 $(".progress").css("width", "100%");
                                 $("#registering-step-2").fadeOut(300).promise().done(function() {
+                                    $("#cat-name").val("");
                                     $("#registering-step-1").fadeIn(300);
                                     alertBox("Opération terminée", "Votre chat a été enregistré avec succès, ou vous avez annulé l'opération", `
                                         <button class="btn btn-primary btn-align-right cancel">Fermer</button>
@@ -70,6 +77,7 @@ $("#next-step").click(function() {
 
 
 $("#reset-cat").click(function() {
+
     loader();
 
     $.ajax({
@@ -78,9 +86,6 @@ $("#reset-cat").click(function() {
 
         success: function(response) {
             loader();
-            $("#registering-step-2").fadeOut(300).promise().done(function() {
-                $("#registering-step-1").fadeIn(300);
-            });
         },
         error: function(xhr, ajaxOptions, thrownError) {
             loader();

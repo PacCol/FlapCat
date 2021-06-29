@@ -1,4 +1,4 @@
-import os
+import os, time
 
 from threading import Thread
 
@@ -7,48 +7,76 @@ import face_recognition
 from imutils import paths
 import pickle
 
+
 # We create some global vars to communicate between threads
 state = "not-training"
 # The value can be: "not-training" or "training"
-needReload = False
 stopRequested = False
 
+
+# We create a function to reload the model after edit
 def needToReload():
-    global needReload
-    needReload = True
+    global state
+    global stopRequested
+    stopRequested = True
+    while True:
+        if state == "not-training":
+            stopRequested = False
+            trainingThread = Thread(target=trainModel, args=())
+            trainingThread.start()
+            return
+        time.sleep(0.2)
+
+# We create a function to get the current state
+def getState():
+    global state
+    return state
+
 
 # We create a function to train our model
 def trainModel():
 
-    global state
-    state = "training"
+    # We try to train the model
+    # (The user can record a new cat, rename a cat, delete a cat...)
+    try:
 
-    imagePaths = list(paths.list_images("recognition/dataset"))
+        global state
+        state = "training"
 
-    knownEncodings = []
-    knownNames = []
+        imagePaths = list(paths.list_images("recognition/dataset"))
 
-    # For each image, we analyze the face on it
-    for (i, imagePath) in enumerate(imagePaths):
+        knownEncodings = []
+        knownNames = []
 
-        name = imagePath.split(os.path.sep)[-2]
+        # For each image, we analyze the face on it
+        for (i, imagePath) in enumerate(imagePaths):
 
-        image = cv2.imread(imagePath)
-        rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            # If we want to stop, we exit the function
+            if stopRequested:
+                state = "not-training"
+                return
 
-        boxes = face_recognition.face_locations(rgb, model="hog")
+            name = imagePath.split(os.path.sep)[-2]
 
-        encodings = face_recognition.face_encodings(rgb, boxes)
+            image = cv2.imread(imagePath)
+            rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-        for encoding in encodings:
-            knownEncodings.append(encoding)
-            knownNames.append(name)
+            boxes = face_recognition.face_locations(rgb, model="hog")
 
-    data = {"encodings": knownEncodings, "names": knownNames}
+            encodings = face_recognition.face_encodings(rgb, boxes)
 
-    # We save the data in a file
-    f = open("recognition/encodings.pickle", "wb")
-    f.write(pickle.dumps(data))
-    f.close()
+            for encoding in encodings:
+                knownEncodings.append(encoding)
+                knownNames.append(name)
 
-    state = "not-training"
+        data = {"encodings": knownEncodings, "names": knownNames}
+
+        # We save the data in a file
+        f = open("recognition/encodings.pickle", "wb")
+        f.write(pickle.dumps(data))
+        f.close()
+
+        state = "not-training"
+    
+    except:
+        needToReload()
