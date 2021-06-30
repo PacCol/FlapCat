@@ -49,6 +49,10 @@ def trainModel():
 
         imagePaths = list(paths.list_images("recognition/dataset"))
 
+        if len(imagePaths) == 0:
+            os.remove("recognition/encodings.pickle")
+            return
+
         knownEncodings = []
         knownNames = []
 

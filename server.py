@@ -1,7 +1,4 @@
-from flask import Flask, redirect, send_from_directory, jsonify, request
-
-import recognition.registering as registering
-import recognition.cat as cat
+from flask import Flask, redirect, send_from_directory
 
 import beforeStart
 beforeStart.fix()
@@ -9,6 +6,8 @@ beforeStart.fix()
 # We create a flask server
 app = Flask(__name__)
 
+import recognition.registeringRoutes
+import recognition.catRoutes
 
 # Web app
 
@@ -20,62 +19,6 @@ def index():
 @app.route("/config/<path:path>")
 def webApp(path):
     return send_from_directory("static", path)
-
-
-# Registering
-
-@app.route("/api/register/start", methods=["POST"])
-def register():
-    catName = request.form["name"]
-    success = registering.startRegistering(catName, 100)
-    return success
-
-
-@app.route("/api/register/stop", methods=["POST"])
-def interruptRegistering():
-    success = registering.stopRegistering()
-    return success
-
-
-@app.route("/api/register/state", methods=["GET"])
-def getState():
-    state = registering.getState()
-    return state
-
-
-@app.route("/api/cat/list", methods=["GET"])
-def list():
-    list = cat.listCats()
-    return jsonify(list)
-
-@app.route("/api/cat/exist", methods=["GET"])
-def exist():
-    catName = request.headers.get("name")
-    exist = cat.isRegistered(catName)
-    if exist:
-        return "true"
-    else:
-        return "false"
-
-@app.route("/api/cat/rename", methods=["POST"])
-def rename():
-    catName = request.form["name"]
-    newName = request.form["newName"]
-    success = cat.renameCat(catName, newName)
-    return success
-
-@app.route("/api/cat/permissions", methods=["POST"])
-def authorize():
-    catName = request.form["name"]
-    authorized = request.form["authorized"]
-    success = cat.authorizeCat(catName, authorized)
-    return success
-
-@app.route("/api/cat/delete", methods=["POST"])
-def delete():
-    catName = request.form["name"]
-    success = cat.deleteCat(catName)
-    return success
 
 
 # Server

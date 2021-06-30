@@ -28,6 +28,7 @@ def startRegistering(catName, imgNbr):
         registerThread = Thread(target=record, args=(catName, imgNbr))
         registerThread.start()
         return "started"
+        
     else:
         stopRegistering()
         success = startRegistering(catName, imgNbr)
@@ -35,9 +36,11 @@ def startRegistering(catName, imgNbr):
 
 # We create a function to interrupt the registering process
 def stopRegistering():
+
     global state
     global stopRequested
     stopRequested = True
+
     while True:
         if state == "not-registering":
             return "stoped"
@@ -45,6 +48,7 @@ def stopRegistering():
 
 # We create a function to get the current state
 def getState():
+
     global state
     return state
 
@@ -52,8 +56,6 @@ def getState():
 # We create a fuction to record a cat
 def record(catName, imgNbr):
 
-    # We init the image counter
-    imgCounter = 0
     global state
 
     global stopRequested
@@ -73,6 +75,9 @@ def record(catName, imgNbr):
     # We init the cam and the face detector
     cam = cv2.VideoCapture(0)
     detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalface_default.xml")
+
+    # We init the image counter
+    imgCounter = 0
 
     # We want to take as many shots as requested
     while imgCounter < imgNbr:
