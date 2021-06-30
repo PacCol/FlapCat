@@ -16,14 +16,18 @@ stopRequested = False
 
 # We create a function to reload the model after edit
 def needToReload():
+    print("needToReload")
     global state
     global stopRequested
     stopRequested = True
     while True:
+        print("looping")
         if state == "not-training":
+            print("stoped")
             stopRequested = False
             trainingThread = Thread(target=trainModel, args=())
             trainingThread.start()
+            print("restarted")
             return
         time.sleep(0.2)
 
@@ -53,6 +57,8 @@ def trainModel():
 
             # If we want to stop, we exit the function
             if stopRequested:
+                print("testing")
+                print("exiting")
                 state = "not-training"
                 return
 
@@ -79,4 +85,5 @@ def trainModel():
         state = "not-training"
     
     except:
+        print("EXCEPTION ========================================================")
         needToReload()

@@ -1,6 +1,7 @@
 import os
 import shutil
 
+import recognition.registering as registering
 import recognition.training as training
 
 # We create a function to list the registered cats
@@ -32,17 +33,22 @@ def isRegistered(catName):
 # We create a function to rename a cat
 def renameCat(catName, newName):
 
-    catName = "".join(char for char in catName if char.isalnum())
-    
-    if catName == "" or len(catName) > 10 or isRegistered(newName):
-        return "name-error"
+    if registering.getState() == "not-registering":
 
-    if os.path.isdir("recognition/dataset/" + catName):
-        os.rename("recognition/dataset/" + catName, "recognition/dataset/" + newName)
-        training.needToReload()
-        return "cat-renamed"
+        catName = "".join(char for char in catName if char.isalnum())
+    
+        if catName == "" or len(catName) > 10 or isRegistered(newName):
+            return "name-error"
+
+        if os.path.isdir("recognition/dataset/" + catName):
+            os.rename("recognition/dataset/" + catName, "recognition/dataset/" + newName)
+            training.needToReload()
+            return "cat-renamed"
+        else:
+            return "not-found"
+    
     else:
-        return "not-found"
+        return "registering"
 
 # We create a function to edit the permissions
 def authorizeCat(catName, authorized):
@@ -57,10 +63,15 @@ def authorizeCat(catName, authorized):
 
 # We create a function to delete a cat
 def deleteCat(catName):
+
+    if registering.getState() == "not-registering":
     
-    if os.path.isdir("recognition/dataset/" + catName):
-        shutil.rmtree("recognition/dataset/" + catName)
-        training.needToReload()
-        return "cat-deleted"
+        if os.path.isdir("recognition/dataset/" + catName):
+            shutil.rmtree("recognition/dataset/" + catName)
+            training.needToReload()
+            return "cat-deleted"
+        else:
+            return "not-found"
+
     else:
-        return "not-found"
+        return "registering"
