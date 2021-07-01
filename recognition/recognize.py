@@ -17,26 +17,29 @@ import recognition.training as training
 state = "not-recognizing"
 stopRequested = False
 # We use a global var to store the model and the authorizations
-model
-catList
+model = ""
+catList = []
 
 
 # We create a function to enable the face recognition
 def enableRecognition():
 
+    global state
+
     if registering.getState() != "not-registering":
+        registering.stopRegistering()
 
-        if training.getState() == "training":
-            global state
-            state = "recognizing"
-            registerThread = Thread(target=recognize, args=())
-            registerThread.start()
+    if state == "recognizing":
+        return "already-started"
 
-        else:
-            return "training"
+    if training.getState() == "not-training":
+        state = "recognizing"
+        recognitionThread = Thread(target=recognize, args=())
+        recognitionThread.start()
+        return "started"
 
     else:
-        return "registering"
+        return "training"
 
 # We create a function to disable the face recognition
 def disableRecogition():
@@ -46,7 +49,7 @@ def disableRecogition():
     stopRequested = True
 
     while True:
-        if state == "recognizing":
+        if state == "not-recognizing":
             return "stoped"
         time.sleep(0.2)
 
@@ -55,7 +58,7 @@ def reloadCats():
 
     # We load the model
     global model
-    model = pickle.loads(open("encodings.pickle", "rb").read())
+    model = pickle.loads(open("recognition/encodings.pickle", "rb").read())
 
     # We reload the authorizations
     global catList

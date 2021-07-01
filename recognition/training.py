@@ -49,10 +49,6 @@ def trainModel():
 
         imagePaths = list(paths.list_images("recognition/dataset"))
 
-        if len(imagePaths) == 0:
-            os.remove("recognition/encodings.pickle")
-            return
-
         knownEncodings = []
         knownNames = []
 
@@ -60,8 +56,8 @@ def trainModel():
         for (i, imagePath) in enumerate(imagePaths):
 
             # If we want to stop, we exit the function
+            print("testing")
             if stopRequested:
-                print("testing")
                 print("exiting")
                 state = "not-training"
                 return

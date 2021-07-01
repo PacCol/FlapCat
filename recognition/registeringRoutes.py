@@ -18,6 +18,6 @@ def interruptRegistering():
 
 
 @app.route("/api/register/state", methods=["GET"])
-def getState():
+def getRegisteringState():
     state = registering.getState()
     return state

@@ -31,6 +31,16 @@ $("#next-step").click(function() {
             success: function(response) {
                 loader();
 
+                if (response == "recognizing") {
+                    alertBox("Erreur", "Le reconnaissance faciale est activée. Commencez par la désactiver, puis réessayez.", `
+                        <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                        <div style="clear: both></div>`);
+                    $("#registering-step-2").fadeOut(300).promise().done(function() {
+                        $("#registering-step-1").fadeIn(300);
+                    });
+                    return;
+                }
+
                 displayState();
 
                 function displayState() {

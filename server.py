@@ -1,13 +1,11 @@
 from flask import Flask, redirect, send_from_directory
 
-import beforeStart
-beforeStart.fix()
-
 # We create a flask server
 app = Flask(__name__)
 
-import recognition.registeringRoutes
 import recognition.catRoutes
+import recognition.registeringRoutes
+import recognition.recognizeRoutes
 
 # Web app
 

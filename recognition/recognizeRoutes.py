@@ -1,3 +1,4 @@
+from os import stat_result
 from flask import request
 
 from __main__ import app
@@ -13,3 +14,8 @@ def startRecognition():
 def stopRecognition():
     success = recognize.disableRecogition()
     return success
+
+@app.route("/api/recognize/state", methods=["GET"])
+def getRecognitionState():
+    state = recognize.getState()
+    return state

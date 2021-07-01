@@ -3,6 +3,7 @@ import os, shutil, time
 from threading import Thread
 
 import recognition.training as training
+import recognition.recognize as recognize
 
 import cv2
 
@@ -20,6 +21,9 @@ def startRegistering(catName, imgNbr):
     
     if catName == "" or len(catName) > 10:
         return "name-error"
+
+    if recognize.getState() == "recognizing":
+        return "recognizing"
 
     global state
 

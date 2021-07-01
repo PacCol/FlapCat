@@ -56,10 +56,17 @@
 
                 <hr class="divider">
 
+                <div class="menu-button" id="settings-button">
+                    <i class="material-icons-round">settings</i>
+                    <p>Paramètres</p>
+                </div>
+
+                <hr class="divider">
+
                 <div class="menu-button">
                     <i class="material-icons-round">dark_mode</i>
-                    <p>Dark theme</p>
-                    <label class="toggle-switch" id="dark-theme-toggle-switch">
+                    <p>Thème sombre</p>
+                    <label class="toggle-switch dark-theme-toggle-switch">
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>
@@ -75,7 +82,14 @@
                 <div class="control">
                     <h1>Accueil</h1>
                 </div>
-                <p>Cette section n'est pas encore disponible...</p>
+                <p id="status"><b>Statut:</b> -</p>
+                <div class="settings-item">
+                    <p id="toggle-status-indication">Reconnaissance faciale</p>
+                    <label class="toggle-switch" id="status-toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
 
             <div id="cats">
@@ -133,26 +147,39 @@
                 <p>Cette section n'est pas encore disponible...</p>
             </div>
 
+            <div id="settings">
+                <div class="control">
+                    <h1>Paramètres</h1>
+                </div>
+                <div class="settings-item">
+                    <p>Thème sombre</p>
+                    <label class="toggle-switch dark-theme-toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
         </div>
 
-    </div>
+        <script src="js/lib/jquery.min.js"></script>
+        <!--<script src="RealCSS/all.min.js"></script>-->
 
-    <script src="js/lib/jquery.min.js"></script>
-    <!--<script src="RealCSS/all.min.js"></script>-->
+        <script src="RealCSS/js/alert.js"></script>
+        <script src="RealCSS/js/context-menu.js"></script>
+        <script src="RealCSS/js/dark-theme.js"></script>
+        <script src="RealCSS/js/dropdown.js"></script>
+        <script src="RealCSS/js/horizontal-menu.js"></script>
+        <script src="RealCSS/js/loader.js"></script>
+        <script src="RealCSS/js/menu.js"></script>
+        <script src="RealCSS/js/search-bar.js"></script>
+        <script src="RealCSS/js/toggle-switch.js"></script>
 
-    <script src="RealCSS/js/alert.js"></script>
-    <script src="RealCSS/js/context-menu.js"></script>
-    <script src="RealCSS/js/dark-theme.js"></script>
-    <script src="RealCSS/js/dropdown.js"></script>
-    <script src="RealCSS/js/horizontal-menu.js"></script>
-    <script src="RealCSS/js/loader.js"></script>
-    <script src="RealCSS/js/menu.js"></script>
-    <script src="RealCSS/js/search-bar.js"></script>
-
-    <script src="js/menu.js"></script>
-    <script src="js/cats.js"></script>
-    <script src="js/registering.js"></script>
-    <script src="js/network-error.js"></script>
+        <script src="js/menu.js"></script>
+        <script src="js/home.js"></script>
+        <script src="js/cats.js"></script>
+        <script src="js/registering.js"></script>
+        <script src="js/network-error.js"></script>
 
 </body>
 

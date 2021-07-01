@@ -96,8 +96,7 @@ function renameCatConfirmed(catName) {
 
             if (response == "true") {
                 loader();
-                alert("Here is a BUG !!! (Browser don't show alert box, but the name is already used.)");
-                alertBox("Erreur", "Ce nom ne convient pas. Peut-être l'avez-vous déjà utilisé pour un autre chat...", `
+                alertBox("Erreur", "Ce nom ne convient pas. Peut-être l'avez-vous déjà utilisé pour un autre chat ou peut-être que votre chat porte déjà ce nom là...", `
                     <button class="btn btn-primary btn-align-right cancel">Fermer</button>
                     <div style="clear: both></div>`);
 
