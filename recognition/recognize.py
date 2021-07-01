@@ -11,6 +11,7 @@ import cv2
 import recognition.cat as cat
 import recognition.registering as registering
 import recognition.training as training
+import recognition.lock as lock
 
 
 # We use some global vars to communicate between threads
@@ -126,11 +127,9 @@ def recognize():
             # We set the default value
             name = "Unknown"
 
-            # check to see if we have found a match
+            # We check if we have found a match
             if True in matches:
-                # find the indexes of all matched faces then initialize a
-                # dictionary to count the total number of times each face
-                # was matched
+                # We search the ids
                 matchedIdxs = [i for (i, b) in enumerate(matches) if b]
                 counts = {}
 
@@ -142,6 +141,8 @@ def recognize():
                 # We chose the right name (with the vote)
                 name = max(counts, key=counts.get)
 
-                # If someone in your dataset is identified, print their name on the screen
+                # If a cat in the dataset is identified, unlock the door
                 if name != "Unknown":
-                    print(name + " recognized !")
+                    for x in catList:
+                        if name == x["name"] and x["authorized"]:
+                            lock.unlock()

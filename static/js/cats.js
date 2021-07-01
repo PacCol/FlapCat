@@ -8,14 +8,14 @@ function loadCats() {
 
     removeContextMenu("tr");
 
-    loader();
+    loader(true);
 
     $.ajax({
         type: "GET",
         url: "/api/cat/list",
 
         success: function(response) {
-            loader();
+            loader(false);
 
             for (let i = 0; i < response.length; i++) {
 
@@ -53,7 +53,7 @@ function loadCats() {
         },
 
         error: function(xhr, ajaxOptions, thrownError) {
-            loader();
+            loader(false);
             networkError();
         }
     });
@@ -83,9 +83,10 @@ function renameCatConfirmed(catName) {
         alertBox("Erreur", "Recommencez et rentrez un nom pour votre chat.", `
             <button class="btn btn-primary btn-align-right cancel">Fermer</button>
             <div style="clear: both></div>`);
+        return;
     }
 
-    loader();
+    loader(true);
 
     $.ajax({
         type: "GET",
@@ -95,7 +96,7 @@ function renameCatConfirmed(catName) {
         success: function(response) {
 
             if (response == "true") {
-                loader();
+                loader(false);
                 alertBox("Erreur", "Ce nom ne convient pas. Peut-être l'avez-vous déjà utilisé pour un autre chat ou peut-être que votre chat porte déjà ce nom là...", `
                     <button class="btn btn-primary btn-align-right cancel">Fermer</button>
                     <div style="clear: both></div>`);
@@ -107,12 +108,12 @@ function renameCatConfirmed(catName) {
                     data: { name: catName, newName: newName },
 
                     success: function(response) {
-                        loader();
+                        loader(false);
                         loadCats();
                     },
 
                     error: function(xhr, ajaxOptions, thrownError) {
-                        loader();
+                        loader(false);
                         networkError();
                     }
                 });
@@ -120,7 +121,7 @@ function renameCatConfirmed(catName) {
         },
 
         error: function(xhr, ajaxOptions, thrownError) {
-            loader();
+            loader(false);
             networkError();
         }
     });
@@ -128,7 +129,7 @@ function renameCatConfirmed(catName) {
 
 function authorizeCat(catName, permitted) {
 
-    loader();
+    loader(true);
 
     $.ajax({
         type: "POST",
@@ -136,12 +137,12 @@ function authorizeCat(catName, permitted) {
         data: { name: catName, authorized: permitted },
 
         success: function(response) {
-            loader();
+            loader(false);
             loadCats();
         },
 
         error: function(xhr, ajaxOptions, thrownError) {
-            loader();
+            loader(false);
             networkError();
         }
     });
@@ -149,14 +150,14 @@ function authorizeCat(catName, permitted) {
 
 function deleteCat(catName) {
     alertBox("Avertissement", "Êtes-vous certain de vouloir supprimer ce chat ? Cette opération est irréversible.", `
-                    <button class="btn btn-secondary btn-align-right cancel">Fermer</button>
-                    <button class="btn btn-primary cancel"
-                    onclick="deleteCatConfirmed('${catName}')">Supprimer</button>`);
+        <button class="btn btn-secondary btn-align-right cancel">Fermer</button>
+        <button class="btn btn-primary cancel"
+        onclick="deleteCatConfirmed('${catName}')">Supprimer</button>`);
 }
 
 function deleteCatConfirmed(catName) {
 
-    loader();
+    loader(true);
 
     $.ajax({
         type: "POST",
@@ -164,12 +165,12 @@ function deleteCatConfirmed(catName) {
         data: { name: catName },
 
         success: function(response) {
-            loader();
+            loader(false);
             loadCats();
         },
 
         error: function(xhr, ajaxOptions, thrownError) {
-            loader();
+            loader(false);
             networkError();
         }
     });

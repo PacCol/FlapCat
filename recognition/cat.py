@@ -3,6 +3,7 @@ import shutil
 
 import recognition.registering as registering
 import recognition.training as training
+import recognition.recognize as recognize
 
 # We create a function to list the registered cats
 def listCats():
@@ -33,25 +34,32 @@ def isRegistered(catName):
 # We create a function to rename a cat
 def renameCat(catName, newName):
 
-    if registering.getState() == "not-registering":
-
-        catName = "".join(char for char in catName if char.isalnum())
+    catName = "".join(char for char in catName if char.isalnum())
     
-        if catName == "" or len(catName) > 10 or isRegistered(newName):
-            return "name-error"
+    if catName == "" or len(catName) > 10 or isRegistered(newName):
+        return "name-error"
 
-        if os.path.isdir("recognition/dataset/" + catName):
-            os.rename("recognition/dataset/" + catName, "recognition/dataset/" + newName)
-            training.needToReload()
-            return "cat-renamed"
-        else:
-            return "not-found"
-    
+    if registering.getState() != "not-registering":
+        registering.stopRegistering()
+
+    if recognize.getState() == "recognizing":
+        return "recognizing"
+
+    if os.path.isdir("recognition/dataset/" + catName):
+        os.rename("recognition/dataset/" + catName, "recognition/dataset/" + newName)
+        training.needToReload()
+        return "cat-renamed"
     else:
-        return "registering"
+        return "not-found"
 
 # We create a function to edit the permissions
 def authorizeCat(catName, authorized):
+
+    if registering.getState() != "not-registering":
+        registering.stopRegistering()
+
+    if recognize.getState() == "recognizing":
+        return "recognizing"
 
     if os.path.isdir("recognition/dataset/" + catName):
         f = open("recognition/dataset/" + catName + "/authorized.txt", "w")
@@ -64,14 +72,15 @@ def authorizeCat(catName, authorized):
 # We create a function to delete a cat
 def deleteCat(catName):
 
-    if registering.getState() == "not-registering":
-    
-        if os.path.isdir("recognition/dataset/" + catName):
-            shutil.rmtree("recognition/dataset/" + catName)
-            training.needToReload()
-            return "cat-deleted"
-        else:
-            return "not-found"
+    if registering.getState() != "not-registering":
+        registering.stopRegistering()
 
+    if recognize.getState() == "recognizing":
+        return "recognizing"
+    
+    if os.path.isdir("recognition/dataset/" + catName):
+        shutil.rmtree("recognition/dataset/" + catName)
+        training.needToReload()
+        return "cat-deleted"
     else:
-        return "registering"
+        return "not-found"

@@ -6,7 +6,7 @@ $("#home-button").click(function() {
 
 function displayStatus() {
 
-    loader();
+    loader(true);
 
     $.ajax({
         type: "GET",
@@ -14,7 +14,7 @@ function displayStatus() {
 
         success: function(response) {
 
-            loader();
+            loader(false);
 
             if (response == "recognizing") {
                 $("#status").html("<b>Statut</b>: Activé (La chatière détecte les chats présents devant elle, et, s'il sont reconnus, la chatière se déverrouille.)");
@@ -26,7 +26,7 @@ function displayStatus() {
         },
 
         error: function(xhr, ajaxOptions, thrownError) {
-            loader();
+            loader(false);
             networkError();
         }
     });
@@ -36,14 +36,14 @@ $("#status-toggle-switch input").change(function() {
 
     if (this.checked) {
 
-        loader();
+        loader(true);
 
         $.ajax({
             type: "POST",
             url: "/api/recognize/start",
 
             success: function(response) {
-                loader();
+                loader(false);
 
                 if (response == "training") {
                     alertBox("Erreur", "La chatière est entrain de traiter les données de votre chat. Réessayez dans 1 à 2 minutes.", `
@@ -55,25 +55,25 @@ $("#status-toggle-switch input").change(function() {
             },
 
             error: function(xhr, ajaxOptions, thrownError) {
-                loader();
+                loader(false);
                 networkError();
             }
         });
     } else {
 
-        loader();
+        loader(true);
 
         $.ajax({
             type: "POST",
             url: "/api/recognize/stop",
 
             success: function(response) {
-                loader();
+                loader(false);
                 displayStatus();
             },
 
             error: function(xhr, ajaxOptions, thrownError) {
-                loader();
+                loader(false);
                 networkError();
             }
         });

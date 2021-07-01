@@ -21,7 +21,7 @@ $("#next-step").click(function() {
             $("#registering-step-2").fadeIn(300);
         });
 
-        loader();
+        loader(true);
 
         $.ajax({
             type: "POST",
@@ -29,7 +29,7 @@ $("#next-step").click(function() {
             data: { name: catName },
 
             success: function(response) {
-                loader();
+                loader(false);
 
                 if (response == "recognizing") {
                     alertBox("Erreur", "Le reconnaissance faciale est activée. Commencez par la désactiver, puis réessayez.", `
@@ -78,7 +78,7 @@ $("#next-step").click(function() {
             },
 
             error: function(xhr, ajaxOptions, thrownError) {
-                loader();
+                loader(false);
                 networkError();
             }
         });
