@@ -1,11 +1,14 @@
-from flask import Flask, redirect, send_from_directory
+from flask import Flask, redirect, send_from_directory, request
 
 # We create a flask server
 app = Flask(__name__)
 
+import login.login
+
 import recognition.catRoutes
 import recognition.registeringRoutes
 import recognition.recognizeRoutes
+
 
 # Web app
 
@@ -13,11 +16,13 @@ import recognition.recognizeRoutes
 def index():
     return redirect("/config/index.html")
 
-
 @app.route("/config/<path:path>")
 def webApp(path):
-    return send_from_directory("static", path)
+    if request.remote_addr == "127.0.0.1":
+        return send_from_directory("static", path)
+    else:
+        return "<h1>Pas le droit</h1>"
 
 
 # Server
-app.run(host="0.0.0.0", port=5000)
+app.run(debug=True, host="0.0.0.0", port=5000)

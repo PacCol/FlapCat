@@ -1,5 +1,8 @@
 .vscode/
+login/__pycache__/
+login/users.db
 recognition/__pycache__/
 recognition/dataset/*
 recognition/encoding.pickle
 static/RealCSS
+venv/

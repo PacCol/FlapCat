@@ -109,6 +109,13 @@ function renameCatConfirmed(catName) {
 
                     success: function(response) {
                         loader(false);
+
+                        if (response == "recognizing") {
+                            alertBox("Erreur", "Impossible de renommer un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
+                                <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                                <div style="clear: both></div>`);
+                        }
+
                         loadCats();
                     },
 
@@ -138,6 +145,13 @@ function authorizeCat(catName, permitted) {
 
         success: function(response) {
             loader(false);
+
+            if (response == "recognizing") {
+                alertBox("Erreur", "Impossible de modifier les autorisations d'un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
+                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                    <div style="clear: both></div>`);
+            }
+
             loadCats();
         },
 
@@ -166,6 +180,13 @@ function deleteCatConfirmed(catName) {
 
         success: function(response) {
             loader(false);
+
+            if (response == "recognizing") {
+                alertBox("Erreur", "Impossible de supprimer un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
+                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                    <div style="clear: both></div>`);
+            }
+
             loadCats();
         },
 

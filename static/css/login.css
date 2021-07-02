@@ -1,0 +1,53 @@
+body {
+    display: none;
+    margin: 0px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--main-background-color);
+}
+
+@media only screen and (max-width: 230px) {
+    body {
+        display: none !important;
+    }
+}
+
+#main-container {
+    position: relative;
+    max-width: 370px;
+    margin-top: calc(40vh - 196px);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    border-radius: 25px;
+    border: 1px solid var(--border-color);
+}
+
+@media only screen and (max-width: 420px) {
+    #main-container {
+        margin-top: 22px;
+        border: 0px;
+        padding: 10px;
+    }
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-weight: lighter;
+    margin-bottom: 45px;
+    color: var(--main-color);
+}
+
+#password-side {
+    display: none;
+}
+
+#main-container button {
+    margin-top: 50px;
+}
+
+#next,
+#login,
+#signup {
+    float: right;
+}
