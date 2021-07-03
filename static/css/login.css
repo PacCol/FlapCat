@@ -3,9 +3,10 @@ body {
     margin: 0px;
     font-family: 'Montserrat', sans-serif;
     background-color: var(--main-background-color);
+    user-select: none;
 }
 
-@media only screen and (max-width: 230px) {
+@media only screen and (max-width: 380px) {
     body {
         display: none !important;
     }

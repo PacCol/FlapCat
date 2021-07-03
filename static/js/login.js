@@ -1,9 +1,10 @@
 var action = "login";
+var wantToSignup = false;
 
 $(document).ready(function() {
     $("body").fadeIn(300).promise().done(function() {
         setTimeout(function() {
-            $("#username-input").focus();
+            $("#email-input").focus();
         }, 10);
     });
 });
@@ -11,7 +12,7 @@ $(document).ready(function() {
 function showUsernameSide() {
     $("#password-side").fadeOut(150).promise().done(function() {
         $("#username-side").fadeIn(150).promise().done(function() {
-            $("#username-input").focus();
+            $("#email-input").focus();
         });
     });
 }
@@ -43,7 +44,11 @@ function login() {
         $("#signup").show();
         $("h1").text("Connexion");
         $("#finish").text("Connexion");
-        $("#main-container").fadeIn(150);
+        $("#email-input").val("");
+        $("#password-input").val("");
+        $("#main-container").fadeIn(150).promise().done(function() {
+            showUsernameSide();
+        });
     });
 }
 
@@ -52,14 +57,27 @@ $("#signup").click(function() {
 });
 
 function newAccount() {
-    $("#main-container").fadeOut(150).promise().done(function() {
-        action = "signup";
-        $("#signup").hide();
-        $("#login").show();
-        $("h1").text("Créer un nouveau compte");
-        $("#finish").text("Confirmer");
-        $("#main-container").fadeIn(150);
-    });
+
+    if (localStorage.getItem("token") === null) {
+        wantToSignup = true;
+        alertBox("Connectez-vous", "Vous devez vous connecter afin de continuer...", `
+            <button class="btn btn-primary btn-align-right cancel"
+            onclick="login();">Connexion</button>
+            <div style="clear: both></div>`);
+    } else {
+        $("#main-container").fadeOut(150).promise().done(function() {
+            action = "signup";
+            $("#signup").hide();
+            $("#login").show();
+            $("h1").text("Créer un nouveau compte");
+            $("#finish").text("Confirmer");
+            $("#email-input").val("");
+            $("#password-input").val("");
+            $("#main-container").fadeIn(150).promise().done(function() {
+                showUsernameSide();
+            });
+        });
+    }
 }
 
 $(document).keypress(function(e) {
@@ -103,6 +121,7 @@ function finish() {
         $.ajax({
             type: "POST",
             url: "/api/signup",
+            beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
             data: { email: email, password: password },
 
             success: function(response) {
@@ -121,9 +140,17 @@ function finish() {
                 }
             },
 
-            error: function() {
+            error: function(xhr, ajaxOptions, thrownError) {
                 loader(false);
-                networkError();
+                if (thrownError == "UNAUTHORIZED") {
+                    alertBox("Connectez-vous", "Vous devez vous connecter afin de continuer...", `
+                        <button class="btn btn-primary btn-align-right cancel"
+                        onclick="login();">Connexion</button>
+                        <div style="clear: both></div>`);
+                    wantToSignup = true;
+                } else {
+                    networkError();
+                }
             }
         });
 
@@ -138,21 +165,24 @@ function finish() {
                 loader(false);
 
                 if (response == "not-found") {
-                    $("#username-input").val("");
-                    showUsernameSide();
-                    $("#password-input").val("");
+                    login();
                     alertBox("Compte introuvable", "Ce compte n'existe pas.", `
                         <button class="btn btn-primary btn-align-right cancel">Fermer</button>
                         <div style="clear: both></div>`);
                 } else if (response == "wrong-password") {
-                    $("#password-input").val("");
+                    login();
                     alertBox("Mot de passe erroné", "Vous n'avez pas entré le bon mot de passe.", `
                         <button class="btn btn-primary btn-align-right cancel">Fermer</button>
                         <div style="clear: both></div>`);
                 } else {
                     localStorage.setItem("email", email);
                     localStorage.setItem("token", response.token);
-                    window.location.replace("index.html");
+                    if (wantToSignup) {
+                        wantToSignup = false;
+                        newAccount();
+                    } else {
+                        window.location.replace("index.html");
+                    }
                 }
             },
 
@@ -162,59 +192,4 @@ function finish() {
             }
         });
     }
-}
-
-function signup() {
-
-    if ($("#username-input").val() == "") {
-        $(".alert-container p").text("L'adresse email ne peut pas être vide.");
-        $(".alert-container").fadeIn(200).promise().done(function() {
-            $(".alert-container .cancel").click(function() {
-                $(".alert-container").fadeOut(200).promise().done(function() {
-                    showUsernameSide();
-                });
-            });
-        });
-        return;
-    } else if ($("#password-input").val() == "") {
-        $(".alert-container p").text("Le mot de passe ne peut pas être vide.");
-        $(".alert-container").fadeIn(200).promise().done(function() {
-            $(".alert-container .cancel").click(function() {
-                $(".alert-container").fadeOut(200).promise().done(function() {
-                    showUsernameSide();
-                });
-            });
-        });
-        return;
-    }
-
-    loader(true);
-
-    $.ajax({
-        type: "POST",
-        url: "/api/signup",
-        data: { email: $("#username-input").val(), password: $("#password-input").val() },
-
-        success: function(response) {
-            loader(false);
-
-            alert(response);
-
-            if (response == "registered") {
-                alertBox("Compte créé", "Votre compte a bien été créé.", `
-                    <button class="btn btn-primary btn-align-right"
-                    onclick="window.location.replace('login.html');">Connexion</button>
-                    <div style="clear: both></div>`);
-            } else {
-                alertBox("Compte déjà existant", "Un compte dont l'adresse email est similaire existe déjà.", `
-                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
-                    <div style="clear: both></div>`);
-            }
-        },
-
-        error: function() {
-            loader(false);
-            networkError();
-        }
-    });
 }

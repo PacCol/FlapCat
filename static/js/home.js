@@ -55,9 +55,9 @@ $("#status-toggle-switch input").change(function() {
                 displayStatus();
             },
 
-            error: function() {
+            error: function(xhr, ajaxOptions, thrownError) {
                 loader(false);
-                networkError();
+                networkError(thrownError);
             }
         });
     } else {
@@ -67,15 +67,16 @@ $("#status-toggle-switch input").change(function() {
         $.ajax({
             type: "POST",
             url: "/api/recognize/stop",
+            beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
 
             success: function() {
                 loader(false);
                 displayStatus();
             },
 
-            error: function() {
+            error: function(xhr, ajaxOptions, thrownError) {
                 loader(false);
-                networkError();
+                networkError(thrownError);
             }
         });
     }

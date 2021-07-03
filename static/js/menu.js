@@ -12,4 +12,14 @@ $(".menu .menu-button").click(function() {
     }
 });
 
-$("#profile-button p").text(localStorage.getItem("email").substring(0, 1).toUpperCase());
+$(".profile-button p").text(localStorage.getItem("email").substring(0, 1).toUpperCase());
+
+$(".profile-button").click(function() {
+    logout();
+});
+
+function logout() {
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+    window.location.replace("login.html");
+}

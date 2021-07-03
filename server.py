@@ -1,4 +1,6 @@
-from flask import Flask, redirect, send_from_directory, request
+#! ./venv/bin/python3
+
+from flask import Flask, redirect, send_from_directory
 
 # We create a flask server
 app = Flask(__name__)
@@ -18,10 +20,7 @@ def index():
 
 @app.route("/config/<path:path>")
 def webApp(path):
-    if request.remote_addr == "127.0.0.1":
-        return send_from_directory("static", path)
-    else:
-        return "<h1>Pas le droit</h1>"
+    return send_from_directory("static", path)
 
 
 # Server

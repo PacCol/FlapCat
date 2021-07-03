@@ -1,9 +1,8 @@
-# flask imports
-from flask import Flask, request, jsonify, make_response
+from flask import request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-import uuid # for public id
+import uuid
 from  werkzeug.security import generate_password_hash, check_password_hash
-# imports for PyJWT authentication
+
 import jwt
 from datetime import datetime, timedelta
 from functools import wraps
@@ -15,14 +14,16 @@ app.config['SECRET_KEY'] = "Pacome78"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///login/users.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 db = SQLAlchemy(app)
-  
+
+
 # We create a class user
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     public_id = db.Column(db.String(50), unique = True)
     email = db.Column(db.String(70), unique = True)
     password = db.Column(db.String(80))
-  
+
+
 # We check the token
 def tokenRequired(f):
     @wraps(f)
@@ -33,7 +34,7 @@ def tokenRequired(f):
             token = request.headers["x-access-token"]
 
         if not token:
-            return "token-missing"
+            return "token-missing", 401
   
         try:
             data = jwt.decode(token, app.config["SECRET_KEY"])
@@ -46,31 +47,23 @@ def tokenRequired(f):
         return  f(currentUser, *args, **kwargs)
   
     return decorated
-  
-"""# User Database Route
-# this route sends back list of users users
-@app.route("/api/user", methods =["GET"])
-@tokenRequired
-def getAllUsers(current_user):
-    # querying the database
-    # for all the entries in it
+
+
+# We create a function to get all users
+@app.route("/api/user", methods=["GET"])
+def getAllUsers():
     users = User.query.all()
-    # converting the query objects
-    # to list of jsons
     output = []
     for user in users:
-        # appending the user data json
-        # to the response list
         output.append({
-            'public_id': user.public_id,
-            'email' : user.email
+            "public_id": user.public_id,
+            "email" : user.email
         })
-  
-    return jsonify({'users': output})"""
+    return jsonify(output)
 
 
 # We create a function to login
-@app.route("/api/login", methods =["POST"])
+@app.route("/api/login", methods=["POST"])
 def login():
 
     auth = request.form
@@ -88,7 +81,7 @@ def login():
     if check_password_hash(user.password, auth.get("password")):
         token = jwt.encode({
             "public_id": user.public_id,
-            "exp" : datetime.utcnow() + timedelta(minutes = 30)
+            "exp" : datetime.utcnow() + timedelta(minutes = 40)
         }, app.config["SECRET_KEY"])
   
         return jsonify({"token" : token.decode("UTF-8")})
@@ -97,8 +90,9 @@ def login():
 
 
 # We create a function to create a new account
-@app.route("/api/signup", methods =["POST"])
-def signup():
+@app.route("/api/signup", methods=["POST"])
+@tokenRequired
+def signup(currentUser):
 
     auth = request.form
 
@@ -108,25 +102,21 @@ def signup():
     email = auth.get("email")
     password = auth.get("password")
 
-    user = User.query\
-        .filter_by(email = email)\
-        .first()
+    users = User.query.all()
+    print(users)
+    for user in users:
+        if email == user.email:
+            return "already-exists"
 
-    if not user:
-
-        print(email)
-        print(password)
-
-        user = User(
-            public_id = str(uuid.uuid4()),
-            email = email,
-            password = generate_password_hash(password)
-        )
-        db.session.add(user)
-        db.session.commit()
+    user = User(
+        public_id = str(uuid.uuid4()),
+        email = email,
+        password = generate_password_hash(password)
+    )
+    db.session.add(user)
+    db.session.commit()
   
-        return "registered"
-    else:
-        return "already-exists"
+    return "registered"
+
 
 db.create_all()
