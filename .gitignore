@@ -1,4 +1,5 @@
 .vscode/
+__pycache__/
 login/__pycache__/
 login/users.db
 recognition/__pycache__/

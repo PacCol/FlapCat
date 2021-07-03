@@ -52,7 +52,7 @@ function loadCats() {
             }
         },
 
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function() {
             loader(false);
             networkError();
         }
@@ -119,7 +119,7 @@ function renameCatConfirmed(catName) {
                         loadCats();
                     },
 
-                    error: function(xhr, ajaxOptions, thrownError) {
+                    error: function() {
                         loader(false);
                         networkError();
                     }
@@ -127,7 +127,7 @@ function renameCatConfirmed(catName) {
             }
         },
 
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function() {
             loader(false);
             networkError();
         }
@@ -155,7 +155,7 @@ function authorizeCat(catName, permitted) {
             loadCats();
         },
 
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function() {
             loader(false);
             networkError();
         }
@@ -190,7 +190,7 @@ function deleteCatConfirmed(catName) {
             loadCats();
         },
 
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function() {
             loader(false);
             networkError();
         }

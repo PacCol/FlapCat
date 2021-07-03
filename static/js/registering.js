@@ -70,14 +70,14 @@ $("#next-step").click(function() {
                             }
                         },
 
-                        error: function(xhr, ajaxOptions, thrownError) {
+                        error: function() {
                             networkError();
                         }
                     });
                 }
             },
 
-            error: function(xhr, ajaxOptions, thrownError) {
+            error: function() {
                 loader(false);
                 networkError();
             }
@@ -94,10 +94,10 @@ $("#reset-cat").click(function() {
         type: "POST",
         url: "/api/register/stop",
 
-        success: function(response) {
+        success: function() {
             loader();
         },
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function() {
             loader();
             networkError();
         }

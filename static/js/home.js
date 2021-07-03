@@ -25,7 +25,7 @@ function displayStatus() {
             }
         },
 
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function() {
             loader(false);
             networkError();
         }
@@ -41,6 +41,7 @@ $("#status-toggle-switch input").change(function() {
         $.ajax({
             type: "POST",
             url: "/api/recognize/start",
+            beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
 
             success: function(response) {
                 loader(false);
@@ -54,7 +55,7 @@ $("#status-toggle-switch input").change(function() {
                 displayStatus();
             },
 
-            error: function(xhr, ajaxOptions, thrownError) {
+            error: function() {
                 loader(false);
                 networkError();
             }
@@ -67,12 +68,12 @@ $("#status-toggle-switch input").change(function() {
             type: "POST",
             url: "/api/recognize/stop",
 
-            success: function(response) {
+            success: function() {
                 loader(false);
                 displayStatus();
             },
 
-            error: function(xhr, ajaxOptions, thrownError) {
+            error: function() {
                 loader(false);
                 networkError();
             }

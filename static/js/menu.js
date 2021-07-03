@@ -11,3 +11,5 @@ $(".menu .menu-button").click(function() {
         $("#" + id).show();
     }
 });
+
+$("#profile-button p").text(localStorage.getItem("email").substring(0, 1).toUpperCase());
