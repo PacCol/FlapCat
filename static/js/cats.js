@@ -42,13 +42,13 @@ function loadCats() {
                 }
 
                 var line = `
-                    <tr data-name="${response[i].name}">
+                    <tr>
                         <td>${response[i].name}</td>
                         <td>${response[i].authorized}</td>
                     </tr>`
                 $("#cats tbody").append(line);
 
-                addContextMenu(contextMenu, "tbody tr:nth-child(" + (i + 1).toString() + ")");
+                addContextMenu(contextMenu, "#cats tbody tr:nth-child(" + (i + 1).toString() + ")");
             }
         },
 

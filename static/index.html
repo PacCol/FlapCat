@@ -20,10 +20,8 @@
     <div class="navbar">
 
         <div class="nav-title">
-            <button>
-                <i class="material-icons-round">menu</i>
-            </button>
-            <h1>FlapCat</h1>
+            <i class="material-icons-round">menu</i>
+            <h3>FlapCat</h3>
         </div>
 
         <div class="profile-button">
@@ -59,6 +57,11 @@
                 </div>
 
                 <hr class="divider">
+
+                <div class="menu-button" id="users-button">
+                    <i class="material-icons-round">account_circle</i>
+                    <p>Comptes</p>
+                </div>
 
                 <div class="menu-button" id="settings-button">
                     <i class="material-icons-round">settings</i>
@@ -127,7 +130,7 @@
                         <p>Entrez le nom de votre chat</p>
                     </div>
                     <button class="btn btn-primary" id="next-step">
-                        Suivant<span class="material-icons-round">arrow_forward</span>
+                        Suivant <span class="material-icons-round">arrow_forward</span>
                     </button>
                 </div>
 
@@ -138,7 +141,7 @@
                         <div class="progress"></div>
                     </div>
                     <button class="btn btn-primary" id="reset-cat">
-                        Recommencer<span class="material-icons-round">refresh</span>
+                        Recommencer <span class="material-icons-round">refresh</span>
                     </button>
                 </div>
 
@@ -149,6 +152,24 @@
                     <h1>Statistiques</h1>
                 </div>
                 <p>Cette section n'est pas encore disponible...</p>
+            </div>
+
+            <div id="users">
+                <div class="control">
+                    <h1>Comptes</h1>
+                </div>
+                <p>Seul l'administrateur peut voir la totalité des comptes.</p>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Adresse email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div id="settings">
@@ -183,6 +204,7 @@
         <script src="js/home.js"></script>
         <script src="js/cats.js"></script>
         <script src="js/registering.js"></script>
+        <script src="js/users.js"></script>
         <script src="js/network-error.js"></script>
 
 </body>
