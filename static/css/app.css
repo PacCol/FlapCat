@@ -26,3 +26,7 @@ body {
 #registering-step-2 {
     display: none;
 }
+
+.table .material-icons-round {
+    vertical-align: text-top;
+}

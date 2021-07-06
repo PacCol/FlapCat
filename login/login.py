@@ -49,71 +49,6 @@ def tokenRequired(f):
     return decorated
 
 
-# We create a function to get all users
-@app.route("/api/user/list", methods=["GET"])
-@tokenRequired
-def getUsers(currentUser):
-    if currentUser.email == "admin":
-        users = User.query.all()
-        output = []
-        for user in users:
-            output.append({
-                "public_id": user.public_id,
-                "email" : user.email
-            })
-    else:
-        output = [{
-            "public_id": currentUser.public_id,
-            "email": currentUser.email
-        }]
-    return jsonify(output)
-
-
-# We create a function to delete a user
-@app.route("/api/user/password", methods=["POST"])
-@tokenRequired
-def changePassword(currentUser):
-
-    email = request.form.get("email")
-    newPassword = request.form.get("password")
-
-    user = User.query\
-        .filter_by(email = email)\
-        .first()
-
-    if not user:
-        return "not-found"
-
-    if currentUser.email == email or currentUser.email == "admin":
-        user.password = generate_password_hash(newPassword)
-        db.session.commit()
-        return "changed"
-
-    return "not-permitted", 401
-
-
-# We create a function to delete a user
-@app.route("/api/user/delete", methods=["POST"])
-@tokenRequired
-def deleteUser(currentUser):
-
-    email = request.form.get("email")
-
-    user = User.query\
-        .filter_by(email = email)\
-        .first()
-
-    if not user:
-        return "not-found"
-
-    if (currentUser.email == email or currentUser.email == "admin") and email != "admin":
-        db.session.delete(user)
-        db.session.commit()
-        return "deleted"
-
-    return "not-permitted", 401
-
-
 # We create a function to login
 @app.route("/api/login", methods=["POST"])
 def login():
@@ -169,6 +104,71 @@ def signup(currentUser):
     db.session.commit()
   
     return "registered"
+
+
+# We create a function to get all users
+@app.route("/api/user/list", methods=["GET"])
+@tokenRequired
+def getUsers(currentUser):
+    if currentUser.email == "admin":
+        users = User.query.all()
+        output = []
+        for user in users:
+            output.append({
+                "public_id": user.public_id,
+                "email" : user.email
+            })
+    else:
+        output = [{
+            "public_id": currentUser.public_id,
+            "email": currentUser.email
+        }]
+    return jsonify(output)
+
+
+# We create a function to change the password
+@app.route("/api/user/password", methods=["POST"])
+@tokenRequired
+def changePassword(currentUser):
+
+    email = request.form.get("email")
+    newPassword = request.form.get("password")
+
+    user = User.query\
+        .filter_by(email = email)\
+        .first()
+
+    if not user:
+        return "not-found"
+
+    if currentUser.email == email or currentUser.email == "admin":
+        user.password = generate_password_hash(newPassword)
+        db.session.commit()
+        return "changed"
+
+    return "not-permitted", 401
+
+
+# We create a function to delete a user
+@app.route("/api/user/delete", methods=["POST"])
+@tokenRequired
+def deleteUser(currentUser):
+
+    email = request.form.get("email")
+
+    user = User.query\
+        .filter_by(email = email)\
+        .first()
+
+    if not user:
+        return "not-found"
+
+    if (currentUser.email == email or currentUser.email == "admin") and email != "admin":
+        db.session.delete(user)
+        db.session.commit()
+        return "deleted"
+
+    return "not-permitted", 401
 
 
 db.create_all()

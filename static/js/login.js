@@ -37,12 +37,17 @@ $("#login").click(function() {
     login();
 });
 
-function login() {
+function login(wantToSignup) {
     $("#main-container").fadeOut(150).promise().done(function() {
         action = "login";
         $("#login").hide();
-        $("#signup").show();
-        $("h1").text("Connexion");
+        if (wantToSignup) {
+            $("#signup").hide();
+            $("h1").text("Se connecter afin de créer un nouveau compte");
+        } else {
+            $("#signup").show();
+            $("h1").text("Connexion");
+        }
         $("#finish").text("Connexion");
         $("#email-input").val("");
         $("#password-input").val("");
@@ -62,7 +67,7 @@ function newAccount() {
         wantToSignup = true;
         alertBox("Connectez-vous", "Vous devez vous connecter afin de continuer...", `
             <button class="btn btn-primary btn-align-right cancel"
-            onclick="login();">Connexion</button>
+            onclick="login(true);">Connexion</button>
             <div style="clear: both></div>`);
     } else {
         $("#main-container").fadeOut(150).promise().done(function() {
@@ -143,11 +148,11 @@ function finish() {
             error: function(xhr, ajaxOptions, thrownError) {
                 loader(false);
                 if (thrownError == "UNAUTHORIZED") {
+                    wantToSignup = true;
                     alertBox("Connectez-vous", "Vous devez vous connecter afin de continuer...", `
                         <button class="btn btn-primary btn-align-right cancel"
-                        onclick="login();">Connexion</button>
+                        onclick="login(true);">Connexion</button>
                         <div style="clear: both></div>`);
-                    wantToSignup = true;
                 } else {
                     networkError();
                 }

@@ -6,7 +6,7 @@ function loadCats() {
 
     $("#cats tbody").empty();
 
-    removeContextMenu("tr");
+    removeContextMenu("#cats tbody tr");
 
     loader(true);
 
@@ -89,47 +89,29 @@ function renameCatConfirmed(catName) {
     loader(true);
 
     $.ajax({
-        type: "GET",
-        url: "/api/cat/exist",
-        beforeSend: function(xhr) { xhr.setRequestHeader("name", newName); },
+        type: "POST",
+        url: "/api/cat/rename",
+        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
+        data: { name: catName, newName: newName },
 
         success: function(response) {
+            loader(false);
 
-            if (response == "true") {
-                loader(false);
-                alertBox("Erreur", "Ce nom ne convient pas. Peut-être l'avez-vous déjà utilisé pour un autre chat ou peut-être que votre chat porte déjà ce nom là...", `
+            if (response == "recognizing") {
+                alertBox("Erreur", "Impossible de renommer un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
                     <button class="btn btn-primary btn-align-right cancel">Fermer</button>
                     <div style="clear: both></div>`);
-
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "/api/cat/rename",
-                    data: { name: catName, newName: newName },
-
-                    success: function(response) {
-                        loader(false);
-
-                        if (response == "recognizing") {
-                            alertBox("Erreur", "Impossible de renommer un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
-                                <button class="btn btn-primary btn-align-right cancel">Fermer</button>
-                                <div style="clear: both></div>`);
-                        }
-
-                        loadCats();
-                    },
-
-                    error: function() {
-                        loader(false);
-                        networkError();
-                    }
-                });
+            } else if (response == "already-used") {
+                alertBox("Erreur", "Impossible d'utiliser ce nom. Peut-être l'avez-vous déjà utilisé précédemment...", `
+                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                    <div style="clear: both></div>`);
             }
+            loadCats();
         },
 
-        error: function() {
+        error: function(xhr, ajaxOptions, thrownError) {
             loader(false);
-            networkError();
+            networkError(thrownError);
         }
     });
 }
@@ -141,6 +123,7 @@ function authorizeCat(catName, permitted) {
     $.ajax({
         type: "POST",
         url: "/api/cat/permissions",
+        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
         data: { name: catName, authorized: permitted },
 
         success: function(response) {
@@ -155,9 +138,9 @@ function authorizeCat(catName, permitted) {
             loadCats();
         },
 
-        error: function() {
+        error: function(xhr, ajaxOptions, thrownError) {
             loader(false);
-            networkError();
+            networkError(thrownError);
         }
     });
 }
@@ -176,6 +159,7 @@ function deleteCatConfirmed(catName) {
     $.ajax({
         type: "POST",
         url: "/api/cat/delete",
+        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
         data: { name: catName },
 
         success: function(response) {
@@ -190,9 +174,9 @@ function deleteCatConfirmed(catName) {
             loadCats();
         },
 
-        error: function() {
+        error: function(xhr, ajaxOptions, thrownError) {
             loader(false);
-            networkError();
+            networkError(thrownError);
         }
     });
 }

@@ -36,8 +36,11 @@ def renameCat(catName, newName):
 
     catName = "".join(char for char in catName if char.isalnum())
     
-    if catName == "" or len(catName) > 10 or isRegistered(newName):
+    if catName == "" or len(catName) > 10:
         return "name-error"
+
+    if isRegistered(newName):
+        return "already-used"
 
     if registering.getState() != "not-registering":
         registering.stopRegistering()

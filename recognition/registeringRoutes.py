@@ -1,21 +1,22 @@
 from flask import request
 
 from __main__ import app
+from login.login import tokenRequired
 
 import recognition.registering as registering
 
 @app.route("/api/register/start", methods=["POST"])
-def register():
+@tokenRequired
+def register(currentUser):
     catName = request.form["name"]
     success = registering.startRegistering(catName, 100)
     return success
 
-
 @app.route("/api/register/stop", methods=["POST"])
-def interruptRegistering():
+@tokenRequired
+def interruptRegistering(currentUser):
     success = registering.stopRegistering()
     return success
-
 
 @app.route("/api/register/state", methods=["GET"])
 def getRegisteringState():

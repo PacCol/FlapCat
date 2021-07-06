@@ -5,8 +5,6 @@ from flask import Flask, redirect, send_from_directory
 # We create a flask server
 app = Flask(__name__)
 
-import login.login
-
 import recognition.catRoutes
 import recognition.registeringRoutes
 import recognition.recognizeRoutes
@@ -24,4 +22,4 @@ def webApp(path):
 
 
 # Server
-app.run(debug=True, host="0.0.0.0", port=5000)
+app.run(host="0.0.0.0", port=5000)

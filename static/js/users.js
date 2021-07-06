@@ -6,7 +6,7 @@ function loadUsers() {
 
     $("#users tbody").empty();
 
-    removeContextMenu("tr");
+    removeContextMenu("#users tbody tr");
 
     loader(true);
 
@@ -49,11 +49,42 @@ function loadUsers() {
 function changePassword(userEmail) {
     alertBox("Changer le mot de passe", "Entrez un nouveau mot de passe pour ce compte.", `
         <div class="modern-input">
-            <input type="text" id="new-name" maxlength="20" placeholder=" " autocomplete="off">
+            <input type="password" id="new-password" maxlength="20" placeholder=" " autocomplete="off">
             <p>Entrez le nouveau mot de passe</p>
         </div>
         <button class="btn btn-primary cancel" onclick="changePasswordConfirmed('${userEmail}')">Changer</button>
         <button class="btn btn-secondary btn-align-right cancel">Fermer</button>`);
+}
+
+function changePasswordConfirmed(userEmail) {
+
+    var newPassword = $("#new-password").val();
+
+    if (newPassword == "") {
+        alertBox("Erreur", "Recommencez et rentrez un mot de passe.", `
+            <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+            <div style="clear: both></div>`);
+        return;
+    }
+
+    loader(true);
+
+    $.ajax({
+        type: "POST",
+        url: "/api/user/password",
+        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
+        data: { email: userEmail, password: newPassword },
+
+        success: function(response) {
+            loader(false);
+            loadCats();
+        },
+
+        error: function(xhr, ajaxOptions, thrownError) {
+            loader(false);
+            networkError(thrownError);
+        }
+    });
 }
 
 function deleteUser(userEmail) {
@@ -75,7 +106,12 @@ function deleteUserConfirmed(userEmail) {
 
         success: function() {
             loader(false);
-            loadUsers();
+
+            if (userEmail == localStorage.getItem("email")) {
+                logout();
+            } else {
+                loadUsers();
+            }
         },
 
         error: function(xhr, ajaxOptions, thrownError) {
