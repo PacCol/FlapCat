@@ -2,7 +2,7 @@ from os import stat_result
 from flask import request
 
 from __main__ import app
-from login.login import tokenRequired
+from login import tokenRequired
 
 import recognition.recognize as recognize
 

@@ -1,7 +1,7 @@
 from flask import jsonify, request
 
 from __main__ import app
-from login.login import tokenRequired
+from login import tokenRequired
 
 import recognition.cat as cat
 

@@ -11,6 +11,7 @@ import cv2
 import recognition.cat as cat
 import recognition.registering as registering
 import recognition.training as training
+import recognition.analytics as analytics
 import recognition.lock as lock
 
 
@@ -143,6 +144,8 @@ def recognize():
 
                 # If a cat in the dataset is identified, unlock the door
                 if name != "Unknown":
+                    # We check if the cat is authorized
                     for x in catList:
                         if name == x["name"] and x["authorized"]:
-                            lock.unlock()
+                            analytics.addEntry(name)
+                            lock.unlock(2)

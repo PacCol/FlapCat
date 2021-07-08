@@ -1,7 +1,6 @@
 .vscode/
 __pycache__/
 login/__pycache__/
-login/users.db
 recognition/__pycache__/
 recognition/dataset/*
 recognition/encodings.pickle

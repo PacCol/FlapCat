@@ -1,5 +1,4 @@
 from flask import request, jsonify
-from flask_sqlalchemy import SQLAlchemy
 import uuid
 from  werkzeug.security import generate_password_hash, check_password_hash
 
@@ -8,12 +7,7 @@ from datetime import datetime, timedelta
 from functools import wraps
 
 from __main__ import app
-
-# We set up the database
-app.config['SECRET_KEY'] = "Pacome78"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///login/users.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
-db = SQLAlchemy(app)
+from db import db
 
 
 # We create a class user
@@ -90,7 +84,6 @@ def signup(currentUser):
     password = auth.get("password")
 
     users = User.query.all()
-    print(users)
     for user in users:
         if email == user.email:
             return "already-exists"
@@ -169,6 +162,3 @@ def deleteUser(currentUser):
         return "deleted"
 
     return "not-permitted", 401
-
-
-db.create_all()
