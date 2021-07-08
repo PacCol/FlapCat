@@ -30,3 +30,7 @@ body {
 .table .material-icons-round {
     vertical-align: text-top;
 }
+
+.app h3 {
+    margin-top: 50px;
+}

@@ -162,3 +162,19 @@ def deleteUser(currentUser):
         return "deleted"
 
     return "not-permitted", 401
+
+def createAdmin():
+    users = User.query.all()
+
+    for user in users:
+        if "admin" == user.email:
+            return
+
+    user = User(
+        public_id = str(uuid.uuid4()),
+        email = "admin",
+        password = generate_password_hash("admin")
+    )
+
+    db.session.add(user)
+    db.session.commit()

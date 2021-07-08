@@ -4,6 +4,7 @@ from flask import Flask, redirect, send_from_directory
 
 # We create a flask server
 app = Flask(__name__)
+import config
 
 import db
 import login
@@ -13,6 +14,9 @@ import recognition.registeringRoutes
 import recognition.recognizeRoutes
 
 db.db.create_all()
+login.createAdmin()
+
+import recognition.screen
 
 
 # Web app

@@ -1,11 +1,36 @@
+function timeSince(date) {
+
+    var seconds = Math.floor((new Date() - date) / 1000);
+
+    var interval = seconds / 31536000;
+
+    if (interval > 1) {
+        return Math.floor(interval) + " an(s)";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+        return Math.floor(interval) + " moi(s)";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+        return Math.floor(interval) + " jour(s)";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+        return Math.floor(interval) + " heure(s)";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+        return Math.floor(interval) + " minute(s)";
+    }
+    return Math.floor(seconds) + " seconde(s)";
+}
+
 $("#analytics-button").click(function() {
-    loadLastEntries();
+    loadEntries();
 });
 
-function loadLastEntries() {
-
-    $("#analytics tbody").empty();
-
+function loadEntries() {
     loader(true);
 
     $.ajax({
@@ -14,27 +39,121 @@ function loadLastEntries() {
 
         success: function(response) {
             loader(false);
-
-            for (let i = 0; i < response.length; i++) {
-
-                var date = response[i].entryDate;
-                data = date.replace("'", "");
-                console.log(date);
-                date = new Date(date.toJSON());
-                console.log(date);
-
-                var line = `
-                    <tr>
-                        <td>${response[i].name}</td>
-                        <td>${response[i].entryDate}</td>
-                    </tr>`
-                $("#analytics tbody").append(line);
-            }
+            loadLastEntries(response);
+            loadDiagram(response);
         },
 
         error: function() {
             loader(false);
             networkError();
+        }
+    });
+}
+
+function loadLastEntries(response) {
+
+    $("#analytics tbody").empty();
+
+    lastEntries = []
+
+    for (let i = 0; lastEntries.length < response.length && lastEntries.length < 5; i++) {
+        if (response[i].authorized) {
+            lastEntries.push(response[i]);
+        }
+    }
+
+    for (let i = 0; i < lastEntries.length; i++) {
+
+        var date = lastEntries[i].entryDate;
+        date = date.replaceAll('"', "");
+        date = new Date(date);
+        formattedDate = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear() + ", à " + date.getHours() + ":" + date.getMinutes();
+
+        var line = `
+            <tr>
+                <td>${lastEntries[i].name}</td>
+                <td><span data-tooltip="${formattedDate}">il y a ${timeSince(date)}</span></td>
+            </tr>`
+        $("#analytics tbody").append(line);
+    }
+}
+
+function loadDiagram(response) {
+
+    var names = []
+
+    for (let i = 0; i < response.length; i++) {
+        if (names.indexOf(response[i].name) < 0) {
+            names.push(response[i].name);
+        }
+    }
+
+    var values = [0, 0];
+
+    for (let i = 0; i < names.length; i++) {
+        for (let j = 0; j < response.length; j++) {
+            if (response[j].name == names[i]) {
+                values[i]++;
+            }
+        }
+    }
+
+    for (let i = 0; i < values.length; i++) {
+        values[i] = values[i] / response.length * 100;
+    }
+
+    var colors = [];
+
+    for (let i = 0; i < names.length; i++) {
+        for (let j = 0; j < response.length; j++) {
+            if (response[j].name == names[i]) {
+                colors[i] = response[i].authorized;
+                break;
+            }
+        }
+    }
+
+    for (let i = 0; i < colors.length; i++) {
+        if (colors[i]) {
+            colors[i] = "success";
+        } else if (names[i] == "Unknown") {
+            colors[i] = "danger";
+        } else {
+            colors[i] = "warning";
+        }
+    }
+
+    createDiagram("#diagram", names, colors, values);
+}
+
+$("#reset-analytics").click(function() {
+    resetAnalytics();
+});
+
+function resetAnalytics() {
+    alertBox("Avertissement", "Êtes-vous certain de vouloir réinitialiser les statistiques ? Cette opération est irréversible.", `
+        <button class="btn btn-secondary btn-align-right cancel">Fermer</button>
+        <button class="btn btn-primary cancel"
+        onclick="resetAnalyticsConfirmed()">Réinitialiser</button>`);
+}
+
+function resetAnalyticsConfirmed() {
+
+    loader(true);
+
+    $.ajax({
+        type: "POST",
+        url: "/api/entry/reset",
+        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
+
+        success: function() {
+            loader(false);
+            loadLastEntries();
+        },
+
+        error: function(xhr, ajaxOptions, thrownError) {
+            loader(false);
+            networkError(thrownError);
         }
     });
 }

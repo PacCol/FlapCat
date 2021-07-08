@@ -147,5 +147,12 @@ def recognize():
                     # We check if the cat is authorized
                     for x in catList:
                         if name == x["name"] and x["authorized"]:
-                            analytics.addEntry(name)
-                            lock.unlock(2)
+                            authorized = True
+
+                    analytics.addEntry(name, authorized)
+                    
+                    if authorized:
+                        lock.unlock(2)
+
+                else:
+                    analytics.addEntry("Unknows", False)
