@@ -1,11 +1,13 @@
 import os, shutil, time
 
+import cv2
+
 from threading import Thread
 
 import recognition.training as training
 import recognition.recognize as recognize
 
-import cv2
+import config
 
 
 # We create some global vars to communicate between threads
@@ -78,7 +80,11 @@ def record(catName, imgNbr):
 
     # We init the cam and the face detector
     cam = cv2.VideoCapture(0)
-    detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalface_default.xml")
+
+    if config.testWithHumans:
+        detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalface_alt2.xml")
+    else:
+        detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalcatface_extended.xml")
 
     # We init the image counter
     imgCounter = 0
@@ -106,12 +112,16 @@ def record(catName, imgNbr):
 
         # If we find a face, we take a picture
         if len(faces) != 0:
+            x = faces[0][0]
+            y = faces[0][1]
+            w = faces[0][2]
+            h = faces[0][3]
             imgName = (
                 "recognition/dataset/"
                 + catName
                 + "/image_{}.jpg".format(imgCounter)
             )
-            cv2.imwrite(imgName, frame)
+            cv2.imwrite(imgName, frame[y:y+h,x:x+w])
             imgCounter += 1
             state = str(int(imgCounter * 100 / imgNbr)) + "%"
 

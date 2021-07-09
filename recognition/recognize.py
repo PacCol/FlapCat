@@ -14,6 +14,8 @@ import recognition.training as training
 import recognition.analytics as analytics
 import recognition.lock as lock
 
+import config
+
 
 # We use some global vars to communicate between threads
 state = "not-recognizing"
@@ -84,10 +86,13 @@ def recognize():
     reloadCats()
 
     # We init the face detector
-    detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalface_default.xml")
+    if config.testWithHumans:
+        detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalface_alt2.xml")
+    else:
+        detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalcatface_extended.xml")
 
     # We init the video stream
-    cam = VideoStream(src=0).start()
+    cam = cv2.VideoCapture(0)
     # For Raspberry Pi: cam = VideoStream(usePiCamera=True).start()
     time.sleep(2.0)
 
@@ -96,12 +101,18 @@ def recognize():
 
         # If we want to stop, we exit the function
         if stopRequested:
-            cam.stop()
+            cam.release()
             state = "not-recognizing"
             return
 
-        # We take a picture and resize it (faster)
-        frame = cam.read()
+        # We take a picture and check the cam state
+        ret, frame = cam.read()
+
+        if not ret:
+            print("Error: Camera error")
+            break
+
+        # We resize it (faster)
         frame = imutils.resize(frame, width=500)
 
         # We use a grayscale image to detect the faces
@@ -128,6 +139,8 @@ def recognize():
             # We set the default value
             name = "Unknown"
 
+            print(matches)
+
             # We check if we have found a match
             if True in matches:
                 # We search the ids
@@ -142,9 +155,13 @@ def recognize():
                 # We chose the right name (with the vote)
                 name = max(counts, key=counts.get)
 
+                print(name)
+
                 # If a cat in the dataset is identified, unlock the door
                 if name != "Unknown":
                     # We check if the cat is authorized
+                    authorized = False
+
                     for x in catList:
                         if name == x["name"] and x["authorized"]:
                             authorized = True

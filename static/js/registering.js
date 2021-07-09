@@ -78,7 +78,7 @@ $("#next-step").click(function() {
             }
         },
 
-        error: function(xhr) {
+        error: function(xhr, ajaxOptions, thrownError) {
             loader(false);
             networkError(thrownError);
         }

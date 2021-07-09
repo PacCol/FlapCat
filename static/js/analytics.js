@@ -54,6 +54,10 @@ function loadLastEntries(response) {
 
     $("#analytics tbody").empty();
 
+    if (response === undefined) {
+        return;
+    }
+
     lastEntries = []
 
     for (let i = 0; lastEntries.length < response.length && lastEntries.length < 5; i++) {
@@ -80,6 +84,12 @@ function loadLastEntries(response) {
 
 function loadDiagram(response) {
 
+    $(diagram).empty();
+
+    if (response === undefined) {
+        return;
+    }
+
     var names = []
 
     for (let i = 0; i < response.length; i++) {
@@ -100,6 +110,7 @@ function loadDiagram(response) {
 
     for (let i = 0; i < values.length; i++) {
         values[i] = values[i] / response.length * 100;
+        values[i] = Math.trunc(values[i]);
     }
 
     var colors = [];
@@ -107,7 +118,7 @@ function loadDiagram(response) {
     for (let i = 0; i < names.length; i++) {
         for (let j = 0; j < response.length; j++) {
             if (response[j].name == names[i]) {
-                colors[i] = response[i].authorized;
+                colors[i] = response[j].authorized;
                 break;
             }
         }

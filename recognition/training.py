@@ -85,5 +85,4 @@ def trainModel():
         state = "not-training"
     
     except:
-        print("EXCEPTION ========================================================")
         needToReload()

@@ -36,9 +36,9 @@ function loadCats() {
                 }
 
                 if (response[i].authorized) {
-                    response[i].authorized = "Autorisé(e) à rentrer";
+                    response[i].authorized = 'Autorisé(e) à rentrer <i class="material-icons-round success">done</i>';
                 } else {
-                    response[i].authorized = "Pas autorisé(e) à rentrer";
+                    response[i].authorized = 'Pas autorisé(e) à rentrer <i class="material-icons-round danger">close</i>';
                 }
 
                 var line = `
