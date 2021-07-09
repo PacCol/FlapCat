@@ -45,7 +45,10 @@ def enableRecognition():
     else:
         return "training"
 
+
 # We create a function to disable the face recognition
+
+
 def disableRecogition():
 
     global state
@@ -57,7 +60,10 @@ def disableRecogition():
             return "stoped"
         time.sleep(0.2)
 
+
 # We use a function to reload the data
+
+
 def reloadCats():
 
     # We load the model
@@ -68,7 +74,10 @@ def reloadCats():
     global catList
     catList = cat.listCats()
 
+
 # We create a function to get the current state
+
+
 def getState():
 
     global state
@@ -87,9 +96,13 @@ def recognize():
 
     # We init the face detector
     if config.testWithHumans:
-        detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalface_alt2.xml")
+        detector = cv2.CascadeClassifier(
+            "recognition/haarcascade/haarcascade_frontalface_alt2.xml"
+        )
     else:
-        detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalcatface_extended.xml")
+        detector = cv2.CascadeClassifier(
+            "recognition/haarcascade/haarcascade_frontalcatface_extended.xml"
+        )
 
     # We init the video stream
     cam = cv2.VideoCapture(0)
@@ -121,9 +134,13 @@ def recognize():
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # We detect the faces
-        rects = detector.detectMultiScale(gray, scaleFactor=1.1,
-                                        minNeighbors=5, minSize=(30, 30),
-                                        flags=cv2.CASCADE_SCALE_IMAGE)
+        rects = detector.detectMultiScale(
+            gray,
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(30, 30),
+            flags=cv2.CASCADE_SCALE_IMAGE,
+        )
 
         # We reorder the values
         boxes = [(y, x + w, y + h, x) for (x, y, w, h) in rects]
@@ -134,7 +151,7 @@ def recognize():
         # For each face on the image
         for encoding in encodings:
             # We try to find a match
-            matches = face_recognition.compare_faces(model["encodings"],encoding)
+            matches = face_recognition.compare_faces(model["encodings"], encoding)
 
             # We set the default value
             name = "Unknown"
@@ -167,7 +184,7 @@ def recognize():
                             authorized = True
 
                     analytics.addEntry(name, authorized)
-                    
+
                     if authorized:
                         lock.unlock(2)
 

@@ -112,16 +112,12 @@ def record(catName, imgNbr):
 
         # If we find a face, we take a picture
         if len(faces) != 0:
-            x = faces[0][0]
-            y = faces[0][1]
-            w = faces[0][2]
-            h = faces[0][3]
             imgName = (
                 "recognition/dataset/"
                 + catName
                 + "/image_{}.jpg".format(imgCounter)
             )
-            cv2.imwrite(imgName, frame[y:y+h,x:x+w])
+            cv2.imwrite(imgName, frame)
             imgCounter += 1
             state = str(int(imgCounter * 100 / imgNbr)) + "%"
 
