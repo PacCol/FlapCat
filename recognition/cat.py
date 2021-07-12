@@ -1,46 +1,42 @@
 import os
 import shutil
 
+from flask import jsonify
+
 import recognition.registering as registering
 import recognition.training as training
 import recognition.recognize as recognize
 
+from db import db
+
+
+# We create a class cat
+class Cat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(10), unique=True)
+    authorized = db.Column(db.Boolean)
+
+
 # We create a function to list the registered cats
 def listCats():
-
+    cats = Cat.query.all()
     list = []
-    dirs = os.listdir("recognition/dataset")
-
-    for name in dirs:
-
-        f = open("recognition/dataset/" + name + "/authorized.txt", "r")
-        authorized = f.read()
-        f.close()
-
-        if authorized == "true":
-            authorized = True
-        else:
-            authorized = False
-
-        cat = {"name": name, "authorized": authorized}
-        list.append(cat)
-
+    for cat in cats:
+        list.append({
+            "id": cat.id,
+            "name": cat.name,
+            "authorized": cat.authorized
+        })
     return list
 
-# We create a function to detect if a cat already exists
-def isRegistered(catName):
-    return os.path.isdir("recognition/dataset/" + catName)
 
 # We create a function to rename a cat
-def renameCat(catName, newName):
+def renameCat(id, newName):
 
-    catName = "".join(char for char in catName if char.isalnum())
-    
-    if catName == "" or len(catName) > 10:
+    newName = "".join(char for char in newName if char.isalnum())
+
+    if newName == "" or len(newName) > 10:
         return "name-error"
-
-    if isRegistered(newName):
-        return "already-used"
 
     if registering.getState() != "not-registering":
         registering.stopRegistering()
@@ -48,41 +44,50 @@ def renameCat(catName, newName):
     if recognize.getState() == "recognizing":
         return "recognizing"
 
-    if os.path.isdir("recognition/dataset/" + catName):
-        os.rename("recognition/dataset/" + catName, "recognition/dataset/" + newName)
-        training.needToReload()
+    if os.path.isdir("recognition/dataset/" + str(id)):
+        cat = Cat.query\
+            .filter_by(id=id)\
+            .first()
+        cat.name = newName
+        db.session.commit()
         return "cat-renamed"
     else:
         return "not-found"
 
+
 # We create a function to edit the permissions
-def authorizeCat(catName, authorized):
+def authorizeCat(id, authorized):
 
     if registering.getState() != "not-registering":
         registering.stopRegistering()
 
-    if recognize.getState() == "recognizing":
-        return "recognizing"
-
-    if os.path.isdir("recognition/dataset/" + catName):
-        f = open("recognition/dataset/" + catName + "/authorized.txt", "w")
-        f.write(authorized)
-        f.close()
-        return "permission-changed"
+    if os.path.isdir("recognition/dataset/" + str(id)):
+        cat = Cat.query\
+            .filter_by(id=id)\
+            .first()
+        cat.authorized = authorized
+        db.session.commit()
+        return "cat-renamed"
     else:
         return "not-found"
 
+
 # We create a function to delete a cat
-def deleteCat(catName):
+def deleteCat(id):
 
     if registering.getState() != "not-registering":
         registering.stopRegistering()
 
     if recognize.getState() == "recognizing":
         return "recognizing"
-    
-    if os.path.isdir("recognition/dataset/" + catName):
-        shutil.rmtree("recognition/dataset/" + catName)
+
+    if os.path.isdir("recognition/dataset/" + str(id)):
+        shutil.rmtree("recognition/dataset/" + str(id))
+        cat = Cat.query\
+            .filter_by(id=id)\
+            .first()
+        db.session.delete(cat)
+        db.session.commit()
         training.needToReload()
         return "cat-deleted"
     else:

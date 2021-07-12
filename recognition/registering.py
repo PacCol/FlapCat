@@ -1,4 +1,6 @@
-import os, shutil, time
+import os
+import shutil
+import time
 
 import cv2
 
@@ -8,6 +10,7 @@ import recognition.training as training
 import recognition.recognize as recognize
 
 import config
+from db import db
 
 
 # We create some global vars to communicate between threads
@@ -19,8 +22,10 @@ stopRequested = False
 # We create a function to register a new cat
 def startRegistering(catName, imgNbr):
 
+    from recognition.cat import Cat
+
     catName = "".join(char for char in catName if char.isalnum())
-    
+
     if catName == "" or len(catName) > 10:
         return "name-error"
 
@@ -31,14 +36,38 @@ def startRegistering(catName, imgNbr):
 
     if state == "not-registering":
         state = "0%"
-        registerThread = Thread(target=record, args=(catName, imgNbr))
+
+        # We insert the cat in the database
+        cat = Cat(
+            name=catName,
+            authorized=True
+        )
+
+        db.session.add(cat)
+        try:
+            db.session.commit()
+        except:
+            return "name-error"
+
+        id = cat.id
+
+        print(id)
+
+        # We create a folder for the cat
+        if os.path.isdir("recognition/dataset/" + str(id)):
+            shutil.rmtree("recognition/dataset/" + str(id))
+
+        os.mkdir("recognition/dataset/" + str(id))
+
+        registerThread = Thread(target=record, args=(catName, cat.id, imgNbr))
         registerThread.start()
         return "started"
-        
+
     else:
         stopRegistering()
         success = startRegistering(catName, imgNbr)
         return success
+
 
 # We create a function to interrupt the registering process
 def stopRegistering():
@@ -52,6 +81,7 @@ def stopRegistering():
             return "stoped"
         time.sleep(0.2)
 
+
 # We create a function to get the current state
 def getState():
 
@@ -60,31 +90,16 @@ def getState():
 
 
 # We create a fuction to record a cat
-def record(catName, imgNbr):
+def record(catName, id, imgNbr):
 
     global state
 
     global stopRequested
     stopRequested = False
 
-    # We create a folder for the cat
-    if os.path.isdir("recognition/dataset/" + catName):
-        shutil.rmtree("recognition/dataset/" + catName)
-
-    os.mkdir("recognition/dataset/" + catName)
-
-    # By default the cat is authorized
-    f = open("recognition/dataset/" + catName + "/authorized.txt", "w")
-    f.write("true")
-    f.close()
-
     # We init the cam and the face detector
     cam = cv2.VideoCapture(0)
-
-    if config.testWithHumans:
-        detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalface_alt2.xml")
-    else:
-        detector = cv2.CascadeClassifier("recognition/haarcascade/haarcascade_frontalcatface_extended.xml")
+    detector = cv2.CascadeClassifier(config.haarcascade)
 
     # We init the image counter
     imgCounter = 0
@@ -95,7 +110,7 @@ def record(catName, imgNbr):
         # If we want to stop, we exit the function
         if stopRequested:
             cam.release()
-            shutil.rmtree("recognition/dataset/" + catName)
+            shutil.rmtree("recognition/dataset/" + str(id))
             state = "not-registering"
             return
 
@@ -111,13 +126,13 @@ def record(catName, imgNbr):
         faces = detector.detectMultiScale(gray, 1.3, 5)
 
         # If we find a face, we take a picture
-        if len(faces) != 0:
+        for (x, y, w, h) in faces:
             imgName = (
                 "recognition/dataset/"
-                + catName
+                + str(id)
                 + "/image_{}.jpg".format(imgCounter)
             )
-            cv2.imwrite(imgName, frame)
+            cv2.imwrite(imgName, gray[y:y+h, x:x+w])
             imgCounter += 1
             state = str(int(imgCounter * 100 / imgNbr)) + "%"
 

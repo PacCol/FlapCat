@@ -1,35 +1,38 @@
-import os, time
+from PIL import Image
+import numpy as np
+import os
+import time
 
 from threading import Thread
 
 import cv2
-import face_recognition
 from imutils import paths
-import pickle
+
+import config
 
 
 # We create some global vars to communicate between threads
 state = "not-training"
 # The value can be: "not-training" or "training"
-stopRequested = False
 
 
 # We create a function to reload the model after edit
 def needToReload():
-    print("needToReload")
     global state
-    global stopRequested
-    stopRequested = True
+
+    stopTraining()
+
     while True:
-        print("looping")
         if state == "not-training":
-            print("stoped")
-            stopRequested = False
+            state = "training"
+
             trainingThread = Thread(target=trainModel, args=())
             trainingThread.start()
-            print("restarted")
+
             return
-        time.sleep(0.2)
+
+        time.sleep(0.1)
+
 
 # We create a function to get the current state
 def getState():
@@ -40,49 +43,43 @@ def getState():
 # We create a function to train our model
 def trainModel():
 
-    # We try to train the model
-    # (The user can record a new cat, rename a cat, delete a cat...)
-    try:
+    global state
 
-        global state
-        state = "training"
+    detector = cv2.CascadeClassifier(config.haarcascade)
+    recognizer = cv2.face.LBPHFaceRecognizer_create()
 
-        imagePaths = list(paths.list_images("recognition/dataset"))
+    imagePaths = list(paths.list_images("recognition/dataset"))
 
-        knownEncodings = []
-        knownNames = []
+    if len(imagePaths) != 0:
 
-        # For each image, we analyze the face on it
-        for (i, imagePath) in enumerate(imagePaths):
+        catFaces = []
+        ids = []
 
-            # If we want to stop, we exit the function
-            print("testing")
-            if stopRequested:
-                print("exiting")
-                state = "not-training"
-                return
+        for imagePath in imagePaths:
 
-            name = imagePath.split(os.path.sep)[-2]
+            PIL_img = Image.open(imagePath).convert("L")
+            img_numpy = np.array(PIL_img, "uint8")
+            id = int(imagePath.split(os.path.sep)[-2])
+            faces = detector.detectMultiScale(img_numpy)
 
-            image = cv2.imread(imagePath)
-            rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            for (x, y, w, h) in faces:
+                catFaces.append(img_numpy[y:y+h, x:x+w])
+                ids.append(id)
 
-            boxes = face_recognition.face_locations(rgb, model="hog")
+        recognizer.train(catFaces, np.array(ids))
+        recognizer.save("recognition/trainer.yaml")
 
-            encodings = face_recognition.face_encodings(rgb, boxes)
+    else:
+        os.remove("recognition/trainer.yaml")
 
-            for encoding in encodings:
-                knownEncodings.append(encoding)
-                knownNames.append(name)
+    state = "not-training"
 
-        data = {"encodings": knownEncodings, "names": knownNames}
 
-        # We save the data in a file
-        f = open("recognition/encodings.pickle", "wb")
-        f.write(pickle.dumps(data))
-        f.close()
-
+def stopTraining():
+    global state
+    if state == "training":
+        trainingThread.join()
         state = "not-training"
-    
-    except:
-        needToReload()
+
+
+trainingThread = Thread(target=trainModel, args=())

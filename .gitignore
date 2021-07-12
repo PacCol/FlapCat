@@ -3,6 +3,6 @@ __pycache__/
 login/__pycache__/
 recognition/__pycache__/
 recognition/dataset/*
-recognition/encodings.pickle
+recognition/trainer.yaml
 static/RealCSS
 venv/

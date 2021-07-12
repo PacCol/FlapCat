@@ -20,19 +20,19 @@ function loadCats() {
             for (let i = 0; i < response.length; i++) {
 
                 if (response[i].authorized) {
-                    var contextMenu = `<div class="item" onclick="renameCat('${response[i].name}');">
-                    <i class="material-icons-round success">drive_file_rename_outline</i>Renommer</div>
-                    <div class="item" onclick="authorizeCat('${response[i].name}', false);">
-                    <i class="material-icons-round warning">login</i>Interdire</div>
-                    <div class="item" onclick="deleteCat('${response[i].name}');">
-                    <i class="material-icons-round danger">delete</i>Supprimer</div>`
+                    var contextMenu = `<div class="item" onclick="renameCat('${response[i].id}');">
+                        <i class="material-icons-round success">drive_file_rename_outline</i>Renommer</div>
+                        <div class="item" onclick="authorizeCat('${response[i].id}', false);">
+                        <i class="material-icons-round warning">login</i>Interdire</div>
+                        <div class="item" onclick="deleteCat('${response[i].id}');">
+                        <i class="material-icons-round danger">delete</i>Supprimer</div>`
                 } else {
-                    var contextMenu = `<div class="item" onclick="renameCat('${response[i].name}');">
-                    <i class="material-icons-round success" onclick="">drive_file_rename_outline</i>Renommer</div>
-                    <div class="item" onclick="authorizeCat('${response[i].name}', true);">
-                    <i class="material-icons-round warning">login</i>Autoriser</div>
-                    <div class="item" onclick="deleteCat('${response[i].name}');">
-                    <i class="material-icons-round danger">delete</i>Supprimer</div>`
+                    var contextMenu = `<div class="item" onclick="renameCat('${response[i].id}');">
+                        <i class="material-icons-round success" onclick="">drive_file_rename_outline</i>Renommer</div>
+                        <div class="item" onclick="authorizeCat('${response[i].id}', true);">
+                        <i class="material-icons-round warning">login</i>Autoriser</div>
+                        <div class="item" onclick="deleteCat('${response[i].id}');">
+                        <i class="material-icons-round danger">delete</i>Supprimer</div>`
                 }
 
                 if (response[i].authorized) {
@@ -59,13 +59,13 @@ function loadCats() {
     });
 }
 
-function renameCat(catName) {
+function renameCat(id) {
     alertBox("Renommer", "Entrez un nouveau nom pour votre chat.", `
         <div class="modern-input">
             <input type="text" id="new-name" maxlength="10" placeholder=" " autocomplete="off">
             <p>Entrez le nom de votre chat</p>
         </div>
-        <button class="btn btn-primary cancel" onclick="renameCatConfirmed('${catName}')">Renommer</button>
+        <button class="btn btn-primary cancel" onclick="renameCatConfirmed('${id}')">Renommer</button>
         <button class="btn btn-secondary btn-align-right cancel">Fermer</button>`);
 }
 
@@ -75,7 +75,7 @@ $("body").on("input", "#new-name", function() {
     $("#new-name").val(newName);
 });
 
-function renameCatConfirmed(catName) {
+function renameCatConfirmed(id) {
 
     var newName = $("#new-name").val();
 
@@ -92,7 +92,7 @@ function renameCatConfirmed(catName) {
         type: "POST",
         url: "/api/cat/rename",
         beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
-        data: { name: catName, newName: newName },
+        data: { id: id, newName: newName },
 
         success: function(response) {
             loader(false);
@@ -101,10 +101,6 @@ function renameCatConfirmed(catName) {
                 alertBox("Erreur", "Impossible de renommer un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
                     <button class="btn btn-primary btn-align-right cancel">Fermer</button>
                     <div style="clear: both></div>`);
-            } else if (response == "already-used") {
-                alertBox("Erreur", "Impossible d'utiliser ce nom. Peut-être l'avez-vous déjà utilisé précédemment...", `
-                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
-                    <div style="clear: both></div>`);
             }
             loadCats();
         },
@@ -116,7 +112,7 @@ function renameCatConfirmed(catName) {
     });
 }
 
-function authorizeCat(catName, permitted) {
+function authorizeCat(id, permitted) {
 
     loader(true);
 
@@ -124,17 +120,10 @@ function authorizeCat(catName, permitted) {
         type: "POST",
         url: "/api/cat/permissions",
         beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
-        data: { name: catName, authorized: permitted },
+        data: { id: id, authorized: permitted },
 
-        success: function(response) {
+        success: function() {
             loader(false);
-
-            if (response == "recognizing") {
-                alertBox("Erreur", "Impossible de modifier les autorisations d'un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
-                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
-                    <div style="clear: both></div>`);
-            }
-
             loadCats();
         },
 
@@ -145,14 +134,14 @@ function authorizeCat(catName, permitted) {
     });
 }
 
-function deleteCat(catName) {
+function deleteCat(id) {
     alertBox("Avertissement", "Êtes-vous certain de vouloir supprimer ce chat ? Cette opération est irréversible.", `
         <button class="btn btn-secondary btn-align-right cancel">Fermer</button>
         <button class="btn btn-primary cancel"
-        onclick="deleteCatConfirmed('${catName}')">Supprimer</button>`);
+        onclick="deleteCatConfirmed('${id}')">Supprimer</button>`);
 }
 
-function deleteCatConfirmed(catName) {
+function deleteCatConfirmed(id) {
 
     loader(true);
 
@@ -160,7 +149,7 @@ function deleteCatConfirmed(catName) {
         type: "POST",
         url: "/api/cat/delete",
         beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
-        data: { name: catName },
+        data: { id: id },
 
         success: function(response) {
             loader(false);

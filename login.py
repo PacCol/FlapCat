@@ -1,6 +1,6 @@
 from flask import request, jsonify
 import uuid
-from  werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import jwt
 from datetime import datetime, timedelta
@@ -12,9 +12,9 @@ from db import db
 
 # We create a class user
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    public_id = db.Column(db.String(50), unique = True)
-    email = db.Column(db.String(70), unique = True)
+    id = db.Column(db.Integer, primary_key=True)
+    public_id = db.Column(db.String(50), unique=True)
+    email = db.Column(db.String(70), unique=True)
     password = db.Column(db.String(80))
 
 
@@ -29,17 +29,17 @@ def tokenRequired(f):
 
         if not token:
             return "token-missing", 401
-  
+
         try:
             data = jwt.decode(token, app.config["SECRET_KEY"])
             currentUser = User.query\
-                .filter_by(public_id = data["public_id"])\
+                .filter_by(public_id=data["public_id"])\
                 .first()
         except:
             return "invalid-token", 401
 
-        return  f(currentUser, *args, **kwargs)
-  
+        return f(currentUser, *args, **kwargs)
+
     return decorated
 
 
@@ -48,24 +48,24 @@ def tokenRequired(f):
 def login():
 
     auth = request.form
-  
+
     if not auth or not auth.get("email") or not auth.get("password"):
         return "required"
-  
+
     user = User.query\
-        .filter_by(email = auth.get("email"))\
+        .filter_by(email=auth.get("email"))\
         .first()
-  
+
     if not user:
         return "not-found"
-  
+
     if check_password_hash(user.password, auth.get("password")):
         token = jwt.encode({
             "public_id": user.public_id,
-            "exp" : datetime.utcnow() + timedelta(minutes = 40)
+            "exp": datetime.utcnow() + timedelta(minutes=40)
         }, app.config["SECRET_KEY"])
-  
-        return jsonify({"token" : token.decode("UTF-8")})
+
+        return jsonify({"token": token.decode("UTF-8")})
 
     return "wrong-password"
 
@@ -89,13 +89,13 @@ def signup(currentUser):
             return "already-exists"
 
     user = User(
-        public_id = str(uuid.uuid4()),
-        email = email,
-        password = generate_password_hash(password)
+        public_id=str(uuid.uuid4()),
+        email=email,
+        password=generate_password_hash(password)
     )
     db.session.add(user)
     db.session.commit()
-  
+
     return "registered"
 
 
@@ -109,7 +109,7 @@ def getUsers(currentUser):
         for user in users:
             output.append({
                 "public_id": user.public_id,
-                "email" : user.email
+                "email": user.email
             })
     else:
         output = [{
@@ -128,7 +128,7 @@ def changePassword(currentUser):
     newPassword = request.form.get("password")
 
     user = User.query\
-        .filter_by(email = email)\
+        .filter_by(email=email)\
         .first()
 
     if not user:
@@ -150,7 +150,7 @@ def deleteUser(currentUser):
     email = request.form.get("email")
 
     user = User.query\
-        .filter_by(email = email)\
+        .filter_by(email=email)\
         .first()
 
     if not user:
@@ -163,6 +163,7 @@ def deleteUser(currentUser):
 
     return "not-permitted", 401
 
+
 def createAdmin():
     users = User.query.all()
 
@@ -171,9 +172,9 @@ def createAdmin():
             return
 
     user = User(
-        public_id = str(uuid.uuid4()),
-        email = "admin",
-        password = generate_password_hash("admin")
+        public_id=str(uuid.uuid4()),
+        email="admin",
+        password=generate_password_hash("admin")
     )
 
     db.session.add(user)

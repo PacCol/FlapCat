@@ -1,11 +1,9 @@
+import os
+import re
 import time
 
 from threading import Thread
 
-from imutils.video import VideoStream
-import face_recognition
-import imutils
-import pickle
 import cv2
 
 import recognition.cat as cat
@@ -20,9 +18,6 @@ import config
 # We use some global vars to communicate between threads
 state = "not-recognizing"
 stopRequested = False
-# We use a global var to store the model and the authorizations
-model = ""
-catList = []
 
 
 # We create a function to enable the face recognition
@@ -36,19 +31,19 @@ def enableRecognition():
     if state == "recognizing":
         return "already-started"
 
-    if training.getState() == "not-training":
-        state = "recognizing"
-        recognitionThread = Thread(target=recognize, args=())
-        recognitionThread.start()
-        return "started"
-
-    else:
+    if training.getState() == "training":
         return "training"
+
+    if not os.path.isfile("recognition/trainer.yaml"):
+        return "no-cat-recorded"
+
+    state = "recognizing"
+    recognitionThread = Thread(target=recognize, args=())
+    recognitionThread.start()
+    return "started"
 
 
 # We create a function to disable the face recognition
-
-
 def disableRecogition():
 
     global state
@@ -61,23 +56,7 @@ def disableRecogition():
         time.sleep(0.2)
 
 
-# We use a function to reload the data
-
-
-def reloadCats():
-
-    # We load the model
-    global model
-    model = pickle.loads(open("recognition/encodings.pickle", "rb").read())
-
-    # We reload the authorizations
-    global catList
-    catList = cat.listCats()
-
-
 # We create a function to get the current state
-
-
 def getState():
 
     global state
@@ -92,24 +71,13 @@ def recognize():
     global stopRequested
     stopRequested = False
 
-    reloadCats()
+    recognizer = cv2.face.LBPHFaceRecognizer_create()
+    recognizer.read("recognition/trainer.yaml")
 
-    # We init the face detector
-    if config.testWithHumans:
-        detector = cv2.CascadeClassifier(
-            "recognition/haarcascade/haarcascade_frontalface_alt2.xml"
-        )
-    else:
-        detector = cv2.CascadeClassifier(
-            "recognition/haarcascade/haarcascade_frontalcatface_extended.xml"
-        )
-
-    # We init the video stream
+    # We init the cam and the face detector
     cam = cv2.VideoCapture(0)
-    # For Raspberry Pi: cam = VideoStream(usePiCamera=True).start()
-    time.sleep(2.0)
+    detector = cv2.CascadeClassifier(config.haarcascade)
 
-    # For each frame
     while True:
 
         # If we want to stop, we exit the function
@@ -125,68 +93,26 @@ def recognize():
             print("Error: Camera error")
             break
 
-        # We resize it (faster)
-        frame = imutils.resize(frame, width=500)
-
-        # We use a grayscale image to detect the faces
+        # We search faces in the picture
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        # We use the colors to recognize a cat
-        rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        faces = detector.detectMultiScale(gray, 1.3, 5)
 
-        # We detect the faces
-        rects = detector.detectMultiScale(
-            gray,
-            scaleFactor=1.1,
-            minNeighbors=5,
-            minSize=(30, 30),
-            flags=cv2.CASCADE_SCALE_IMAGE,
-        )
+        # For each face that the detector find
+        for(x, y, w, h) in faces:
 
-        # We reorder the values
-        boxes = [(y, x + w, y + h, x) for (x, y, w, h) in rects]
+            # We recognize the face and get the id
+            result = recognizer.predict(gray[y:y+h, x:x+w])
 
-        # We use our model
-        encodings = face_recognition.face_encodings(rgb, boxes)
+            if result[1] < config.minFiability:
+                id = result[0]
 
-        # For each face on the image
-        for encoding in encodings:
-            # We try to find a match
-            matches = face_recognition.compare_faces(model["encodings"], encoding)
+                recognizedCat = cat.Cat.query\
+                    .filter_by(id=id)\
+                    .first()
 
-            # We set the default value
-            name = "Unknown"
+                print(recognizedCat.authorized)
 
-            print(matches)
+                if recognizedCat.authorized:
 
-            # We check if we have found a match
-            if True in matches:
-                # We search the ids
-                matchedIdxs = [i for (i, b) in enumerate(matches) if b]
-                counts = {}
-
-                # We take a vote for each face
-                for i in matchedIdxs:
-                    name = model["names"][i]
-                    counts[name] = counts.get(name, 0) + 1
-
-                # We chose the right name (with the vote)
-                name = max(counts, key=counts.get)
-
-                print(name)
-
-                # If a cat in the dataset is identified, unlock the door
-                if name != "Unknown":
-                    # We check if the cat is authorized
-                    authorized = False
-
-                    for x in catList:
-                        if name == x["name"] and x["authorized"]:
-                            authorized = True
-
-                    analytics.addEntry(name, authorized)
-
-                    if authorized:
-                        lock.unlock(2)
-
-                else:
-                    analytics.addEntry("Unknows", False)
+                    print(recognizedCat.name +
+                          " (fiability: " + str(result[1]) + ")")
