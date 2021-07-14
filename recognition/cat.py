@@ -1,8 +1,6 @@
 import os
 import shutil
 
-from flask import jsonify
-
 import recognition.registering as registering
 import recognition.training as training
 import recognition.recognize as recognize

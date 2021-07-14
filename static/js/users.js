@@ -49,7 +49,7 @@ function loadUsers() {
 function changePassword(userEmail) {
     alertBox("Changer le mot de passe", "Entrez un nouveau mot de passe pour ce compte.", `
         <div class="modern-input">
-            <input type="password" id="new-password" maxlength="20" placeholder=" " autocomplete="off">
+            <input type="password" id="new-password" maxlength="20" placeholder=" " autocomplete="new-password">
             <p>Entrez le nouveau mot de passe</p>
         </div>
         <button class="btn btn-primary cancel" onclick="changePasswordConfirmed('${userEmail}')">Changer</button>

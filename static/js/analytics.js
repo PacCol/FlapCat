@@ -56,17 +56,19 @@ function loadLastEntries(response) {
 
     if (response === undefined) {
         return;
+    } else if (response.length == 0) {
+        return;
     }
 
     lastEntries = []
 
-    for (let i = 0; lastEntries.length < response.length && lastEntries.length < 5; i++) {
+    for (let i = 0; i < response.length; i++) {
         if (response[i].authorized) {
             lastEntries.push(response[i]);
         }
     }
 
-    for (let i = 0; i < lastEntries.length; i++) {
+    for (let i = 0; i < lastEntries.length && i < 5; i++) {
 
         var date = lastEntries[i].entryDate;
         date = date.replaceAll('"', "");
@@ -84,9 +86,11 @@ function loadLastEntries(response) {
 
 function loadDiagram(response) {
 
-    $(diagram).empty();
+    $("#diagram").empty();
 
     if (response === undefined) {
+        return;
+    } else if (response.length == 0) {
         return;
     }
 
@@ -129,6 +133,7 @@ function loadDiagram(response) {
             colors[i] = "success";
         } else if (names[i] == "Unknown") {
             colors[i] = "danger";
+            names[i] = "Inconnu"
         } else {
             colors[i] = "warning";
         }
@@ -160,6 +165,7 @@ function resetAnalyticsConfirmed() {
         success: function() {
             loader(false);
             loadLastEntries();
+            loadDiagram();
         },
 
         error: function(xhr, ajaxOptions, thrownError) {

@@ -103,16 +103,20 @@ def recognize():
             # We recognize the face and get the id
             result = recognizer.predict(gray[y:y+h, x:x+w])
 
-            if result[1] < config.minFiability:
+            if result[1] > config.minFiability + 50:
+                analytics.addEntry("Unknown", False)
+
+            if result[1] <= config.minFiability:
                 id = result[0]
 
                 recognizedCat = cat.Cat.query\
                     .filter_by(id=id)\
                     .first()
 
-                print(recognizedCat.authorized)
+                analytics.addEntry(recognizedCat.name,
+                                   recognizedCat.authorized)
 
                 if recognizedCat.authorized:
-
                     print(recognizedCat.name +
                           " (fiability: " + str(result[1]) + ")")
+                    lock.unlock(5)

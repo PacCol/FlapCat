@@ -76,7 +76,7 @@
                     <label class="toggle-switch dark-theme-toggle-switch">
                         <input type="checkbox">
                         <span class="slider"></span>
-                    </label>
+                </label>
                 </div>
 
             </div>
@@ -126,7 +126,7 @@
                 <div id="registering-step-1">
                     <p>Entrez le nom de votre chat. Les espaces, les accents et les caractères spéciaux seront retirés. Si vous inscrivez le nom d'un chat déjà enregistré, ses données biométriques seront redéfinies.</p>
                     <div class="modern-input">
-                        <input type="text" id="cat-name" maxlength="10" placeholder=" " autocomplete="off">
+                        <input type="text" id="cat-name" maxlength="10" placeholder=" " autocomplete="cat-name">
                         <p>Entrez le nom de votre chat</p>
                     </div>
                     <button class="btn btn-primary" id="next-step">
@@ -197,9 +197,18 @@
                 <div class="control">
                     <h1>Paramètres</h1>
                 </div>
+
                 <div class="settings-item">
                     <p>Thème sombre</p>
                     <label class="toggle-switch dark-theme-toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="settings-item">
+                    <p>Reconnaissance plus rapide</p>
+                    <label class="toggle-switch">
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>

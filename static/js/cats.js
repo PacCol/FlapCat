@@ -62,7 +62,7 @@ function loadCats() {
 function renameCat(id) {
     alertBox("Renommer", "Entrez un nouveau nom pour votre chat.", `
         <div class="modern-input">
-            <input type="text" id="new-name" maxlength="10" placeholder=" " autocomplete="off">
+            <input type="text" id="new-name" maxlength="10" placeholder=" " autocomplete="new-name">
             <p>Entrez le nom de votre chat</p>
         </div>
         <button class="btn btn-primary cancel" onclick="renameCatConfirmed('${id}')">Renommer</button>
