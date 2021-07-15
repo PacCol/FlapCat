@@ -1,9 +1,5 @@
 body {
     display: none;
-    margin: 0px;
-    font-family: 'Montserrat', sans-serif;
-    background-color: var(--main-background-color);
-    user-select: none;
 }
 
 @media only screen and (max-width: 380px) {
@@ -13,9 +9,8 @@ body {
 }
 
 #main-container {
-    position: relative;
     max-width: 370px;
-    margin-top: calc(40vh - 196px);
+    margin-top: 60px;
     margin-left: auto;
     margin-right: auto;
     padding: 20px;

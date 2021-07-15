@@ -103,7 +103,7 @@ def recognize():
             # We recognize the face and get the id
             result = recognizer.predict(gray[y:y+h, x:x+w])
 
-            if result[1] > config.minFiability + 50:
+            if result[1] > config.minFiability + 70:
                 analytics.addEntry("Unknown", False)
 
             if result[1] <= config.minFiability:

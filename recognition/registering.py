@@ -37,6 +37,14 @@ def startRegistering(catName, imgNbr):
     if state == "not-registering":
         state = "0%"
 
+        # We check if the name is already used
+        cat = Cat.query\
+            .filter_by(name=catName)\
+            .first()
+
+        if cat:
+            return "already-used"
+
         # We insert the cat in the database
         cat = Cat(
             name=catName,
@@ -44,14 +52,9 @@ def startRegistering(catName, imgNbr):
         )
 
         db.session.add(cat)
-        try:
-            db.session.commit()
-        except:
-            return "name-error"
+        db.session.commit()
 
         id = cat.id
-
-        print(id)
 
         # We create a folder for the cat
         if os.path.isdir("recognition/dataset/" + str(id)):
@@ -59,7 +62,7 @@ def startRegistering(catName, imgNbr):
 
         os.mkdir("recognition/dataset/" + str(id))
 
-        registerThread = Thread(target=record, args=(catName, cat.id, imgNbr))
+        registerThread = Thread(target=record, args=(cat.id, imgNbr))
         registerThread.start()
         return "started"
 
@@ -90,7 +93,9 @@ def getState():
 
 
 # We create a fuction to record a cat
-def record(catName, id, imgNbr):
+def record(id, imgNbr):
+
+    from recognition.cat import Cat
 
     global state
 
@@ -109,8 +114,18 @@ def record(catName, id, imgNbr):
 
         # If we want to stop, we exit the function
         if stopRequested:
+
             cam.release()
+
             shutil.rmtree("recognition/dataset/" + str(id))
+
+            cat = Cat.query\
+                .filter_by(id=id)\
+                .first()
+
+            db.session.delete(cat)
+            db.session.commit()
+
             state = "not-registering"
             return
 

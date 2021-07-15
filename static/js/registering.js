@@ -12,14 +12,7 @@ $("#next-step").click(function() {
             <button class="btn btn-primary btn-align-right cancel">Fermer</button>
             <div style="clear: both></div>`);
         return;
-
     }
-    $("#registering-step-2 .progress").css("width", "0%");
-
-    $("#registering-step-1").fadeOut(300).promise().done(function() {
-        $("#cat-name").val();
-        $("#registering-step-2").fadeIn(300);
-    });
 
     loader(true);
 
@@ -36,45 +29,56 @@ $("#next-step").click(function() {
                 alertBox("Erreur", "Le reconnaissance faciale est activée. Commencez par la désactiver, puis réessayez.", `
                         <button class="btn btn-primary btn-align-right cancel">Fermer</button>
                         <div style="clear: both></div>`);
-                $("#registering-step-2").fadeOut(300).promise().done(function() {
-                    $("#registering-step-1").fadeIn(300);
+
+            } else if (response == "already-used") {
+                alertBox("Erreur", "Ce nom de chat est déjà utilisé. Choisissez-en un autre puis réessayez.", `
+                        <button class="btn btn-primary btn-align-right cancel"
+                        onclick='$("#cat-name").focus();'>Fermer</button>
+                        <div style="clear: both></div>`);
+                $("#cat-name").val("");
+
+            } else {
+
+                $("#registering-step-2 .progress").css("width", "0%");
+
+                $("#registering-step-1").fadeOut(300).promise().done(function() {
+                    $("#registering-step-2").fadeIn(300);
                 });
-                return;
-            }
 
-            displayState();
+                displayState();
 
-            function displayState() {
+                function displayState() {
 
-                $.ajax({
-                    type: "GET",
-                    url: "/api/register/state",
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/register/state",
 
-                    success: function(response) {
+                        success: function(response) {
 
-                        if (response == "not-registering") {
-                            $(".progress").css("width", "100%");
-                            $("#registering-step-2").fadeOut(300).promise().done(function() {
-                                $("#cat-name").val("");
-                                $("#registering-step-1").fadeIn(300);
-                                alertBox("Opération terminée", "Votre chat a été enregistré avec succès ou l'opération a été annulée. Par exemple quand on modifie un chat durant l'enregistrement.", `
+                            if (response == "not-registering") {
+                                $(".progress").css("width", "100%");
+                                $("#registering-step-2").fadeOut(300).promise().done(function() {
+                                    $("#cat-name").val("");
+                                    $("#registering-step-1").fadeIn(300);
+                                    alertBox("Opération terminée", "Votre chat a été enregistré avec succès ou l'opération a été annulée. Par exemple quand on modifie un chat durant l'enregistrement.", `
                                     <button class="btn btn-primary btn-align-right cancel">Fermer</button>
                                     <div style="clear: both></div>`);
-                            });
+                                });
 
-                        } else {
-                            $(".progress").css("width", response);
-                            $("#registeringState").text("Avancement: " + response);
-                            setTimeout(function() {
-                                displayState();
-                            }, 500);
+                            } else {
+                                $(".progress").css("width", response);
+                                $("#registeringState").text("Avancement: " + response);
+                                setTimeout(function() {
+                                    displayState();
+                                }, 500);
+                            }
+                        },
+
+                        error: function() {
+                            networkError();
                         }
-                    },
-
-                    error: function() {
-                        networkError();
-                    }
-                });
+                    });
+                }
             }
         },
 

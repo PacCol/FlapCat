@@ -28,7 +28,9 @@ function displayStatus() {
         error: function() {
             loader(false);
             networkError();
-        }
+        },
+
+        timeout: 3000
     });
 }
 
