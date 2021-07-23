@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
     <title>FlapCat</title>
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
     <link rel="stylesheet" href="RealCSS/fonts/material-design-icons/material-design-icons-round.css">
 
     <link rel="stylesheet" href="RealCSS/fonts/montserrat/montserrat.css">
 
-    <link rel="stylesheet" href="RealCSS/all.min.css">
+    <link rel="stylesheet" href="RealCSS/all.css">
 
     <link rel="stylesheet" href="css/app.css">
 </head>
@@ -24,9 +25,7 @@
             <h3>FlapCat</h3>
         </div>
 
-        <div class="profile-button">
-            <p>U</p>
-        </div>
+        <p class="profile-button ripple-effect">U</p>
 
     </div>
 
@@ -36,34 +35,34 @@
 
             <div class="menu">
 
-                <div class="menu-button menu-button-active" id="home-button">
+                <div class="menu-button menu-button-active ripple-effect" id="home-button">
                     <i class="material-icons-round">home</i>
                     <p>Accueil</p>
                 </div>
 
-                <div class="menu-button" id="cats-button">
+                <div class="menu-button ripple-effect" id="cats-button">
                     <i class="material-icons-round">pets</i>
                     <p>Chats</p>
                 </div>
 
-                <div class="menu-button" id="add-button">
+                <div class="menu-button ripple-effect" id="add-button">
                     <i class="material-icons-round">add</i>
                     <p>Enregistrer</p>
                 </div>
 
-                <div class="menu-button" id="analytics-button">
+                <div class="menu-button ripple-effect" id="analytics-button">
                     <i class="material-icons-round">trending_up</i>
                     <p>Statistiques</p>
                 </div>
 
                 <hr class="divider">
 
-                <div class="menu-button" id="users-button">
+                <div class="menu-button ripple-effect" id="users-button">
                     <i class="material-icons-round">account_circle</i>
                     <p>Comptes</p>
                 </div>
 
-                <div class="menu-button" id="settings-button">
+                <div class="menu-button ripple-effect" id="settings-button">
                     <i class="material-icons-round">settings</i>
                     <p>Paramètres</p>
                 </div>
@@ -129,7 +128,7 @@
                         <input type="text" id="cat-name" maxlength="10" placeholder=" " autocomplete="cat-name">
                         <p>Entrez le nom de votre chat</p>
                     </div>
-                    <button class="btn btn-primary" id="next-step">
+                    <button class="btn btn-primary ripple-effect" id="next-step">
                         Suivant <i class="material-icons-round">arrow_forward</i>
                     </button>
                 </div>
@@ -140,7 +139,7 @@
                     <div class="progress-bar">
                         <div class="progress"></div>
                     </div>
-                    <button class="btn btn-primary" id="reset-cat">
+                    <button class="btn btn-primary ripple-effect" id="reset-cat">
                         Recommencer <i class="material-icons-round">refresh</i>
                     </button>
                 </div>
@@ -150,7 +149,7 @@
             <div id="analytics">
                 <div class="control">
                     <h1>Statistiques</h1>
-                    <button class="btn btn-primary btn-primary-sm" id="reset-analytics">
+                    <button class="btn btn-primary btn-primary-sm ripple-effect" id="reset-analytics">
                         <i class="material-icons-round">refresh</i>
                     </button>
                 </div>
@@ -178,6 +177,9 @@
             <div id="users">
                 <div class="control">
                     <h1>Comptes</h1>
+                    <button class="btn btn-primary btn-primary-sm ripple-effect" id="create-account">
+                        <i class="material-icons-round">add</i>
+                    </button>
                 </div>
                 <p>Seul l'administrateur peut voir la totalité des comptes.</p>
                 <div class="table-container">
@@ -206,7 +208,7 @@
                     </label>
                 </div>
 
-                <div class="settings-item">
+                <div class="settings-item" style="display: none;">
                     <p>Reconnaissance plus rapide</p>
                     <label class="toggle-switch">
                         <input type="checkbox">
@@ -216,27 +218,30 @@
             </div>
 
         </div>
+    </div>
 
-        <script src="js/lib/jquery.min.js"></script>
-        <script src="RealCSS/all.min.js"></script>
 
-        <!--<script src="RealCSS/js/alert.js"></script>
-        <script src="RealCSS/js/context-menu.js"></script>
-        <script src="RealCSS/js/dark-theme.js"></script>
-        <script src="RealCSS/js/diagram.js"></script>
-        <script src="RealCSS/js/dropdown.js"></script>
-        <script src="RealCSS/js/horizontal-menu.js"></script>
-        <script src="RealCSS/js/loader.js"></script>
-        <script src="RealCSS/js/menu.js"></script>
-        <script src="RealCSS/js/search-bar.js"></script>
-        <script src="RealCSS/js/toggle-switch.js"></script>-->
+    <script src="js/lib/jquery.min.js"></script>
+    <!--<script src="RealCSS/all.min.js"></script>-->
 
-        <script src="js/menu.js"></script>
-        <script src="js/home.js"></script>
-        <script src="js/cats.js"></script>
-        <script src="js/registering.js"></script>
-        <script src="js/analytics.js"></script>
-        <script src="js/users.js"></script>
+    <script src="RealCSS/js/alert.js"></script>
+    <script src="RealCSS/js/context-menu.js"></script>
+    <script src="RealCSS/js/dark-theme.js"></script>
+    <script src="RealCSS/js/diagram.js"></script>
+    <script src="RealCSS/js/dropdown.js"></script>
+    <script src="RealCSS/js/horizontal-menu.js"></script>
+    <script src="RealCSS/js/loader.js"></script>
+    <script src="RealCSS/js/menu.js"></script>
+    <script src="RealCSS/js/ripple.js"></script>
+    <script src="RealCSS/js/search-bar.js"></script>
+    <script src="RealCSS/js/toggle-switch.js"></script>
+
+    <script src="js/menu.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/cats.js"></script>
+    <script src="js/registering.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/users.js"></script>
 
 </body>
 

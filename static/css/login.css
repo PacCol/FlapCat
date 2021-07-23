@@ -34,10 +34,6 @@ h1 {
     color: var(--main-color);
 }
 
-#login {
-    display: none;
-}
-
 #password-side {
     display: none;
 }
@@ -47,6 +43,6 @@ h1 {
 }
 
 #next,
-#finish {
+#login {
     float: right;
 }

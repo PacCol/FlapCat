@@ -1,5 +1,3 @@
-#! ./venv/bin/python3
-
 from flask import Flask, redirect, send_from_directory
 
 # We create a flask server
@@ -16,14 +14,14 @@ import recognition.recognizeRoutes
 db.db.create_all()
 login.createAdmin()
 
-import recognition.screen
-
+import screen
 
 # Web app
 
 @app.route("/")
 def index():
     return redirect("/config/index.html")
+
 
 @app.route("/config/<path:path>")
 def webApp(path):

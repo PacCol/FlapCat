@@ -9,7 +9,7 @@ import recognition.registering as registering
 @app.route("/api/register/start", methods=["POST"])
 @tokenRequired
 def register(currentUser):
-    catName = request.form["name"]
+    catName = request.json["name"]
     success = registering.startRegistering(catName, 20)
     return success
 

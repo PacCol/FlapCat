@@ -15,8 +15,8 @@ def list():
 @app.route("/api/cat/rename", methods=["POST"])
 @tokenRequired
 def rename(currentUser):
-    id = request.form["id"]
-    newName = request.form["newName"]
+    id = request.json["id"]
+    newName = request.json["newName"]
     success = cat.renameCat(id, newName)
     return success
 
@@ -24,14 +24,8 @@ def rename(currentUser):
 @app.route("/api/cat/permissions", methods=["POST"])
 @tokenRequired
 def authorize(currentUser):
-    id = request.form["id"]
-    authorized = request.form["authorized"]
-
-    if authorized == "true":
-        authorized = True
-    else:
-        authorized = False
-
+    id = request.json["id"]
+    authorized = request.json["authorized"]
     success = cat.authorizeCat(id, authorized)
     return success
 
@@ -39,6 +33,6 @@ def authorize(currentUser):
 @app.route("/api/cat/delete", methods=["POST"])
 @tokenRequired
 def delete(currentUser):
-    id = request.form["id"]
+    id = request.json["id"]
     success = cat.deleteCat(id)
     return success

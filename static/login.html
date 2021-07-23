@@ -4,6 +4,7 @@
 <head>
     <title>Connexion - FlapCat</title>
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
     <link rel="stylesheet" href="RealCSS/fonts/material-design-icons/material-design-icons-round.css">
@@ -23,28 +24,37 @@
 
         <div id="username-side">
             <div class="modern-input">
-                <input type="email" id="email-input" max="20" placeholder=" " autocomplete="off">
+                <input type="email" id="email-input" maxlength="20" placeholder=" " autocomplete="off">
                 <p>Entrez votre adresse email</p>
             </div>
-            <button class="btn btn-secondary" id="signup">Créer un compte</button>
-            <button class="btn btn-secondary" id="login">Connexion</button>
-            <button class="btn btn-primary" id="next">Suivant</button>
+            <button class="btn btn-primary ripple-effect" id="next">Suivant</button>
             <div style="clear: both;"></div>
         </div>
 
         <div id="password-side">
             <div class="modern-input">
-                <input type="password" id="password-input" max="20" placeholder=" " autocomplete="off">
+                <input type="password" id="password-input" maxlength="20" placeholder=" " autocomplete="off">
                 <p>Entrez votre mot de passe</p>
             </div>
-            <button class="btn btn-secondary" id="back">Retour</button>
-            <button class="btn btn-primary" id="finish">Connexion</button>
+            <button class="btn btn-secondary ripple-effect" id="back">Retour</button>
+            <button class="btn btn-primary ripple-effect" id="login">Connexion</button>
         </div>
     </div>
 
     <script src="js/lib/jquery.min.js"></script>
 
+    <script src="RealCSS/js/alert.js"></script>
+    <script src="RealCSS/js/context-menu.js"></script>
+    <script src="RealCSS/js/dark-theme.js"></script>
+    <script src="RealCSS/js/diagram.js"></script>
+    <script src="RealCSS/js/dropdown.js"></script>
+    <script src="RealCSS/js/horizontal-menu.js"></script>
+    <script src="RealCSS/js/loader.js"></script>
+    <script src="RealCSS/js/menu.js"></script>
+    <script src="RealCSS/js/ripple.js"></script>
+    <script src="RealCSS/js/search-bar.js"></script>
+    <script src="RealCSS/js/toggle-switch.js"></script>
+
     <script src="js/login.js"></script>
-    <script src="RealCSS/all.js"></script>
 
 </body>

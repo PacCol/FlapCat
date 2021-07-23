@@ -55,7 +55,9 @@ function loadCats() {
         error: function() {
             loader(false);
             networkError();
-        }
+        },
+
+        timeout: 3000
     });
 }
 
@@ -91,8 +93,11 @@ function renameCatConfirmed(id) {
     $.ajax({
         type: "POST",
         url: "/api/cat/rename",
-        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
-        data: { id: id, newName: newName },
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
+        },
+        data: JSON.stringify({ id: Number(id), newName: newName }),
+        contentType: "application/json",
 
         success: function(response) {
             loader(false);
@@ -108,7 +113,9 @@ function renameCatConfirmed(id) {
         error: function(xhr, ajaxOptions, thrownError) {
             loader(false);
             networkError(thrownError);
-        }
+        },
+
+        timeout: 3000
     });
 }
 
@@ -119,8 +126,11 @@ function authorizeCat(id, permitted) {
     $.ajax({
         type: "POST",
         url: "/api/cat/permissions",
-        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
-        data: { id: id, authorized: permitted },
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
+        },
+        data: JSON.stringify({ id: Number(id), authorized: permitted }),
+        contentType: "application/json",
 
         success: function() {
             loader(false);
@@ -130,7 +140,9 @@ function authorizeCat(id, permitted) {
         error: function(xhr, ajaxOptions, thrownError) {
             loader(false);
             networkError(thrownError);
-        }
+        },
+
+        timeout: 3000
     });
 }
 
@@ -148,8 +160,11 @@ function deleteCatConfirmed(id) {
     $.ajax({
         type: "POST",
         url: "/api/cat/delete",
-        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
-        data: { id: id },
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
+        },
+        data: JSON.stringify({ id: Number(id) }),
+        contentType: "application/json",
 
         success: function(response) {
             loader(false);
@@ -166,6 +181,8 @@ function deleteCatConfirmed(id) {
         error: function(xhr, ajaxOptions, thrownError) {
             loader(false);
             networkError(thrownError);
-        }
+        },
+
+        timeout: 3000
     });
 }

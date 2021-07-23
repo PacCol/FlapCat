@@ -23,9 +23,9 @@ function logout() {
 }
 
 if (localStorage.getItem("email") == null) {
-    $(".profile-button p").text("?");
+    $(".profile-button").text("?");
 } else {
-    $(".profile-button p").text(localStorage.getItem("email").substring(0, 1).toUpperCase());
+    $(".profile-button").text(localStorage.getItem("email").substring(0, 1).toUpperCase());
 }
 
 function networkError(thrownError) {

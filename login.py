@@ -26,6 +26,7 @@ def tokenRequired(f):
 
         if "x-access-token" in request.headers:
             token = request.headers["x-access-token"]
+            print(token)
 
         if not token:
             return "token-missing", 401
@@ -47,19 +48,19 @@ def tokenRequired(f):
 @app.route("/api/login", methods=["POST"])
 def login():
 
-    auth = request.form
+    auth = request.json
 
-    if not auth or not auth.get("email") or not auth.get("password"):
+    if not auth or not auth["email"] or not auth["password"]:
         return "required"
 
     user = User.query\
-        .filter_by(email=auth.get("email"))\
+        .filter_by(email=auth["email"])\
         .first()
 
     if not user:
         return "not-found"
 
-    if check_password_hash(user.password, auth.get("password")):
+    if check_password_hash(user.password, auth["password"]):
         token = jwt.encode({
             "public_id": user.public_id,
             "exp": datetime.utcnow() + timedelta(minutes=40)
@@ -75,13 +76,13 @@ def login():
 @tokenRequired
 def signup(currentUser):
 
-    auth = request.form
+    auth = request.json
 
-    if not auth or not auth.get("email") or not auth.get("password"):
+    if not auth or not auth["email"] or not auth["password"]:
         return "required"
 
-    email = auth.get("email")
-    password = auth.get("password")
+    email = auth["email"]
+    password = auth["password"]
 
     users = User.query.all()
     for user in users:
@@ -124,8 +125,8 @@ def getUsers(currentUser):
 @tokenRequired
 def changePassword(currentUser):
 
-    email = request.form.get("email")
-    newPassword = request.form.get("password")
+    email = request.json["email"]
+    newPassword = request.json["password"]
 
     user = User.query\
         .filter_by(email=email)\
@@ -147,7 +148,7 @@ def changePassword(currentUser):
 @tokenRequired
 def deleteUser(currentUser):
 
-    email = request.form.get("email")
+    email = request.json["email"]
 
     user = User.query\
         .filter_by(email=email)\

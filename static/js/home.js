@@ -43,7 +43,9 @@ $("#status-toggle-switch input").change(function() {
         $.ajax({
             type: "POST",
             url: "/api/recognize/start",
-            beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
+            },
 
             success: function(response) {
                 loader(false);
@@ -64,7 +66,9 @@ $("#status-toggle-switch input").change(function() {
             error: function(xhr, ajaxOptions, thrownError) {
                 loader(false);
                 networkError(thrownError);
-            }
+            },
+
+            timeout: 3000
         });
     } else {
 
@@ -73,7 +77,9 @@ $("#status-toggle-switch input").change(function() {
         $.ajax({
             type: "POST",
             url: "/api/recognize/stop",
-            beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
+            },
 
             success: function() {
                 loader(false);
@@ -83,7 +89,9 @@ $("#status-toggle-switch input").change(function() {
             error: function(xhr, ajaxOptions, thrownError) {
                 loader(false);
                 networkError(thrownError);
-            }
+            },
+
+            timeout: 3000
         });
     }
 });

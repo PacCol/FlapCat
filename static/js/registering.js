@@ -19,8 +19,11 @@ $("#next-step").click(function() {
     $.ajax({
         type: "POST",
         url: "/api/register/start",
-        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
-        data: { name: catName },
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
+        },
+        data: JSON.stringify({ name: catName }),
+        contentType: "application/json",
 
         success: function(response) {
             loader(false);
@@ -76,7 +79,9 @@ $("#next-step").click(function() {
 
                         error: function() {
                             networkError();
-                        }
+                        },
+
+                        timeout: 3000
                     });
                 }
             }
@@ -85,7 +90,9 @@ $("#next-step").click(function() {
         error: function(xhr, ajaxOptions, thrownError) {
             loader(false);
             networkError(thrownError);
-        }
+        },
+
+        timeout: 3000
     });
 });
 
@@ -97,7 +104,9 @@ $("#reset-cat").click(function() {
     $.ajax({
         type: "POST",
         url: "/api/register/stop",
-        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
+        },
 
         success: function() {
             loader();
@@ -105,6 +114,8 @@ $("#reset-cat").click(function() {
         error: function(xhr, ajaxOptions, thrownError) {
             loader();
             networkError(thrownError);
-        }
+        },
+
+        timeout: 3000
     });
 });

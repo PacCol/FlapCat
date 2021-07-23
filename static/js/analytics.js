@@ -46,7 +46,9 @@ function loadEntries() {
         error: function() {
             loader(false);
             networkError();
-        }
+        },
+
+        timeout: 3000
     });
 }
 
@@ -160,7 +162,9 @@ function resetAnalyticsConfirmed() {
     $.ajax({
         type: "POST",
         url: "/api/entry/reset",
-        beforeSend: function(xhr) { xhr.setRequestHeader("x-access-token", localStorage.getItem("token")); },
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
+        },
 
         success: function() {
             loader(false);
@@ -171,6 +175,8 @@ function resetAnalyticsConfirmed() {
         error: function(xhr, ajaxOptions, thrownError) {
             loader(false);
             networkError(thrownError);
-        }
+        },
+
+        timeout: 3000
     });
 }
