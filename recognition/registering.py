@@ -20,7 +20,7 @@ stopRequested = False
 
 
 # We create a function to register a new cat
-def startRegistering(catName, imgNbr):
+def startRegistering(catName):
 
     from recognition.cat import Cat
 
@@ -62,13 +62,13 @@ def startRegistering(catName, imgNbr):
 
         os.mkdir("recognition/dataset/" + str(id))
 
-        registerThread = Thread(target=record, args=(cat.id, imgNbr))
+        registerThread = Thread(target=record, args=(cat.id, config.imgNbr))
         registerThread.start()
         return "started"
 
     else:
         stopRegistering()
-        success = startRegistering(catName, imgNbr)
+        success = startRegistering(catName, config.imgNbr)
         return success
 
 

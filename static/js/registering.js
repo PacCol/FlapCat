@@ -9,7 +9,7 @@ $("#next-step").click(function() {
 
     if (catName == "") {
         alertBox("Erreur", "Entrez un nom pour votre chat.", `
-            <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+            <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
             <div style="clear: both></div>`);
         return;
     }
@@ -30,12 +30,12 @@ $("#next-step").click(function() {
 
             if (response == "recognizing") {
                 alertBox("Erreur", "Le reconnaissance faciale est activée. Commencez par la désactiver, puis réessayez.", `
-                        <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                        <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
                         <div style="clear: both></div>`);
 
             } else if (response == "already-used") {
                 alertBox("Erreur", "Ce nom de chat est déjà utilisé. Choisissez-en un autre puis réessayez.", `
-                        <button class="btn btn-primary btn-align-right cancel"
+                        <button class="btn btn-primary btn-align-right ripple-effect cancel"
                         onclick='$("#cat-name").focus();'>Fermer</button>
                         <div style="clear: both></div>`);
                 $("#cat-name").val("");
@@ -64,8 +64,8 @@ $("#next-step").click(function() {
                                     $("#cat-name").val("");
                                     $("#registering-step-1").fadeIn(300);
                                     alertBox("Opération terminée", "Votre chat a été enregistré avec succès ou l'opération a été annulée. Par exemple quand on modifie un chat durant l'enregistrement.", `
-                                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
-                                    <div style="clear: both></div>`);
+                                        <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
+                                        <div style="clear: both></div>`);
                                 });
 
                             } else {

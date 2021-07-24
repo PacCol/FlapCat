@@ -75,7 +75,7 @@
                     <label class="toggle-switch dark-theme-toggle-switch">
                         <input type="checkbox">
                         <span class="slider"></span>
-                </label>
+                    </label>
                 </div>
 
             </div>
@@ -89,8 +89,8 @@
                     <h1>Accueil</h1>
                 </div>
                 <p id="status"><b>Statut:</b> -</p>
-                <div class="settings-item">
-                    <p id="toggle-status-indication">Reconnaissance faciale</p>
+                <div class="settings-item ripple-effect">
+                    <p id="toggle-status-indication">Reconnaissance</p>
                     <label class="toggle-switch" id="status-toggle-switch">
                         <input type="checkbox">
                         <span class="slider"></span>
@@ -123,7 +123,8 @@
                 </div>
 
                 <div id="registering-step-1">
-                    <p>Entrez le nom de votre chat. Les espaces, les accents et les caractères spéciaux seront retirés.</p>
+                    <p>Entrez le nom de votre chat. Les espaces, les accents et les caractères spéciaux seront retirés.
+                    </p>
                     <div class="modern-input">
                         <input type="text" id="cat-name" maxlength="10" placeholder=" " autocomplete="cat-name">
                         <p>Entrez le nom de votre chat</p>
@@ -139,8 +140,8 @@
                     <div class="progress-bar">
                         <div class="progress"></div>
                     </div>
-                    <button class="btn btn-primary ripple-effect" id="reset-cat">
-                        Recommencer <i class="material-icons-round">refresh</i>
+                    <button class="btn btn-secondary ripple-effect" id="reset-cat">
+                        Annuler <i class="material-icons-round">close</i>
                     </button>
                 </div>
 
@@ -200,6 +201,8 @@
                     <h1>Paramètres</h1>
                 </div>
 
+                <h3>Général</h3>
+
                 <div class="settings-item">
                     <p>Thème sombre</p>
                     <label class="toggle-switch dark-theme-toggle-switch">
@@ -208,12 +211,37 @@
                     </label>
                 </div>
 
-                <div class="settings-item" style="display: none;">
-                    <p>Reconnaissance plus rapide</p>
+                <div class="settings-item">
+                    <p>Réinitialiser</p>
+                    <button class="btn btn-primary btn-primary-sm ripple-effect">
+                        <span class="material-icons-round">delete_forever</span>
+                    </button>
+                </div>
+
+                <h3>Avancé</h3>
+
+                <div class="settings-item ripple-effect">
+                    <p>Plus rapide</p>
                     <label class="toggle-switch">
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>
+                </div>
+
+                <div class="settings-item">
+                    <p data-tooltip="Plus l'enregistrement est long, plus la reconnaissance sera fiable.">Enregistrement</p>
+
+                    <div class="modern-dropdown">
+                        <button class="btn btn-primary btn-primary-sm ripple-effect">
+                            Durée<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
+                        </button>
+                        <div class="dropdown-content">
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" id="20images">20 photos</button>
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" id="50images">50 photos</button>
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" id="100images">100 photos</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -234,7 +262,7 @@
     <script src="RealCSS/js/menu.js"></script>
     <script src="RealCSS/js/ripple.js"></script>
     <script src="RealCSS/js/search-bar.js"></script>
-    <script src="RealCSS/js/toggle-switch.js"></script>
+    <script src="RealCSS/js/settings-item.js"></script>
 
     <script src="js/menu.js"></script>
     <script src="js/home.js"></script>
@@ -242,6 +270,7 @@
     <script src="js/registering.js"></script>
     <script src="js/analytics.js"></script>
     <script src="js/users.js"></script>
+    <script src="js/settings.js"></script>
 
 </body>
 

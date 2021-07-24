@@ -150,7 +150,7 @@ $("#reset-analytics").click(function() {
 
 function resetAnalytics() {
     alertBox("Avertissement", "Êtes-vous certain de vouloir réinitialiser les statistiques ? Cette opération est irréversible.", `
-        <button class="btn btn-secondary btn-align-right cancel">Fermer</button>
+        <button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>
         <button class="btn btn-primary cancel"
         onclick="resetAnalyticsConfirmed()">Réinitialiser</button>`);
 }

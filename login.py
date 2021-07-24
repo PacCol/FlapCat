@@ -26,7 +26,6 @@ def tokenRequired(f):
 
         if "x-access-token" in request.headers:
             token = request.headers["x-access-token"]
-            print(token)
 
         if not token:
             return "token-missing", 401

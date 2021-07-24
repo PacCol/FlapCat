@@ -16,6 +16,10 @@ login.createAdmin()
 
 import screen
 
+import recognition.training as training
+training.needToReload()
+
+
 # Web app
 
 @app.route("/")

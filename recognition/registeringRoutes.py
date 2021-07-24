@@ -10,7 +10,7 @@ import recognition.registering as registering
 @tokenRequired
 def register(currentUser):
     catName = request.json["name"]
-    success = registering.startRegistering(catName, 20)
+    success = registering.startRegistering(catName)
     return success
 
 

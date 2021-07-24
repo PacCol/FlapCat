@@ -48,7 +48,7 @@ function loadUsers() {
     });
 }
 
-$("#create-account").click(function () {
+$("#create-account").click(function() {
     createAccount();
 });
 
@@ -73,13 +73,13 @@ function createAccountConfirmed() {
 
     if (email == "") {
         alertBox("Erreur", "L'adresse email ne peut pas être vide.", `
-            <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+            <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
             <div style="clear: both></div>`);
         return;
 
     } else if (password == "") {
         alertBox("Erreur", "Le mot de passe ne peut pas être vide.", `
-            <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+            <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
             <div style="clear: both></div>`);
         return;
     }
@@ -93,23 +93,23 @@ function createAccountConfirmed() {
         data: JSON.stringify({ email: email, password: password }),
         contentType: "application/json",
 
-        success: function (response) {
+        success: function(response) {
 
             loader(false);
             loadUsers();
 
             if (response == "already-exists") {
                 alertBox("Erreur", "Une compte ayant cette adresse email existe déjà.", `
-                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                    <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
                     <div style="clear: both></div>`);
             } else if (response == "registered") {
                 alertBox("Compte créé", "Le compte a bien été créé.", `
-                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                    <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
                     <div style="clear: both></div>`);
             }
         },
 
-        error: function () {
+        error: function() {
             loader(false);
             networkError();
         },
@@ -125,7 +125,7 @@ function changePassword(userEmail) {
             <p>Entrez le nouveau mot de passe</p>
         </div>
         <button class="btn btn-primary cancel" onclick="changePasswordConfirmed('${userEmail}');">Changer</button>
-        <button class="btn btn-secondary btn-align-right cancel">Fermer</button>`);
+        <button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>`);
 }
 
 function changePasswordConfirmed(userEmail) {
@@ -134,7 +134,7 @@ function changePasswordConfirmed(userEmail) {
 
     if (newPassword == "") {
         alertBox("Erreur", "Recommencez et rentrez un mot de passe.", `
-            <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+            <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
             <div style="clear: both></div>`);
         return;
     }
@@ -164,7 +164,7 @@ function changePasswordConfirmed(userEmail) {
 
 function deleteUser(userEmail) {
     alertBox("Avertissement", "Êtes-vous certain de vouloir supprimer ce compte ? Cette opération est irréversible.", `
-        <button class="btn btn-secondary btn-align-right cancel">Fermer</button>
+        <button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>
         <button class="btn btn-primary cancel"
         onclick="deleteUserConfirmed('${userEmail}');">Supprimer</button>`);
 }

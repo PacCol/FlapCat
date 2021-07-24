@@ -4,5 +4,12 @@ app.config["SECRET_KEY"] = "chat"
 app.config["PORT"] = 5000
 
 raspberryPi = False
+
+# For detection
 haarcascade = "recognition/haarcascade/haarcascade_frontalface_alt2.xml"
+
+# For registering
+imgNbr = 20
+
+# For recognition
 minFiability = 50

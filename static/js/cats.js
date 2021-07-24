@@ -67,8 +67,8 @@ function renameCat(id) {
             <input type="text" id="new-name" maxlength="10" placeholder=" " autocomplete="new-name">
             <p>Entrez le nom de votre chat</p>
         </div>
-        <button class="btn btn-primary cancel" onclick="renameCatConfirmed('${id}')">Renommer</button>
-        <button class="btn btn-secondary btn-align-right cancel">Fermer</button>`);
+        <button class="btn btn-primary ripple-effect cancel" onclick="renameCatConfirmed('${id}')">Renommer</button>
+        <button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>`);
 }
 
 $("body").on("input", "#new-name", function() {
@@ -83,7 +83,7 @@ function renameCatConfirmed(id) {
 
     if (newName == "") {
         alertBox("Erreur", "Recommencez et rentrez un nom pour votre chat.", `
-            <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+            <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
             <div style="clear: both></div>`);
         return;
     }
@@ -104,7 +104,7 @@ function renameCatConfirmed(id) {
 
             if (response == "recognizing") {
                 alertBox("Erreur", "Impossible de renommer un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
-                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                    <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
                     <div style="clear: both></div>`);
             }
             loadCats();
@@ -148,7 +148,7 @@ function authorizeCat(id, permitted) {
 
 function deleteCat(id) {
     alertBox("Avertissement", "Êtes-vous certain de vouloir supprimer ce chat ? Cette opération est irréversible.", `
-        <button class="btn btn-secondary btn-align-right cancel">Fermer</button>
+        <button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>
         <button class="btn btn-primary cancel"
         onclick="deleteCatConfirmed('${id}')">Supprimer</button>`);
 }
@@ -171,7 +171,7 @@ function deleteCatConfirmed(id) {
 
             if (response == "recognizing") {
                 alertBox("Erreur", "Impossible de supprimer un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
-                    <button class="btn btn-primary btn-align-right cancel">Fermer</button>
+                    <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
                     <div style="clear: both></div>`);
             }
 
