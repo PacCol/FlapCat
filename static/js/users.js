@@ -1,7 +1,3 @@
-$("#users-button").click(function() {
-    loadUsers();
-});
-
 function loadUsers() {
 
     $("#users tbody").empty();
@@ -44,7 +40,9 @@ function loadUsers() {
         error: function(xhr, ajaxOptions, thrownError) {
             loader(false);
             networkError(thrownError);
-        }
+        },
+
+        timeout: 3000
     });
 }
 
@@ -55,15 +53,15 @@ $("#create-account").click(function() {
 function createAccount() {
     alertBox("Créer un nouveau compte", "Remplissez les champs suivant afin de vous créer un nouveau compte.", `
         <div class="modern-input">
-            <input type="email" id="email" maxlength="20" placeholder=" " autocomplete="email">
+            <input type="email" id="email" placeholder=" " autocomplete="email">
             <p>Entrez une adresse email</p>
         </div>
         <div class="modern-input">
             <input type="password" id="password" maxlength="20" placeholder=" " autocomplete="password">
             <p>Entrez un mot de passe</p>
         </div>
-        <button class="btn btn-primary cancel" onclick="createAccountConfirmed();">Créer</button>
-        <button class="btn btn-secondary btn-align-right cancel">Fermer</button>`);
+        <button class="btn btn-primary ripple-effect cancel" onclick="createAccountConfirmed();">Créer</button>
+        <button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>`);
 }
 
 function createAccountConfirmed() {

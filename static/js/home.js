@@ -1,9 +1,3 @@
-displayStatus();
-
-$("#home-button").click(function() {
-    displayStatus();
-});
-
 function displayStatus() {
 
     loader(true);

@@ -6,13 +6,16 @@ import config
 
 import db
 import login
+import settings
 
 import recognition.catRoutes
 import recognition.registeringRoutes
 import recognition.recognizeRoutes
 
 db.db.create_all()
+
 login.createAdmin()
+settings.initSettings()
 
 import screen
 

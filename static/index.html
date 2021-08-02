@@ -101,6 +101,9 @@
             <div id="cats">
                 <div class="control">
                     <h1>Chats</h1>
+                    <button class="btn btn-primary btn-primary-sm ripple-effect" id="new-cat">
+                        <i class="material-icons-round">add</i>
+                    </button>
                 </div>
                 <div class="table-container">
                     <table class="table">
@@ -182,7 +185,9 @@
                         <i class="material-icons-round">add</i>
                     </button>
                 </div>
+
                 <p>Seul l'administrateur peut voir la totalité des comptes.</p>
+
                 <div class="table-container">
                     <table class="table">
                         <thead>
@@ -213,36 +218,60 @@
 
                 <div class="settings-item">
                     <p>Réinitialiser</p>
-                    <button class="btn btn-primary btn-primary-sm ripple-effect">
-                        <span class="material-icons-round">delete_forever</span>
-                    </button>
+                    <i class="material-icons-round" id="hard-reset">delete_forever</i>
                 </div>
 
                 <h3>Avancé</h3>
 
-                <div class="settings-item ripple-effect">
-                    <p>Plus rapide</p>
-                    <label class="toggle-switch">
-                        <input type="checkbox">
-                        <span class="slider"></span>
-                    </label>
-                </div>
+                <p>N'ajustez ces paramètres que si vous savez à quoi ils servent. En cas de doute, appuyez sur le bouton "réinitialiser".</p>
 
                 <div class="settings-item">
                     <p data-tooltip="Plus l'enregistrement est long, plus la reconnaissance sera fiable.">Enregistrement</p>
 
-                    <div class="modern-dropdown">
+                    <div class="modern-dropdown" id="registering-duration">
                         <button class="btn btn-primary btn-primary-sm ripple-effect">
                             Durée<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
                         </button>
                         <div class="dropdown-content">
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" id="20images">20 photos</button>
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" id="50images">50 photos</button>
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" id="100images">100 photos</button>
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="20">20 photos</button>
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="50">50 photos</button>
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="100">100 photos</button>
                         </div>
                     </div>
-
                 </div>
+
+                <div class="settings-item">
+                    <p data-tooltip="Combien de fois de suite le chat doit-il être reconnu afin de déverrouiller la chatière ?">Reconnaissance</p>
+
+                    <div class="modern-dropdown" id="fiability">
+                        <button class="btn btn-primary btn-primary-sm ripple-effect">
+                            Fiabilité<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
+                        </button>
+                        <div class="dropdown-content">
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="1">1 fois</button>
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="2">2 fois</button>
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="3">3 fois</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <p data-tooltip="A partir de quelle valeur de fiabilité le chat doit-il être reconnu ?">Reconnaissance</p>
+
+                    <div class="modern-dropdown" id="min-fiability">
+                        <button class="btn btn-primary btn-primary-sm ripple-effect">
+                            Fiabilité<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
+                        </button>
+                        <div class="dropdown-content">
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="40">40</button>
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="50">50</button>
+                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="60">60</button>
+                        </div>
+                    </div>
+                </div>
+
+                <p>Passez votre souris ou clickez sur les différents paramètres pour obtenir des précisions.</p>
+
             </div>
 
         </div>
@@ -264,14 +293,16 @@
     <script src="RealCSS/js/search-bar.js"></script>
     <script src="RealCSS/js/settings-item.js"></script>
 
-    <script src="js/menu.js"></script>
     <script src="js/home.js"></script>
     <script src="js/cats.js"></script>
     <script src="js/registering.js"></script>
     <script src="js/analytics.js"></script>
     <script src="js/users.js"></script>
     <script src="js/settings.js"></script>
+    <script src="js/menu.js"></script>
 
 </body>
+
+</html>
 
 </html>

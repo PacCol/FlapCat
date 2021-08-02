@@ -26,10 +26,6 @@ function timeSince(date) {
     return Math.floor(seconds) + " seconde(s)";
 }
 
-$("#analytics-button").click(function() {
-    loadEntries();
-});
-
 function loadEntries() {
     loader(true);
 
@@ -151,7 +147,7 @@ $("#reset-analytics").click(function() {
 function resetAnalytics() {
     alertBox("Avertissement", "Êtes-vous certain de vouloir réinitialiser les statistiques ? Cette opération est irréversible.", `
         <button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>
-        <button class="btn btn-primary cancel"
+        <button class="btn btn-primary ripple-effect cancel"
         onclick="resetAnalyticsConfirmed()">Réinitialiser</button>`);
 }
 

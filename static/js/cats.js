@@ -1,7 +1,3 @@
-$("#cats-button").click(function() {
-    loadCats();
-});
-
 function loadCats() {
 
     $("#cats tbody").empty();
@@ -15,6 +11,7 @@ function loadCats() {
         url: "/api/cat/list",
 
         success: function(response) {
+
             loader(false);
 
             for (let i = 0; i < response.length; i++) {
@@ -186,3 +183,7 @@ function deleteCatConfirmed(id) {
         timeout: 3000
     });
 }
+
+$("#new-cat").click(function() {
+    showSection("add");
+});

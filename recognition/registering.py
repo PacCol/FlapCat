@@ -9,7 +9,9 @@ from threading import Thread
 import recognition.training as training
 import recognition.recognize as recognize
 
+import settings
 import config
+
 from db import db
 
 
@@ -62,7 +64,7 @@ def startRegistering(catName):
 
         os.mkdir("recognition/dataset/" + str(id))
 
-        registerThread = Thread(target=record, args=(cat.id, config.imgNbr))
+        registerThread = Thread(target=record, args=(cat.id, settings.getSettings()["imgNbr"]))
         registerThread.start()
         return "started"
 

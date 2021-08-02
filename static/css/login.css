@@ -2,12 +2,6 @@ body {
     display: none;
 }
 
-@media only screen and (max-width: 380px) {
-    body {
-        display: none !important;
-    }
-}
-
 #main-container {
     max-width: 370px;
     margin-top: 60px;

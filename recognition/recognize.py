@@ -12,6 +12,8 @@ import recognition.training as training
 import recognition.analytics as analytics
 import recognition.lock as lock
 
+import settings
+
 import config
 
 
@@ -78,6 +80,10 @@ def recognize():
     cam = cv2.VideoCapture(0)
     detector = cv2.CascadeClassifier(config.haarcascade)
 
+    parameters = settings.getSettings()
+    minFiability = parameters["minFiability"]
+    fiability = parameters["fiability"]
+
     while True:
 
         # If we want to stop, we exit the function
@@ -103,10 +109,10 @@ def recognize():
             # We recognize the face and get the id
             result = recognizer.predict(gray[y:y+h, x:x+w])
 
-            if result[1] > config.minFiability + 70:
+            if result[1] > minFiability + 70:
                 analytics.addEntry("Unknown", False)
 
-            if result[1] <= config.minFiability:
+            if result[1] <= minFiability:
                 id = result[0]
 
                 recognizedCat = cat.Cat.query\

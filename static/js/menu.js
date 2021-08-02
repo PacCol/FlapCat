@@ -1,16 +1,39 @@
-$("#home").show();
+var section = localStorage.getItem("section");
+
+if (section !== null) {
+    showSection(section);
+} else {
+    $("#home").show();
+    displayStatus();
+}
 
 $(".menu .menu-button").click(function() {
     var id = $(this).attr("id");
-
     if (id !== undefined) {
-        $(".menu .menu-button").removeClass("menu-button-active");
-        $(this).addClass("menu-button-active")
-        $(".app > div").hide();
-        id = id.split("-")[0];
-        $("#" + id).show();
+        showSection(id.split("-")[0]);
     }
 });
+
+function showSection(id) {
+
+    localStorage.setItem("section", id);
+    $(".menu .menu-button").removeClass("menu-button-active");
+    $("#" + id + "-button").addClass("menu-button-active")
+    $(".app > div").hide();
+    $("#" + id).show();
+
+    if (id == "home") {
+        displayStatus();
+    } else if (id == "cats") {
+        loadCats();
+    } else if (id == "analytics") {
+        loadEntries();
+    } else if (id == "users") {
+        loadUsers();
+    } else if (id == "settings") {
+        loadSettings();
+    }
+}
 
 $(".profile-button").click(function() {
     logout();

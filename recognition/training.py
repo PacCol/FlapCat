@@ -70,7 +70,10 @@ def trainModel():
         recognizer.save("recognition/trainer.yaml")
 
     else:
-        os.remove("recognition/trainer.yaml")
+        try:
+            os.remove("recognition/trainer.yaml")
+        except:
+            pass
 
     state = "not-training"
 
