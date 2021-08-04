@@ -34,3 +34,11 @@ body {
 .app h3 {
     margin-top: 45px;
 }
+
+#settings [data-tooltip]:before {
+    min-width: 200px;
+}
+
+#settings-advanced {
+    display: none;
+}

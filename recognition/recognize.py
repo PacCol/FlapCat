@@ -1,5 +1,4 @@
 import os
-import re
 import time
 
 from threading import Thread
@@ -125,4 +124,4 @@ def recognize():
                 if recognizedCat.authorized:
                     print(recognizedCat.name +
                           " (fiability: " + str(result[1]) + ")")
-                    lock.unlock(5)
+                    lock.unlock()

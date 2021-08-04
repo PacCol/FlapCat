@@ -1,3 +1,5 @@
+import os, shutil
+
 from flask import request, jsonify
 
 from __main__ import app
@@ -53,6 +55,9 @@ def getJsonSettings():
 @tokenRequired
 def updateSettings(currentUser):
 
+    if currentUser.email == "admin":
+        return "not-permitted"
+
     if recognize.getState() == "recognizing":
         return "recognizing"
 
@@ -73,6 +78,9 @@ def updateSettings(currentUser):
 @tokenRequired
 def resetSettings(currentUser):
 
+    if currentUser.email == "admin":
+        return "not-permitted"
+
     if recognize.getState() == "recognizing":
         return "recognizing"
 
@@ -84,3 +92,13 @@ def resetSettings(currentUser):
 
     db.session.commit()
     return "reseted"
+
+
+@app.route("/api/settings/shutdown", methods=["POST"])
+@tokenRequired
+def shutdown(currentUser):
+    if currentUser.email == "admin":
+        return "not-permitted"
+
+    os.system("poweroff")
+    return "shutting-down"

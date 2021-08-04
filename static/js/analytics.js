@@ -86,12 +86,6 @@ function loadDiagram(response) {
 
     $("#diagram").empty();
 
-    if (response === undefined) {
-        return;
-    } else if (response.length == 0) {
-        return;
-    }
-
     var names = []
 
     for (let i = 0; i < response.length; i++) {
@@ -164,8 +158,7 @@ function resetAnalyticsConfirmed() {
 
         success: function() {
             loader(false);
-            loadLastEntries();
-            loadDiagram();
+            loadEntries();
         },
 
         error: function(xhr, ajaxOptions, thrownError) {

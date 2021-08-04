@@ -175,7 +175,7 @@
 
                 <h3>Qui tente d'entrer ?</h3>
                 <p>Les statistiques se basent uniquement sur les données datant d'il y a moins d'une semaine</p>
-                <div class="diagram-container" id="diagram"></div>
+                <div id="diagram"></div>
             </div>
 
             <div id="users">
@@ -206,71 +206,82 @@
                     <h1>Paramètres</h1>
                 </div>
 
-                <h3>Général</h3>
+                <div class="horizontal-menu">
+                    <button id="settings-general-button" class="button-active ripple-effect">Général</button>
+                    <button id="settings-advanced-button" class="ripple-effect">Avancé</button>
+                </div>
 
-                <div class="settings-item">
-                    <p>Thème sombre</p>
-                    <label class="toggle-switch dark-theme-toggle-switch">
+                <div id="settings-general">
+                    <div class="settings-item">
+                        <p>Thème sombre</p>
+                        <label class="toggle-switch dark-theme-toggle-switch">
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>
+                    </div>
+
+                    <div class="settings-item">
+                        <p>Réinitialiser</p>
+                        <i class="material-icons-round" id="hard-reset">delete_forever</i>
+                    </div>
+
+                    <div class="settings-item">
+                        <p>Éteindre</p>
+                        <i class="material-icons-round" id="shutdown">power_settings_new</i>
+                    </div>
                 </div>
 
-                <div class="settings-item">
-                    <p>Réinitialiser</p>
-                    <i class="material-icons-round" id="hard-reset">delete_forever</i>
-                </div>
+                <div id="settings-advanced">
 
-                <h3>Avancé</h3>
+                    <p>N'ajustez ces paramètres que si vous savez à quoi ils servent. En cas de doute, appuyez sur le bouton "réinitialiser".</p>
 
-                <p>N'ajustez ces paramètres que si vous savez à quoi ils servent. En cas de doute, appuyez sur le bouton "réinitialiser".</p>
+                    <div class="settings-item">
+                        <p data-tooltip="Plus l'enregistrement est long, plus la reconnaissance sera fiable.">Enregistrement</p>
 
-                <div class="settings-item">
-                    <p data-tooltip="Plus l'enregistrement est long, plus la reconnaissance sera fiable.">Enregistrement</p>
-
-                    <div class="modern-dropdown" id="registering-duration">
-                        <button class="btn btn-primary btn-primary-sm ripple-effect">
+                        <div class="modern-dropdown" id="registering-duration">
+                            <button class="btn btn-primary btn-primary-sm ripple-effect">
                             Durée<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
                         </button>
-                        <div class="dropdown-content">
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="20">20 photos</button>
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="50">50 photos</button>
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="100">100 photos</button>
+                            <div class="dropdown-content">
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="20">20 photos</button>
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="50">50 photos</button>
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="100">100 photos</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="settings-item">
-                    <p data-tooltip="Combien de fois de suite le chat doit-il être reconnu afin de déverrouiller la chatière ?">Reconnaissance</p>
+                    <div class="settings-item">
+                        <p data-tooltip="Combien de fois de suite le chat doit-il être reconnu afin de déverrouiller la chatière ?">Reconnaissance</p>
 
-                    <div class="modern-dropdown" id="fiability">
-                        <button class="btn btn-primary btn-primary-sm ripple-effect">
+                        <div class="modern-dropdown" id="fiability">
+                            <button class="btn btn-primary btn-primary-sm ripple-effect">
                             Fiabilité<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
                         </button>
-                        <div class="dropdown-content">
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="1">1 fois</button>
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="2">2 fois</button>
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="3">3 fois</button>
+                            <div class="dropdown-content">
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="1">1 fois</button>
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="2">2 fois</button>
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="3">3 fois</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="settings-item">
-                    <p data-tooltip="A partir de quelle valeur de fiabilité le chat doit-il être reconnu ?">Reconnaissance</p>
+                    <div class="settings-item">
+                        <p data-tooltip="A partir de quelle valeur de fiabilité le chat doit-il être reconnu ?">Reconnaissance</p>
 
-                    <div class="modern-dropdown" id="min-fiability">
-                        <button class="btn btn-primary btn-primary-sm ripple-effect">
+                        <div class="modern-dropdown" id="min-fiability">
+                            <button class="btn btn-primary btn-primary-sm ripple-effect">
                             Fiabilité<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
                         </button>
-                        <div class="dropdown-content">
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="40">40</button>
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="50">50</button>
-                            <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="60">60</button>
+                            <div class="dropdown-content">
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="40">40</button>
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="50">50</button>
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="60">60</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <p>Passez votre souris ou clickez sur les différents paramètres pour obtenir des précisions.</p>
+                    <p>Passez votre souris ou clickez sur les différents paramètres pour obtenir des précisions.</p>
+                </div>
 
             </div>
 

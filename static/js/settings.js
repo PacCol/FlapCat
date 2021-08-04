@@ -1,3 +1,104 @@
+$("#settings-general-button").click(function() {
+    $("#settings-advanced").fadeOut(150).promise().done(function() {
+        $("#settings-general").fadeIn(150);
+    });
+});
+
+$("#settings-advanced-button").click(function() {
+    $("#settings-general").fadeOut(150).promise().done(function() {
+        $("#settings-advanced").fadeIn(150);
+    });
+});
+
+$("#hard-reset").click(function() {
+    if (localStorage.getItem("email") == "admin") {
+        hardReset();
+    } else {
+        alertBox("Interdit", `Vous n'avez pas le droit de faire ceci. Éssayez de vous connecter en tant qu'administrateur.`,
+            `<button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>`);
+    }
+});
+
+function hardReset() {
+    alertBox("Avertissement", `Êtes-vous certain de vouloir réinitialiser les paramètres ? Cette opération est irréversible. 
+        Les chats, les comptes et les statistiques seront conservés.`,
+        `<button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>
+        <button class="btn btn-primary cancel"
+        onclick="hardResetConfirmed()">Réinitialiser</button>`);
+}
+
+function hardResetConfirmed() {
+
+    loader(true);
+
+    $.ajax({
+        type: "POST",
+        url: "/api/settings/reset",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
+        },
+
+        success: function(response) {
+            loader(false);
+
+            if (response == "recognizing") {
+                alertBox("Erreur", "Impossible de modifier ces paramètres lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
+                    <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
+                    <div style="clear: both></div>`);
+            }
+
+            loadSettings();
+            localStorage.clear();
+        },
+
+        error: function(xhr, ajaxOptions, thrownError) {
+            loader(false);
+            networkError(thrownError);
+        },
+
+        timeout: 3000
+    });
+}
+
+$("#shutdown").click(function() {
+    if (localStorage.getItem("email") == "admin") {
+        shutdown();
+    } else {
+        alertBox("Interdit", `Vous n'avez pas le droit de faire ceci. Éssayez de vous connecter en tant qu'administrateur.`,
+            `<button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>`);
+    }
+});
+
+function shutdown() {
+    alertBox("Avertissement", `Êtes-vous certain de vouloir éteindre la chatière ? Vous pourrez la redémarrer en la débranchant puis en la rebranchant.`,
+        `<button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>
+        <button class="btn btn-primary"
+        onclick="shutdownConfirmed()">Éteindre</button>`);
+}
+
+function shutdownConfirmed() {
+    loader(true);
+
+    $.ajax({
+        type: "POST",
+        url: "/api/settings/shutdown",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
+        },
+
+        success: function(response) {
+            loader(false);
+        },
+
+        error: function(xhr, ajaxOptions, thrownError) {
+            loader(false);
+            networkError(thrownError);
+        },
+
+        timeout: 3000
+    });
+}
+
 var imgNumber = 0;
 var fiability = 0;
 var minFiability = 0;
@@ -51,6 +152,13 @@ $("#min-fiability .dropdown-content button").click(function() {
 
 function updateSettings() {
 
+    if (localStorage.getItem("email") != "admin") {
+        alertBox("Interdit", `Vous n'avez pas le droit de faire ceci. Éssayez de vous connecter en tant qu'administrateur.`,
+            `<button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>`);
+        loadSettings();
+        return;
+    }
+
     loader(true);
 
     $.ajax({
@@ -65,45 +173,12 @@ function updateSettings() {
         success: function(response) {
             loader(false);
 
-            alert("AJOUTER QQCH POUR QUAND LA RECO EST ACTIVE")
-        },
-
-        error: function(xhr, ajaxOptions, thrownError) {
-            loader(false);
-            networkError(thrownError);
-        },
-
-        timeout: 3000
-    });
-}
-
-$("#hard-reset").click(function() {
-    hardReset();
-});
-
-function hardReset() {
-    alertBox("Avertissement", `Êtes-vous certain de vouloir réinitialiser les paramètres ? Cette opération est irréversible. 
-        Les chats, les comptes et les statistiques seront conservés.`,
-        `<button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>
-        <button class="btn btn-primary cancel"
-        onclick="hardResetConfirmed()">Réinitialiser</button>`);
-}
-
-function hardResetConfirmed() {
-
-    loader(true);
-
-    $.ajax({
-        type: "POST",
-        url: "/api/settings/reset",
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("x-access-token", localStorage.getItem("token"));
-        },
-
-        success: function(response) {
-            loader(false);
-            loadSettings();
-            //localStorage.clear();
+            if (response == "recognizing") {
+                alertBox("Erreur", "Impossible de modifier ces paramètres lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
+                    <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
+                    <div style="clear: both></div>`);
+                loadSettings();
+            }
         },
 
         error: function(xhr, ajaxOptions, thrownError) {

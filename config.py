@@ -7,3 +7,5 @@ raspberryPi = False
 
 # For detection
 haarcascade = "recognition/haarcascade/haarcascade_frontalface_alt2.xml"
+
+openingDelay = 30
