@@ -1,3 +1,13 @@
+$("#fullscreen").click(function() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+});
+
 $("#settings-general-button").click(function() {
     $("#settings-advanced").fadeOut(150).promise().done(function() {
         $("#settings-general").fadeIn(150);
@@ -88,6 +98,8 @@ function shutdownConfirmed() {
 
         success: function(response) {
             loader(false);
+            alertBox("Opération terminée", `La chatière va s'éteindre.`,
+                ``);
         },
 
         error: function(xhr, ajaxOptions, thrownError) {

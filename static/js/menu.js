@@ -19,8 +19,11 @@ function showSection(id) {
     localStorage.setItem("section", id);
     $(".menu .menu-button").removeClass("menu-button-active");
     $("#" + id + "-button").addClass("menu-button-active")
-    $(".app > div").hide();
-    $("#" + id).show();
+    if ($("#" + id).css("display") == "none") {
+        $(".app > div").fadeOut(100).promise().done(function() {
+            $("#" + id).fadeIn(100);
+        });
+    }
 
     if (id == "home") {
         displayStatus();

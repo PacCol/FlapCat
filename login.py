@@ -62,7 +62,7 @@ def login():
     if check_password_hash(user.password, auth["password"]):
         token = jwt.encode({
             "public_id": user.public_id,
-            "exp": datetime.utcnow() + timedelta(minutes=40)
+            "exp": datetime.utcnow() + timedelta(hours=5)
         }, app.config["SECRET_KEY"])
 
         return jsonify({"token": token.decode("UTF-8")})

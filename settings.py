@@ -1,4 +1,6 @@
-import os, shutil
+import os, time
+
+from threading import Thread
 
 from flask import request, jsonify
 
@@ -55,7 +57,7 @@ def getJsonSettings():
 @tokenRequired
 def updateSettings(currentUser):
 
-    if currentUser.email == "admin":
+    if currentUser.email != "admin":
         return "not-permitted"
 
     if recognize.getState() == "recognizing":
@@ -78,7 +80,7 @@ def updateSettings(currentUser):
 @tokenRequired
 def resetSettings(currentUser):
 
-    if currentUser.email == "admin":
+    if currentUser.email != "admin":
         return "not-permitted"
 
     if recognize.getState() == "recognizing":
@@ -97,8 +99,16 @@ def resetSettings(currentUser):
 @app.route("/api/settings/shutdown", methods=["POST"])
 @tokenRequired
 def shutdown(currentUser):
-    if currentUser.email == "admin":
+    
+    if currentUser.email != "admin":
         return "not-permitted"
 
-    os.system("poweroff")
+    shutdownThread = Thread(target=shutdownAfterDelay, args=())
+    shutdownThread.start()
+
     return "shutting-down"
+
+
+def shutdownAfterDelay():
+    time.sleep(3)
+    os.system("poweroff")
