@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="css/app.css">
 </head>
 
-<body onload='$("body").fadeIn(1000);'>
+<body onload='$("body").css("opacity", "1");'>
 
     <div class="navbar">
 
@@ -31,55 +31,55 @@
 
     <div class="main-container">
 
-        <div>
+        <div class="menu">
 
-            <div class="menu">
+            <div class="menu-title">
+                <h3>FlapCat</h3>
+                <i class="material-icons-round">close</i>
+            </div>
 
-                <div class="menu-button menu-button-active ripple-effect" id="home-button">
-                    <i class="material-icons-round">home</i>
-                    <p>Accueil</p>
-                </div>
+            <div class="menu-button menu-button-active ripple-effect" id="home-button">
+                <i class="material-icons-round">home</i>
+                <p>Accueil</p>
+            </div>
 
-                <div class="menu-button ripple-effect" id="cats-button">
-                    <i class="material-icons-round">pets</i>
-                    <p>Chats</p>
-                </div>
+            <div class="menu-button ripple-effect" id="cats-button">
+                <i class="material-icons-round">pets</i>
+                <p>Chats</p>
+            </div>
 
-                <div class="menu-button ripple-effect" id="add-button">
-                    <i class="material-icons-round">add</i>
-                    <p>Enregistrer</p>
-                </div>
+            <div class="menu-button ripple-effect" id="add-button">
+                <i class="material-icons-round">add</i>
+                <p>Enregistrer</p>
+            </div>
 
-                <div class="menu-button ripple-effect" id="analytics-button">
-                    <i class="material-icons-round">trending_up</i>
-                    <p>Statistiques</p>
-                </div>
+            <div class="menu-button ripple-effect" id="analytics-button">
+                <i class="material-icons-round">trending_up</i>
+                <p>Statistiques</p>
+            </div>
 
-                <hr class="divider">
+            <hr class="divider">
 
-                <div class="menu-button ripple-effect" id="users-button">
-                    <i class="material-icons-round">account_circle</i>
-                    <p>Comptes</p>
-                </div>
+            <div class="menu-button ripple-effect" id="users-button">
+                <i class="material-icons-round">account_circle</i>
+                <p>Comptes</p>
+            </div>
 
-                <div class="menu-button ripple-effect" id="settings-button">
-                    <i class="material-icons-round">settings</i>
-                    <p>Paramètres</p>
-                </div>
+            <div class="menu-button ripple-effect" id="settings-button">
+                <i class="material-icons-round">settings</i>
+                <p>Paramètres</p>
+            </div>
 
-                <hr class="divider">
+            <hr class="divider">
 
-                <div class="menu-button">
-                    <i class="material-icons-round">dark_mode</i>
-                    <p>Thème sombre</p>
-                    <label class="toggle-switch dark-theme-toggle-switch">
+            <div class="menu-button">
+                <i class="material-icons-round">dark_mode</i>
+                <p>Thème sombre</p>
+                <label class="toggle-switch dark-theme-toggle-switch">
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>
-                </div>
-
             </div>
-
         </div>
 
         <div class="app">
@@ -181,9 +181,15 @@
             <div id="users">
                 <div class="control">
                     <h1>Comptes</h1>
-                    <button class="btn btn-primary btn-primary-sm ripple-effect" id="create-account">
-                        <i class="material-icons-round">add</i>
-                    </button>
+
+                    <div>
+                        <button class="btn btn-primary btn-primary-sm ripple-effect" id="create-account">
+                            <i class="material-icons-round">add</i>
+                        </button>
+                        <button class="btn btn-primary btn-primary-sm ripple-effect" data-tooltip="Déconnexion" id="logout">
+                            <i class="material-icons-round">logout</i>
+                        </button>
+                    </div>
                 </div>
 
                 <p>Vous serez déconnectés 5 heures après la connexion, par mesure de sécurité.</p>

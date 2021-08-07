@@ -42,6 +42,10 @@ $(".profile-button").click(function() {
     logout();
 });
 
+$("#logout").click(function() {
+    logout();
+});
+
 function logout() {
     localStorage.removeItem("email");
     localStorage.removeItem("token");
