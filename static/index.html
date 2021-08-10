@@ -76,9 +76,9 @@
                 <i class="material-icons-round">dark_mode</i>
                 <p>Thème sombre</p>
                 <label class="toggle-switch dark-theme-toggle-switch">
-                        <input type="checkbox">
-                        <span class="slider"></span>
-                    </label>
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
             </div>
         </div>
 
@@ -183,14 +183,16 @@
                     <h1>Comptes</h1>
 
                     <div>
+                        <button class="btn btn-primary btn-primary-sm" data-tooltip="Déconnexion" id="logout">
+                            <i class="material-icons-round">logout</i>
+                        </button>
                         <button class="btn btn-primary btn-primary-sm ripple-effect" id="create-account">
                             <i class="material-icons-round">add</i>
                         </button>
-                        <button class="btn btn-primary btn-primary-sm ripple-effect" data-tooltip="Déconnexion" id="logout">
-                            <i class="material-icons-round">logout</i>
-                        </button>
                     </div>
                 </div>
+
+                <p id="connectedAs">Connecté en tant que:</p>
 
                 <p>Vous serez déconnectés 5 heures après la connexion, par mesure de sécurité.</p>
 
@@ -198,7 +200,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Adresse email</th>
+                                <th>Adresse email ou nom d'utilisateur</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -253,8 +255,8 @@
 
                         <div class="modern-dropdown" id="registering-duration">
                             <button class="btn btn-primary btn-primary-sm ripple-effect">
-                            Durée<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
-                        </button>
+                                Durée<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
+                            </button>
                             <div class="dropdown-content">
                                 <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="20">20 photos</button>
                                 <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="50">50 photos</button>
@@ -268,8 +270,8 @@
 
                         <div class="modern-dropdown" id="fiability">
                             <button class="btn btn-primary btn-primary-sm ripple-effect">
-                            Fiabilité<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
-                        </button>
+                                Fiabilité<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
+                            </button>
                             <div class="dropdown-content">
                                 <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="1">1 fois</button>
                                 <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="2">2 fois</button>
@@ -283,8 +285,8 @@
 
                         <div class="modern-dropdown" id="min-fiability">
                             <button class="btn btn-primary btn-primary-sm ripple-effect">
-                            Fiabilité<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
-                        </button>
+                                Fiabilité<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
+                            </button>
                             <div class="dropdown-content">
                                 <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="40">40</button>
                                 <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="50">50</button>
@@ -302,7 +304,7 @@
     </div>
 
 
-    <script src="js/lib/jquery.min.js"></script>
+    <script src="RealCSS/jquery.min.js"></script>
     <!--<script src="RealCSS/all.min.js"></script>-->
 
     <script src="RealCSS/js/alert.js"></script>
@@ -326,7 +328,5 @@
     <script src="js/menu.js"></script>
 
 </body>
-
-</html>
 
 </html>

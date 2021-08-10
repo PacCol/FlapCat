@@ -3,10 +3,6 @@ body {
     user-select: none;
 }
 
-.menu {
-    width: 240px;
-}
-
 .app>div {
     display: none;
 }
@@ -29,10 +25,6 @@ body {
 
 .table .material-icons-round {
     vertical-align: sub;
-}
-
-.app h3 {
-    margin-top: 45px;
 }
 
 #settings [data-tooltip]:before {

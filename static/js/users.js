@@ -1,3 +1,9 @@
+if (localStorage.getItem("email") !== null) {
+    $("#connectedAs").text("Connecté en tant que " + localStorage.getItem("email"));
+} else {
+    $("#connectedAs").text("Pas connecté");
+}
+
 function loadUsers() {
 
     $("#users tbody").empty();
