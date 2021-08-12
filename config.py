@@ -6,6 +6,6 @@ app.config["PORT"] = 5000
 raspberryPi = False
 
 # For detection
-haarcascade = "recognition/haarcascade/haarcascade_frontalface_alt2.xml"
+haarcascade = "recognition/haarcascade/haarcascade_frontalcatface_extended.xml"
 
 openingDelay = 30

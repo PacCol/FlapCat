@@ -3,8 +3,7 @@ var section = localStorage.getItem("section");
 if (section !== null) {
     showSection(section);
 } else {
-    $("#home").show();
-    displayStatus();
+    showSection("home");
 }
 
 $(".menu .menu-button").click(function() {
@@ -18,10 +17,11 @@ function showSection(id) {
 
     localStorage.setItem("section", id);
     $(".menu .menu-button").removeClass("menu-button-active");
-    $("#" + id + "-button").addClass("menu-button-active")
+    $("#" + id + "-button").addClass("menu-button-active");
+
     if ($("#" + id).css("display") == "none") {
         $(".app > div").fadeOut(100).promise().done(function() {
-            $("#" + id).fadeIn(100);
+            $("#" + id).show();
         });
     }
 

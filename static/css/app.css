@@ -3,6 +3,11 @@ body {
     user-select: none;
 }
 
+.menu {
+    flex-basis: 260px;
+    width: 260px;
+}
+
 .app>div {
     display: none;
 }
