@@ -125,3 +125,6 @@ def recognize():
                     print(recognizedCat.name +
                           " (fiability: " + str(result[1]) + ")")
                     lock.unlock()
+
+            else:
+                print("Not sure (result: " + str(result[1]) + ")")

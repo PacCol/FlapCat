@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" translate="no">
 
 <head>
     <title>FlapCat</title>
@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="RealCSS/fonts/montserrat/montserrat.css">
 
-    <link rel="stylesheet" href="RealCSS/all.css">
+    <link rel="stylesheet" href="RealCSS/all.min.css">
 
     <link rel="stylesheet" href="css/app.css">
 </head>
@@ -158,6 +158,15 @@
                     </button>
                 </div>
 
+                <div class="settings-item ripple-effect">
+                    <p>Rafraichissement auto</p>
+
+                    <label class="toggle-switch" id="analytics-refresh-toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
                 <h3>Les 5 dernières entrées</h3>
                 <p>Les chats qui ne sont pas autorisés à rentrer ne figureront pas dans le tableau et ici ne seront affichées uniquement les entrées datant de moins d'une semaine.</p>
                 <div class="table-container">
@@ -281,7 +290,7 @@
                     </div>
 
                     <div class="settings-item">
-                        <p data-tooltip="A partir de quelle valeur de fiabilité le chat doit-il être reconnu ?">Reconnaissance</p>
+                        <p data-tooltip="En dessous de quelle marge d'erreur le chat doit-il être reconnu ?">Reconnaissance</p>
 
                         <div class="modern-dropdown" id="min-fiability">
                             <button class="btn btn-primary btn-primary-sm ripple-effect">
@@ -291,6 +300,8 @@
                                 <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="40">40</button>
                                 <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="50">50</button>
                                 <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="60">60</button>
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="70">70</button>
+                                <button class="btn btn-secondary btn-secondary-sm ripple-effect" data-value="80">80</button>
                             </div>
                         </div>
                     </div>
@@ -305,19 +316,7 @@
 
 
     <script src="RealCSS/jquery.min.js"></script>
-    <!--<script src="RealCSS/all.min.js"></script>-->
-
-    <script src="RealCSS/js/alert.js"></script>
-    <script src="RealCSS/js/context-menu.js"></script>
-    <script src="RealCSS/js/dark-theme.js"></script>
-    <script src="RealCSS/js/diagram.js"></script>
-    <script src="RealCSS/js/dropdown.js"></script>
-    <script src="RealCSS/js/horizontal-menu.js"></script>
-    <script src="RealCSS/js/loader.js"></script>
-    <script src="RealCSS/js/menu.js"></script>
-    <script src="RealCSS/js/ripple.js"></script>
-    <script src="RealCSS/js/search-bar.js"></script>
-    <script src="RealCSS/js/settings-item.js"></script>
+    <script src="RealCSS/all.min.js"></script>
 
     <script src="js/home.js"></script>
     <script src="js/cats.js"></script>

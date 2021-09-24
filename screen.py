@@ -1,7 +1,9 @@
-import smbus
 import time
 import socket
 import config
+
+if config.raspberryPi:
+    import smbus
 
 I2C_ADDR = 0x27
 LCD_WIDTH = 20

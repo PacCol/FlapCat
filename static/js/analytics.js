@@ -37,6 +37,14 @@ function loadEntries() {
             loader(false);
             loadLastEntries(response);
             loadDiagram(response);
+
+            if ($("#analytics-refresh-toggle-switch input").prop("checked")) {
+                setTimeout(function() {
+                    if ($("#analytics").is(":visible")) {
+                        loadEntries();
+                    }
+                }, 5000);
+            }
         },
 
         error: function() {
@@ -47,6 +55,12 @@ function loadEntries() {
         timeout: 3000
     });
 }
+
+$("#analytics-refresh-toggle-switch input").change(function() {
+    if (this.checked) {
+        loadEntries();
+    }
+});
 
 function loadLastEntries(response) {
 
