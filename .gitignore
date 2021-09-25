@@ -4,5 +4,5 @@ login/__pycache__/
 recognition/__pycache__/
 recognition/dataset/*
 recognition/trainer.yaml
-static/RealCSS
+static/RealCSS/
 venv/
