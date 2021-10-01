@@ -6,43 +6,51 @@ function networkError() {
 }
 
 
-$(document).ready(function () {
-    $("body").fadeIn(300).promise().done(function () {
-        setTimeout(function () {
+$(document).ready(function() {
+    $("body").fadeIn(300).promise().done(function() {
+        setTimeout(function() {
             $("#email-input").focus();
         }, 10);
     });
 });
 
 function showUsernameSide() {
-    $("#password-side").fadeOut(150).promise().done(function () {
-        $("#username-side").fadeIn(150).promise().done(function () {
+    $("#password-side").fadeOut(150).promise().done(function() {
+        $("#username-side").fadeIn(150).promise().done(function() {
             $("#email-input").focus();
         });
     });
 }
 
 function showPasswordSide() {
-    $("#username-side").fadeOut(150).promise().done(function () {
-        $("#password-side").fadeIn(150).promise().done(function () {
+    $("#username-side").fadeOut(150).promise().done(function() {
+        $("#password-side").fadeIn(150).promise().done(function() {
             $("#password-input").focus();
         });
     });
 }
 
-$("#next").click(function () {
+$("#next").click(function() {
     showPasswordSide();
 });
 
-$("#back").click(function () {
+$("#back").click(function() {
     showUsernameSide();
 });
 
-$("#login").click(function () {
+$("#show-passwd").change(function() {
+    if (this.checked) {
+        $("#password-input").attr("type", "text");
+    } else {
+        $("#password-input").attr("type", "password");
+    }
+});
+
+$("#login").click(function() {
     login();
 });
 
-$(document).keypress(function (e) {
+$(document).keypress(function(e) {
     var keycode = (e.keyCode ? e.keyCode : e.which);
     if (keycode == "13") {
         if ($("#username-side").is(":visible")) {
@@ -79,7 +87,7 @@ function login() {
         data: JSON.stringify({ email: email, password: password }),
         contentType: "application/json",
 
-        success: function (response) {
+        success: function(response) {
 
             loader(false);
 
@@ -98,7 +106,7 @@ function login() {
             }
         },
 
-        error: function () {
+        error: function() {
             loader(false);
             networkError();
         },

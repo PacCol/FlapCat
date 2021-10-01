@@ -2,8 +2,6 @@ function loadCats() {
 
     $("#cats tbody").empty();
 
-    removeContextMenu("#cats tbody tr");
-
     loader(true);
 
     $.ajax({
@@ -17,35 +15,17 @@ function loadCats() {
             for (let i = 0; i < response.length; i++) {
 
                 if (response[i].authorized) {
-                    var contextMenu = `<div class="item" onclick="renameCat('${response[i].id}');">
-                        <i class="material-icons-round success">drive_file_rename_outline</i>Renommer</div>
-                        <div class="item" onclick="authorizeCat('${response[i].id}', false);">
-                        <i class="material-icons-round warning">login</i>Interdire</div>
-                        <div class="item" onclick="deleteCat('${response[i].id}');">
-                        <i class="material-icons-round danger">delete</i>Supprimer</div>`
-                } else {
-                    var contextMenu = `<div class="item" onclick="renameCat('${response[i].id}');">
-                        <i class="material-icons-round success" onclick="">drive_file_rename_outline</i>Renommer</div>
-                        <div class="item" onclick="authorizeCat('${response[i].id}', true);">
-                        <i class="material-icons-round warning">login</i>Autoriser</div>
-                        <div class="item" onclick="deleteCat('${response[i].id}');">
-                        <i class="material-icons-round danger">delete</i>Supprimer</div>`
-                }
-
-                if (response[i].authorized) {
                     response[i].authorized = 'Autorisé(e) à rentrer <i class="material-icons-round success">done</i>';
                 } else {
                     response[i].authorized = 'Pas autorisé(e) à rentrer <i class="material-icons-round danger">close</i>';
                 }
 
                 var line = `
-                    <tr>
+                    <tr data-id="${response[i].id}" data-authorized="${response[i].authorized}">
                         <td>${response[i].name}</td>
                         <td>${response[i].authorized}</td>
                     </tr>`
                 $("#cats tbody").append(line);
-
-                addContextMenu(contextMenu, "#cats tbody tr:nth-child(" + (i + 1).toString() + ")");
             }
         },
 
@@ -57,6 +37,10 @@ function loadCats() {
         timeout: 3000
     });
 }
+
+$("#cats").on("contextmenu", "tbody tr", function(e) {
+    openContextMenu(undefined, "#cats-context-menu", e);
+});
 
 function renameCat(id) {
     alertBox("Renommer", "Entrez un nouveau nom pour votre chat.", `

@@ -8,7 +8,7 @@ function loadUsers() {
 
     $("#users tbody").empty();
 
-    removeContextMenu("#users tbody tr");
+    //removeContextMenu("#users tbody tr");
 
     loader(true);
 
@@ -39,7 +39,7 @@ function loadUsers() {
                 }
                 $("#users tbody").append(line);
 
-                addContextMenu(contextMenu, "#users tbody tr:nth-child(" + (i + 1).toString() + ")");
+                //addContextMenu(contextMenu, "#users tbody tr:nth-child(" + (i + 1).toString() + ")");
             }
         },
 
