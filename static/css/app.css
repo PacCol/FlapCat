@@ -33,7 +33,7 @@ body {
 }
 
 #settings [data-tooltip]:before {
-    min-width: 200px;
+    min-width: 160px;
 }
 
 #settings-advanced {

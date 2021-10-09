@@ -39,7 +39,18 @@ function loadCats() {
 }
 
 $("#cats").on("contextmenu", "tbody tr", function(e) {
-    openContextMenu(undefined, "#cats-context-menu", e);
+    var contextMenu = `
+        <button class="item">
+            <i class="material-icons-round success">drive_file_rename_outline</i>Renommer
+        </button>
+        <button class="item">
+            <i class="material-icons-round warning">login</i>Autoriser
+        </button>
+        <button class="item">
+            <i class="material-icons-round danger">delete</i>Supprimer
+        </button>
+    `;
+    openContextMenu(contextMenu, "#cats-context-menu", e);
 });
 
 function renameCat(id) {
