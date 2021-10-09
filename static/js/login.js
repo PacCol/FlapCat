@@ -1,10 +1,9 @@
 function networkError() {
     alertBox("Erreur réseau", "Impossible de contacter la chatière.", `
-        <button class="btn btn-ripple btn-primary btn-align-right"
+        <button class="btn btn-primary btn-align-right ripple-effect"
         onclick="document.location.reload();">Fermer</button>
         <div style="clear: both></div>`);
 }
-
 
 $(document).ready(function() {
     $("body").fadeIn(300).promise().done(function() {
