@@ -15,15 +15,15 @@ function loadCats() {
             for (let i = 0; i < response.length; i++) {
 
                 if (response[i].authorized) {
-                    response[i].authorized = 'Autorisé(e) à rentrer <i class="material-icons-round success">done</i>';
+                    var authorized = 'Autorisé(e) à rentrer <i class="material-icons-round set-color success">done</i>';
                 } else {
-                    response[i].authorized = 'Pas autorisé(e) à rentrer <i class="material-icons-round danger">close</i>';
+                    var authorized = 'Pas autorisé(e) à rentrer <i class="material-icons-round set-color danger">close</i>';
                 }
 
                 var line = `
                     <tr data-id="${response[i].id}" data-authorized="${response[i].authorized}">
                         <td>${response[i].name}</td>
-                        <td>${response[i].authorized}</td>
+                        <td>${authorized}</td>
                     </tr>`
                 $("#cats tbody").append(line);
             }
@@ -39,28 +39,57 @@ function loadCats() {
 }
 
 $("#cats").on("contextmenu", "tbody tr", function(e) {
-    var contextMenu = `
-        <button class="item">
-            <i class="material-icons-round success">drive_file_rename_outline</i>Renommer
-        </button>
-        <button class="item">
-            <i class="material-icons-round warning">login</i>Autoriser
-        </button>
-        <button class="item">
-            <i class="material-icons-round danger">delete</i>Supprimer
-        </button>
-    `;
+
+    if ($(this).data("authorized")) {
+        var contextMenu = `
+            <button class="item rename">
+                <i class="material-icons-round set-color success">drive_file_rename_outline</i>Renommer
+            </button>
+            <button class="item disallow">
+                <i class="material-icons-round set-color warning">login</i>Interdire
+            </button>
+            <button class="item delete">
+                <i class="material-icons-round set-color danger">delete</i>Supprimer
+            </button>`;
+    } else {
+        var contextMenu = `
+            <button class="item rename">
+                <i class="material-icons-round set-color success">drive_file_rename_outline</i>Renommer
+            </button>
+            <button class="item allow">
+                <i class="material-icons-round set-color warning">login</i>Autoriser
+            </button>
+            <button class="item delete">
+                <i class="material-icons-round set-color danger">delete</i>Supprimer
+            </button>`;
+    }
     openContextMenu(contextMenu, "#cats-context-menu", e);
+
+    $("#cats-context-menu").attr("data-id", $(this).data("id"));
+});
+
+$("body").on("click", "#cats-context-menu .item", function() {
+    var id = $(this).closest(".context-menu").data("id");
+    
+    if ($(this).hasClass("rename")) {
+        renameCat(id);
+    } else if ($(this).hasClass("allow")) {
+        authorizeCat(id, true);
+    } else if ($(this).hasClass("disallow")) {
+        authorizeCat(id, false);
+    } else if ($(this).hasClass("delete")) {
+        deleteCat(id);
+    }
 });
 
 function renameCat(id) {
     alertBox("Renommer", "Entrez un nouveau nom pour votre chat.", `
-        <div class="modern-input">
+        <div class="modern-input success">
             <input type="text" id="new-name" maxlength="10" placeholder=" " autocomplete="new-name">
             <p>Entrez le nom de votre chat</p>
         </div>
-        <button class="btn btn-primary ripple-effect cancel" onclick="renameCatConfirmed('${id}')">Renommer</button>
-        <button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>`);
+        <button class="btn btn-sp success ripple-effect cancel" onclick="renameCatConfirmed('${id}')">Renommer</button>
+        <button class="btn btn-ol success btn-align-right ripple-effect cancel">Fermer</button>`);
 }
 
 $("body").on("input", "#new-name", function() {
@@ -75,8 +104,7 @@ function renameCatConfirmed(id) {
 
     if (newName == "") {
         alertBox("Erreur", "Recommencez et rentrez un nom pour votre chat.", `
-            <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
-            <div style="clear: both></div>`);
+            <button class="btn btn-sp primary btn-align-right ripple-effect cancel">Fermer</button>`);
         return;
     }
 
@@ -96,8 +124,7 @@ function renameCatConfirmed(id) {
 
             if (response == "recognizing") {
                 alertBox("Erreur", "Impossible de renommer un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
-                    <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
-                    <div style="clear: both></div>`);
+                    <button class="btn btn-sp primary btn-align-right ripple-effect cancel">Fermer</button>`);
             }
             loadCats();
         },
@@ -140,8 +167,8 @@ function authorizeCat(id, permitted) {
 
 function deleteCat(id) {
     alertBox("Avertissement", "Êtes-vous certain de vouloir supprimer ce chat ? Cette opération est irréversible.", `
-        <button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>
-        <button class="btn btn-primary cancel"
+        <button class="btn btn-ol danger btn-align-right ripple-effect cancel">Fermer</button>
+        <button class="btn btn-sp danger cancel"
         onclick="deleteCatConfirmed('${id}')">Supprimer</button>`);
 }
 
@@ -163,8 +190,7 @@ function deleteCatConfirmed(id) {
 
             if (response == "recognizing") {
                 alertBox("Erreur", "Impossible de supprimer un chat lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
-                    <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
-                    <div style="clear: both></div>`);
+                    <button class="btn btn-sp primary btn-align-right ripple-effect cancel">Fermer</button>`);
             }
 
             loadCats();

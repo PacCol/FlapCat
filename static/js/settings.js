@@ -25,15 +25,15 @@ $("#hard-reset").click(function() {
         hardReset();
     } else {
         alertBox("Interdit", `Vous n'avez pas le droit de faire ceci. Éssayez de vous connecter en tant qu'administrateur.`,
-            `<button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>`);
+            `<button class="btn btn-sp primary btn-align-right ripple-effect cancel">Fermer</button>`);
     }
 });
 
 function hardReset() {
     alertBox("Avertissement", `Êtes-vous certain de vouloir réinitialiser les paramètres ? Cette opération est irréversible. 
         Les chats, les comptes et les statistiques seront conservés.`,
-        `<button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>
-        <button class="btn btn-primary cancel"
+        `<button class="btn btn-ol danger btn-align-right ripple-effect cancel">Fermer</button>
+        <button class="btn btn-sp danger cancel"
         onclick="hardResetConfirmed()">Réinitialiser</button>`);
 }
 
@@ -53,8 +53,7 @@ function hardResetConfirmed() {
 
             if (response == "recognizing") {
                 alertBox("Erreur", "Impossible de modifier ces paramètres lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
-                    <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
-                    <div style="clear: both></div>`);
+                    <button class="btn btn-sp primary btn-align-right ripple-effect cancel">Fermer</button>`);
             }
 
             loadSettings();
@@ -75,14 +74,14 @@ $("#shutdown").click(function() {
         shutdown();
     } else {
         alertBox("Interdit", `Vous n'avez pas le droit de faire ceci. Éssayez de vous connecter en tant qu'administrateur.`,
-            `<button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>`);
+            `<button class="btn btn-sp primary btn-align-right ripple-effect cancel">Fermer</button>`);
     }
 });
 
 function shutdown() {
     alertBox("Avertissement", `Êtes-vous certain de vouloir éteindre la chatière ? Vous pourrez la redémarrer en la débranchant puis en la rebranchant.`,
-        `<button class="btn btn-secondary btn-align-right ripple-effect cancel">Fermer</button>
-        <button class="btn btn-primary"
+        `<button class="btn btn-ol danger btn-align-right ripple-effect cancel">Fermer</button>
+        <button class="btn btn-sp danger"
         onclick="shutdownConfirmed()">Éteindre</button>`);
 }
 
@@ -98,8 +97,7 @@ function shutdownConfirmed() {
 
         success: function(response) {
             loader(false);
-            alertBox("Opération terminée", `La chatière va s'éteindre.`,
-                ``);
+            alertBox("Opération terminée", `La chatière va s'éteindre.`, ``);
         },
 
         error: function(xhr, ajaxOptions, thrownError) {
@@ -166,7 +164,7 @@ function updateSettings() {
 
     if (localStorage.getItem("email") != "admin") {
         alertBox("Interdit", `Vous n'avez pas le droit de faire ceci. Éssayez de vous connecter en tant qu'administrateur.`,
-            `<button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>`);
+            `<button class="btn btn-sp primary btn-align-right ripple-effect cancel">Fermer</button>`);
         loadSettings();
         return;
     }
@@ -187,8 +185,7 @@ function updateSettings() {
 
             if (response == "recognizing") {
                 alertBox("Erreur", "Impossible de modifier ces paramètres lorsque la reconnaissance faciale est activée. Commencez par désactiver la reconnaissance faciale.", `
-                    <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
-                    <div style="clear: both></div>`);
+                    <button class="btn btn-sp primary btn-align-right ripple-effect cancel">Fermer</button>`);
                 loadSettings();
             }
         },

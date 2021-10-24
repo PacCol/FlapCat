@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="RealCSS/fonts/montserrat/montserrat.css">
 
-    <link rel="stylesheet" href="RealCSS/all.css">
+    <link rel="stylesheet" href="RealCSS/all.min.css">
 
     <link rel="stylesheet" href="css/app.css">
 </head>
@@ -39,34 +39,34 @@
                 <i class="material-icons-round close-menu">close</i>
             </div>
 
-            <div class="menu-button menu-button-active ripple-effect" id="home-button">
+            <div class="menu-button primary menu-button-active ripple-effect" id="home-button">
                 <i class="material-icons-round">home</i>
                 <p>Accueil</p>
             </div>
 
-            <div class="menu-button ripple-effect" id="cats-button">
+            <div class="menu-button primary ripple-effect" id="cats-button">
                 <i class="material-icons-round">pets</i>
                 <p>Chats</p>
             </div>
 
-            <div class="menu-button ripple-effect" id="add-button">
+            <div class="menu-button primary ripple-effect" id="add-button">
                 <i class="material-icons-round">add</i>
                 <p>Enregistrer</p>
             </div>
 
-            <div class="menu-button ripple-effect" id="analytics-button">
+            <div class="menu-button primary ripple-effect" id="analytics-button">
                 <i class="material-icons-round">trending_up</i>
                 <p>Statistiques</p>
             </div>
 
             <hr class="divider">
 
-            <div class="menu-button ripple-effect" id="users-button">
+            <div class="menu-button primary ripple-effect" id="users-button">
                 <i class="material-icons-round">account_circle</i>
                 <p>Comptes</p>
             </div>
 
-            <div class="menu-button ripple-effect" id="settings-button">
+            <div class="menu-button primary ripple-effect" id="settings-button">
                 <i class="material-icons-round">settings</i>
                 <p>Paramètres</p>
             </div>
@@ -76,7 +76,7 @@
             <div class="menu-button">
                 <i class="material-icons-round">dark_mode</i>
                 <p>Thème sombre</p>
-                <label class="toggle-switch dark-theme-toggle-switch">
+                <label class="toggle-switch primary dark-theme-toggle-switch">
                     <input type="checkbox">
                     <span class="slider"></span>
                 </label>
@@ -92,7 +92,7 @@
                 <p id="status"><b>Statut:</b> -</p>
                 <div class="settings-item ripple-effect">
                     <p id="toggle-status-indication">Reconnaissance</p>
-                    <label class="toggle-switch" id="status-toggle-switch">
+                    <label class="toggle-switch primary" id="status-toggle-switch">
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>
@@ -102,7 +102,7 @@
             <div id="cats">
                 <div class="control">
                     <h1>Chats</h1>
-                    <button class="btn btn-primary btn-sm ripple-effect" id="new-cat">
+                    <button class="btn btn-sp success btn-sm ripple-effect" id="new-cat">
                         <i class="material-icons-round">add</i>
                     </button>
                 </div>
@@ -130,11 +130,11 @@
                 <div id="registering-step-1">
                     <p>Entrez le nom de votre chat. Les espaces, les accents et les caractères spéciaux seront retirés.
                     </p>
-                    <div class="modern-input">
+                    <div class="modern-input primary">
                         <input type="text" id="cat-name" maxlength="10" placeholder=" " autocomplete="cat-name">
                         <p>Entrez le nom de votre chat</p>
                     </div>
-                    <button class="btn btn-primary ripple-effect" id="next-step">
+                    <button class="btn btn-sp primary ripple-effect" id="next-step">
                         Suivant <i class="material-icons-round">arrow_forward</i>
                     </button>
                 </div>
@@ -142,10 +142,10 @@
                 <div id="registering-step-2">
                     <p>Placez votre chat devant la chatière, face à la caméra.</p>
                     <p id="registeringState">Avancement: 0%</p>
-                    <div class="progress-bar">
+                    <div class="progress-bar primary">
                         <div class="progress"></div>
                     </div>
-                    <button class="btn btn-secondary ripple-effect" id="reset-cat">
+                    <button class="btn btn-ol danger ripple-effect" id="reset-cat">
                         Annuler <i class="material-icons-round">close</i>
                     </button>
                 </div>
@@ -155,15 +155,15 @@
             <div id="analytics">
                 <div class="control">
                     <h1>Statistiques</h1>
-                    <button class="btn btn-primary btn-sm ripple-effect" id="reset-analytics">
+                    <button class="btn btn-sp danger btn-sm ripple-effect" id="reset-analytics">
                         <i class="material-icons-round">refresh</i>
                     </button>
                 </div>
 
-                <div class="settings-item ripple-effect">
+                <div class="settings-item primary ripple-effect">
                     <p>Rafraichissement auto</p>
 
-                    <label class="toggle-switch" id="analytics-refresh-toggle-switch">
+                    <label class="toggle-switch primary" id="analytics-refresh-toggle-switch">
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>
@@ -194,11 +194,11 @@
                     <h1>Comptes</h1>
 
                     <div>
-                        <button class="btn btn-primary btn-sm" data-tooltip="Déconnexion" id="logout">
-                            <i class="material-icons-round">logout</i>
-                        </button>
-                        <button class="btn btn-primary btn-sm ripple-effect" id="create-account">
+                        <button class="btn btn-sp success btn-sm ripple-effect" id="create-account">
                             <i class="material-icons-round">add</i>
+                        </button>
+                        <button class="btn btn-sp warning btn-sm" data-tooltip="Déconnexion" id="logout">
+                            <i class="material-icons-round">logout</i>
                         </button>
                     </div>
                 </div>
@@ -220,6 +220,8 @@
                 </div>
 
                 <p>Seul l'administrateur peut voir la totalité des comptes.</p>
+
+                <div id="users-context-menu" class="context-menu"></div>
             </div>
 
             <div id="settings">
@@ -228,14 +230,14 @@
                 </div>
 
                 <div class="horizontal-menu">
-                    <button id="settings-general-button" class="button-active ripple-effect">Général</button>
-                    <button id="settings-advanced-button" class="ripple-effect">Avancé</button>
+                    <button id="settings-general-button" class="primary button-active ripple-effect">Général</button>
+                    <button id="settings-advanced-button" class="danger ripple-effect">Avancé</button>
                 </div>
 
                 <div id="settings-general">
                     <div class="settings-item">
                         <p>Thème sombre</p>
-                        <label class="toggle-switch dark-theme-toggle-switch">
+                        <label class="toggle-switch primary dark-theme-toggle-switch">
                             <input type="checkbox">
                             <span class="slider"></span>
                         </label>
@@ -265,13 +267,13 @@
                         <p data-tooltip="Plus l'enregistrement est long, plus la reconnaissance sera fiable.">Enregistrement</p>
 
                         <div class="modern-dropdown" id="registering-duration">
-                            <button class="btn btn-primary btn-sm ripple-effect">
+                            <button class="btn btn-sp primary btn-sm ripple-effect">
                                 Durée<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
                             </button>
                             <div class="dropdown-content">
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="20">20 photos</button>
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="50">50 photos</button>
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="100">100 photos</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="20">20 photos</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="50">50 photos</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="100">100 photos</button>
                             </div>
                         </div>
                     </div>
@@ -280,13 +282,13 @@
                         <p data-tooltip="Combien de fois de suite le chat doit-il être reconnu afin de déverrouiller la chatière ?">Reconnaissance</p>
 
                         <div class="modern-dropdown" id="fiability">
-                            <button class="btn btn-primary btn-sm ripple-effect">
+                            <button class="btn btn-sp primary btn-sm ripple-effect">
                                 Fiabilité<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
                             </button>
                             <div class="dropdown-content">
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="1">1 fois</button>
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="2">2 fois</button>
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="3">3 fois</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="1">1 fois</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="2">2 fois</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="3">3 fois</button>
                             </div>
                         </div>
                     </div>
@@ -295,15 +297,15 @@
                         <p data-tooltip="En dessous de quelle marge d'erreur le chat doit-il être reconnu ?">Reconnaissance</p>
 
                         <div class="modern-dropdown" id="min-fiability">
-                            <button class="btn btn-primary btn-sm ripple-effect">
+                            <button class="btn btn-sp primary btn-sm ripple-effect">
                                 Fiabilité<span class="btn-badge">-</span><i class="material-icons-round">expand_more</i>
                             </button>
                             <div class="dropdown-content">
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="40">40</button>
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="50">50</button>
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="60">60</button>
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="70">70</button>
-                                <button class="btn btn-secondary btn-sm ripple-effect" data-value="80">80</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="40">40</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="50">50</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="60">60</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="70">70</button>
+                                <button class="btn btn-ol primary btn-sm ripple-effect" data-value="80">80</button>
                             </div>
                         </div>
                     </div>

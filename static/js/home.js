@@ -46,12 +46,10 @@ $("#status-toggle-switch input").change(function() {
 
                 if (response == "training") {
                     alertBox("Erreur", "La chatière est entrain de traiter les données de votre chat. Réessayez dans 1 à 2 minutes.", `
-                        <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
-                        <div style="clear: both></div>`);
+                        <button class="btn btn-sp primary btn-align-right ripple-effect cancel">Fermer</button>`);
                 } else if (response == "no-cat-recorded") {
                     alertBox("Erreur", "Commencez par enregistrer un chat puis réessayez.", `
-                        <button class="btn btn-primary btn-align-right ripple-effect cancel">Fermer</button>
-                        <div style="clear: both></div>`);
+                        <button class="btn btn-sp primary btn-align-right ripple-effect cancel">Fermer</button>`);
                 }
 
                 displayStatus();

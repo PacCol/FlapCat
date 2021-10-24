@@ -1,8 +1,7 @@
 function networkError() {
     alertBox("Erreur réseau", "Impossible de contacter la chatière.", `
-        <button class="btn btn-primary btn-align-right ripple-effect"
-        onclick="document.location.reload();">Fermer</button>
-        <div style="clear: both></div>`);
+        <button class="btn btn-sp primary btn-align-right ripple-effect"
+        onclick="document.location.reload();">Fermer</button>`);
 }
 
 $(document).ready(function() {
@@ -68,15 +67,13 @@ function login() {
     if (email == "") {
         showUsernameSide();
         alertBox("Erreur", "L'adresse email ne peut pas être vide.", `
-            <button class="btn btn-primary btn-align-right cancel">Fermer</button>
-            <div style="clear: both></div>`);
+            <button class="btn btn-sp primary btn-align-right cancel">Fermer</button>`);
         return;
 
     } else if (password == "") {
         showPasswordSide();
         alertBox("Erreur", "Le mot de passe ne peut pas être vide.", `
-            <button class="btn btn-primary btn-align-right cancel">Fermer</button>
-            <div style="clear: both></div>`);
+            <button class="btn btn-sp primary btn-align-right cancel">Fermer</button>`);
         return;
     }
 
@@ -92,12 +89,10 @@ function login() {
 
             if (response == "not-found") {
                 alertBox("Compte introuvable", "Ce compte n'existe pas.", `
-                    <button class="btn btn-ripple btn-primary btn-align-right cancel">Fermer</button>
-                    <div style="clear: both></div>`);
+                    <button class="btn btn-ripple btn-sp primary btn-align-right cancel">Fermer</button>`);
             } else if (response == "wrong-password") {
                 alertBox("Mot de passe erroné", "Vous n'avez pas entré le bon mot de passe.", `
-                    <button class="btn btn-ripple btn-primary btn-align-right cancel">Fermer</button>
-                    <div style="clear: both></div>`);
+                    <button class="btn btn-ripple btn-sp primary btn-align-right cancel">Fermer</button>`);
             } else {
                 localStorage.setItem("email", email);
                 localStorage.setItem("token", response.token);

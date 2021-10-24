@@ -19,35 +19,39 @@
 
 <body>
 
-    <div id="main-container">
+    <div class="app">
 
-        <h1>Connexion</h1>
+        <div id="main-container">
 
-        <div id="username-side">
-            <div class="modern-input">
-                <input type="email" id="email-input" placeholder=" " autocomplete="off">
-                <p>Entrez votre adresse email</p>
-            </div>
-            <button class="btn btn-primary ripple-effect" id="next">Suivant</button>
-            <div style="clear: both;"></div>
-        </div>
+            <h1>Connexion</h1>
 
-        <div id="password-side">
-            <div class="modern-input">
-                <input type="password" id="password-input" maxlength="20" placeholder=" " autocomplete="off">
-                <p>Entrez votre mot de passe</p>
+            <div id="username-side">
+                <div class="modern-input primary">
+                    <input type="email" id="email-input" placeholder=" " autocomplete="off">
+                    <p>Entrez votre adresse email</p>
+                </div>
+                <button class="btn btn-sp primary ripple-effect" id="next">Suivant</button>
+                <div style="clear: both;"></div>
             </div>
 
-            <input class="checkbox-input" id="show-passwd" type="checkbox" style="display: none">
-            <label class="checkbox-box" for="show-passwd"><span>
-                    <svg viewbox="0 0 12 10">
-                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                    </svg></span>
-                <p>Afficher le mot de passe</p>
-            </label>
+            <div id="password-side">
+                <div class="modern-input primary">
+                    <input type="password" id="password-input" maxlength="20" placeholder=" " autocomplete="off">
+                    <p>Entrez votre mot de passe</p>
+                </div>
 
-            <button class="btn btn-secondary ripple-effect" id="back">Retour</button>
-            <button class="btn btn-primary ripple-effect" id="login">Connexion</button>
+                <input class="checkbox-input" id="show-passwd" type="checkbox" style="display: none">
+                <label class="checkbox-box primary" for="show-passwd"><span>
+                        <svg viewbox="0 0 12 10">
+                            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                        </svg></span>
+                    <p>Afficher le mot de passe</p>
+                </label>
+
+                <button class="btn btn-ol primary ripple-effect" id="back">Retour</button>
+                <button class="btn btn-sp primary ripple-effect" id="login">Connexion</button>
+            </div>
+
         </div>
     </div>
 
